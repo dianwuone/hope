@@ -40,7 +40,9 @@
 ## 三、技术栈决策
 
 ### 前端
-- **框架：** Astro（已有项目骨架）
+- **框架：** Vue 3 + Vite
+- **路由：** Vue Router
+- **状态管理：** Pinia
 - **样式：** Tailwind CSS
 - **辅助工具：** Trea、Codex
 

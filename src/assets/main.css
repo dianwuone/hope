@@ -1,0 +1,75 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    @apply bg-brand-warm text-brand-charcoal;
+  }
+
+  ::selection {
+    @apply bg-accent-blue/30;
+  }
+}
+
+@layer components {
+  /* 卡片基础样式 */
+  .card {
+    @apply bg-white rounded-card border border-brand-grey/50 p-6
+           transition-all duration-300 ease-out;
+  }
+  .card:hover {
+    @apply -translate-y-1 shadow-card-hover border-accent-blue/30;
+  }
+
+  /* 按钮样式 */
+  .btn {
+    @apply inline-flex items-center justify-center px-6 py-3 rounded-lg
+           font-medium text-sm transition-all duration-200
+           focus:outline-none focus:ring-2 focus:ring-offset-2;
+  }
+  .btn-primary {
+    @apply btn bg-accent-blue text-white hover:bg-accent-blue-dark
+           focus:ring-accent-blue/50;
+  }
+  .btn-outline {
+    @apply btn border border-brand-grey text-brand-charcoal
+           hover:border-accent-blue hover:text-accent-blue-dark
+           focus:ring-accent-blue/30;
+  }
+  .btn-warm {
+    @apply btn bg-amber text-white hover:bg-amber/90
+           focus:ring-amber/50;
+  }
+
+  /* 标签/徽章 */
+  .badge {
+    @apply inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium;
+  }
+  .badge-blue { @apply badge bg-accent-blue/15 text-accent-blue-dark; }
+  .badge-coral { @apply badge bg-coral-light/30 text-coral; }
+  .badge-green { @apply badge bg-success/15 text-success; }
+  .badge-amber { @apply badge bg-amber-light/30 text-amber; }
+  .badge-purple { @apply badge bg-lab-light/30 text-lab; }
+  .badge-grey { @apply badge bg-brand-grey/40 text-brand-charcoal/60; }
+
+  /* 骨架屏 */
+  .skeleton {
+    @apply bg-brand-grey/40 rounded animate-pulse;
+  }
+
+  /* 容器 */
+  .container-content {
+    @apply max-w-content mx-auto px-4 sm:px-6 lg:px-8;
+  }
+  .container-reading {
+    @apply max-w-reading mx-auto px-4 sm:px-6;
+  }
+  .container-prose {
+    @apply max-w-prose mx-auto;
+  }
+}
