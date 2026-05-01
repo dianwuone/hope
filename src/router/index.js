@@ -1,7 +1,6 @@
-import { createRouter, createWebHistory } from 'vue-router'
+import { createRouter, createWebHashHistory } from 'vue-router'
 
 const routes = [
-  // 核心主页面
   {
     path: '/',
     name: 'Home',
@@ -32,8 +31,6 @@ const routes = [
     component: () => import('@/views/PrivacyPage.vue'),
     meta: { title: '隐私政策', breadcrumb: ['首页', '隐私政策'] },
   },
-
-  // 专栏
   {
     path: '/columns/kunting',
     name: 'ColumnKunting',
@@ -46,8 +43,6 @@ const routes = [
     component: () => import('@/views/columns/QimingPage.vue'),
     meta: { title: '启鸣宝宝', breadcrumb: ['首页', '启鸣宝宝'] },
   },
-
-  // 文章
   {
     path: '/articles',
     name: 'Articles',
@@ -66,8 +61,6 @@ const routes = [
     component: () => import('@/views/articles/ArticleDetail.vue'),
     meta: { title: '文章详情', breadcrumb: ['首页', '文章中心', '文章'] },
   },
-
-  // 产品
   {
     path: '/products',
     name: 'Products',
@@ -80,8 +73,6 @@ const routes = [
     component: () => import('@/views/products/ProductDetail.vue'),
     meta: { title: '产品详情', breadcrumb: ['首页', '产品中心', '产品'] },
   },
-
-  // 游戏
   {
     path: '/games',
     name: 'Games',
@@ -94,8 +85,6 @@ const routes = [
     component: () => import('@/views/games/PinyinAdventure.vue'),
     meta: { title: '拼音大冒险', breadcrumb: ['首页', '游戏中心', '拼音大冒险'] },
   },
-
-  // 销售
   {
     path: '/try',
     name: 'Try',
@@ -114,8 +103,6 @@ const routes = [
     component: () => import('@/views/try/PurchaseSuccess.vue'),
     meta: { title: '购买成功', breadcrumb: ['首页', '快来尝鲜', '购买成功'] },
   },
-
-  // 实验室
   {
     path: '/lab',
     name: 'Lab',
@@ -134,8 +121,6 @@ const routes = [
     component: () => import('@/views/lab/LabApply.vue'),
     meta: { title: '内测报名', breadcrumb: ['首页', '实验室', '内测报名'] },
   },
-
-  // 互动
   {
     path: '/download-wall',
     name: 'DownloadWall',
@@ -148,8 +133,6 @@ const routes = [
     component: () => import('@/views/PlayPage.vue'),
     meta: { title: '在线轻试玩', breadcrumb: ['首页', '在线轻试玩'] },
   },
-
-  // 社区
   {
     path: '/wishlist',
     name: 'Wishlist',
@@ -162,8 +145,6 @@ const routes = [
     component: () => import('@/views/CommunityPage.vue'),
     meta: { title: '加入社区', breadcrumb: ['首页', '加入社区'] },
   },
-
-  // 辅助
   {
     path: '/downloads',
     name: 'Downloads',
@@ -176,8 +157,6 @@ const routes = [
     component: () => import('@/views/SitemapPage.vue'),
     meta: { title: '网站地图', breadcrumb: ['首页', '网站地图'] },
   },
-
-  // 兜底 404
   {
     path: '/:pathMatch(.*)*',
     redirect: '/404',
@@ -185,7 +164,7 @@ const routes = [
 ]
 
 const router = createRouter({
-  history: createWebHistory(),
+  history: createWebHashHistory(import.meta.env.BASE_URL),
   routes,
   scrollBehavior(to, from, savedPosition) {
     if (savedPosition) return savedPosition
@@ -194,7 +173,6 @@ const router = createRouter({
   },
 })
 
-// 路由守卫 — 设置页面标题
 router.beforeEach((to) => {
   document.title = to.meta.title
     ? `${to.meta.title} — QUENTIN WINDOW`
