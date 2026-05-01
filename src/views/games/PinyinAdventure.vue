@@ -1,15 +1,17 @@
 <script setup>
 import BreadcrumbNav from '@/components/BreadcrumbNav.vue'
+
+const breadcrumbItems = [
+  { label: '首页', to: '/' },
+  { label: '游戏中心', to: '/games' },
+  { label: '拼音大冒险' }
+]
 </script>
 
 <template>
   <div>
     <section class="container-content py-section">
-      <BreadcrumbNav :items="[
-        { label: '首页', to: '/' },
-        { label: '游戏中心', to: '/games' },
-        { label: '拼音大冒险' }
-      ]]" />
+      <BreadcrumbNav :items="breadcrumbItems" />
       <div class="grid lg:grid-cols-2 gap-12 items-center">
         <div>
           <h1 class="text-3xl font-bold mb-4">拼音大冒险</h1>

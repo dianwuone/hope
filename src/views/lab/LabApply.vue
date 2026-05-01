@@ -3,15 +3,17 @@ import { useRoute } from 'vue-router'
 import BreadcrumbNav from '@/components/BreadcrumbNav.vue'
 
 const route = useRoute()
+
+const breadcrumbItems = [
+  { label: '首页', to: '/' },
+  { label: '实验室', to: '/lab' },
+  { label: '内测报名' }
+]
 </script>
 
 <template>
   <div class="container-content py-section">
-    <BreadcrumbNav :items="[
-      { label: '首页', to: '/' },
-      { label: '实验室', to: '/lab' },
-      { label: '内测报名' }
-    ]]" />
+    <BreadcrumbNav :items="breadcrumbItems" />
     <div class="max-w-lg mx-auto">
       <div class="text-center mb-8">
         <h1 class="text-2xl font-bold mb-2">申请内测</h1>

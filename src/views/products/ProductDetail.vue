@@ -3,18 +3,19 @@ import { useRoute } from 'vue-router'
 import BreadcrumbNav from '@/components/BreadcrumbNav.vue'
 
 const route = useRoute()
-// TODO: 根据 route.params.slug 加载产品数据
+
+const breadcrumbItems = [
+  { label: '首页', to: '/' },
+  { label: '产品中心', to: '/products' },
+  { label: '产品名称' }
+]
 </script>
 
 <template>
   <div>
     <!-- Hero -->
     <section class="container-content py-section">
-      <BreadcrumbNav :items="[
-        { label: '首页', to: '/' },
-        { label: '产品中心', to: '/products' },
-        { label: '产品名称' }
-      ]]" />
+      <BreadcrumbNav :items="breadcrumbItems" />
       <div class="grid lg:grid-cols-2 gap-12 items-center">
         <div>
           <h1 class="text-3xl font-bold mb-4">产品名称</h1>
