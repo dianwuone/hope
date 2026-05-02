@@ -6,25 +6,25 @@
   "scripts": {
     "dev": "vite",
     "build": "vite build",
-    "build:github": "cross-env VITE_GITHUB=true vite build",
+    "build:baota": "cross-env VITE_BAOTA=true vite build",
     "preview": "vite preview",
     "lint": "eslint . --ext .vue,.js,.jsx,.cjs,.mjs --fix"
   },
   "dependencies": {
-    "@vueuse/core": "^11.0.0",
-    "pinia": "^2.2.0",
     "vue": "^3.5.0",
-    "vue-router": "^4.4.0"
+    "vue-router": "^4.4.0",
+    "pinia": "^2.2.0",
+    "@vueuse/core": "^11.0.0"
   },
   "devDependencies": {
-    "@tailwindcss/typography": "^0.5.0",
     "@vitejs/plugin-vue": "^5.1.0",
+    "vite": "^5.4.0",
+    "tailwindcss": "^3.4.0",
+    "postcss": "^8.4.0",
     "autoprefixer": "^10.4.0",
-    "cross-env": "^10.1.0",
+    "@tailwindcss/typography": "^0.5.0",
     "eslint": "^8.57.0",
     "eslint-plugin-vue": "^9.28.0",
-    "postcss": "^8.4.0",
-    "tailwindcss": "^3.4.0",
-    "vite": "^5.4.0"
+    "cross-env": "^7.0.0"
   }
 }

@@ -2,8 +2,8 @@ import { defineConfig } from 'vite'
 import vue from '@vitejs/plugin-vue'
 import { resolve } from 'path'
 
-// ========== 改动：根据环境变量自动判断 Base 路径 ==========
-const base = process.env.VITE_GITHUB === 'true' ? '/hope/' : '/'
+// 默认适配 GitHub Pages，宝塔使用 VITE_BAOTA=true
+const base = process.env.VITE_BAOTA === 'true' ? '/' : '/hope/'
 
 export default defineConfig({
   base,
