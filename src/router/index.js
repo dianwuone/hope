@@ -1,5 +1,7 @@
-import { createRouter, createWebHashHistory } from 'vue-router'
+// ========== 改动：导入两种路由模式 ==========
+import { createRouter, createWebHistory, createWebHashHistory } from 'vue-router'
 
+// ========== 以下 routes 数组完全保留不动 ==========
 const routes = [
   {
     path: '/',
@@ -162,9 +164,15 @@ const routes = [
     redirect: '/404',
   },
 ]
+// ========== routes 数组结束 ==========
+
+// ========== 改动：根据环境变量自动切换路由模式 ==========
+const history = import.meta.env.VITE_GITHUB === 'true'
+  ? createWebHashHistory(import.meta.env.BASE_URL)
+  : createWebHistory(import.meta.env.BASE_URL)
 
 const router = createRouter({
-  history: createWebHashHistory(import.meta.env.BASE_URL),
+  history,
   routes,
   scrollBehavior(to, from, savedPosition) {
     if (savedPosition) return savedPosition
@@ -173,6 +181,7 @@ const router = createRouter({
   },
 })
 
+// ========== 以下路由守卫完全保留不动 ==========
 router.beforeEach((to) => {
   document.title = to.meta.title
     ? `${to.meta.title} — QUENTIN WINDOW`
