@@ -1,21 +1,23 @@
 <script setup>
+import { computed } from 'vue'
 import { useRoute } from 'vue-router'
-import BreadcrumbNav from '@/components/BreadcrumbNav.vue'
 import ArticleCard from '@/components/ArticleCard.vue'
+import PageHero from '@/components/site/PageHero.vue'
+import { articles } from '@/data'
 
 const route = useRoute()
-const slug = route.params.slug
-const articles = [] // TODO: 按标签筛选
+const slug = computed(() => route.params.slug)
+const normalizedTag = computed(() => decodeURIComponent(slug.value).replace(/-/g, ' '))
+const filtered = computed(() => articles.filter((item) => item.tags.includes(normalizedTag.value) || item.category === normalizedTag.value))
 </script>
 
 <template>
-  <div class="container-content py-section">
-    <BreadcrumbNav :items="[{ label: '首页', to: '/' }, { label: '文章中心', to: '/articles' }, { label: slug }]" />
-    <h1 class="text-3xl font-bold mb-2">{{ slug }}</h1>
-    <p class="text-brand-charcoal/50 mb-8">标签下的文章</p>
-    <div v-if="articles.length" class="grid md:grid-cols-2 gap-6">
-      <ArticleCard v-for="a in articles" :key="a.slug" :article="a" />
-    </div>
-    <p v-else class="text-center text-brand-charcoal/40 py-16">该标签下暂无文章</p>
+  <div>
+    <PageHero eyebrow="Tag" :title="normalizedTag" subtitle="按分类聚合内容，方便后续用后台标签体系接管。" compact />
+    <section class="section-shell">
+      <div class="container-content grid gap-6 md:grid-cols-2 xl:grid-cols-3">
+        <ArticleCard v-for="article in filtered" :key="article.slug" :article="article" />
+      </div>
+    </section>
   </div>
 </template>

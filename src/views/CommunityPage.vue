@@ -1,56 +1,30 @@
 <script setup>
-import BreadcrumbNav from '@/components/BreadcrumbNav.vue'
+import PageHero from '@/components/site/PageHero.vue'
+import FaqList from '@/components/site/FaqList.vue'
+import { communityPage, homePage } from '@/data'
 </script>
 
 <template>
-  <div class="container-content py-section">
-    <BreadcrumbNav :items="[{ label: '首页', to: '/' }, { label: '加入社区' }]" />
-    <div class="max-w-2xl mx-auto text-center">
-      <h1 class="text-3xl font-bold mb-4">加入社区</h1>
-      <p class="text-brand-charcoal/50 mb-12">很高兴你想了解更多，以下是联系方式</p>
-
-      <!-- 二维码 -->
-      <div class="grid sm:grid-cols-2 gap-6 mb-12">
-        <div class="card text-center">
-          <div class="w-40 h-40 mx-auto bg-brand-grey/20 rounded-lg mb-4 flex items-center justify-center">
-            <span class="text-brand-charcoal/20 text-sm">微信群二维码</span>
+  <div>
+    <PageHero eyebrow="Community" :title="communityPage.title" :subtitle="communityPage.subtitle" :image="communityPage.banner" image-alt="加入社区" />
+    <section class="section-shell">
+      <div class="container-content grid gap-8 lg:grid-cols-[1.1fr_0.9fr]">
+        <div class="surface-panel p-8">
+          <h2 class="text-2xl font-semibold text-brand-charcoal">加入后你会获得什么</h2>
+          <div class="mt-6 grid gap-4 sm:grid-cols-2">
+            <div v-for="item in communityPage.benefits" :key="item" class="rounded-card bg-brand-warm p-4 text-sm text-brand-text">{{ item }}</div>
           </div>
-          <p class="text-sm font-medium">微信群</p>
-          <p class="text-xs text-brand-charcoal/40">长按识别二维码</p>
         </div>
-        <div class="card text-center">
-          <div class="w-40 h-40 mx-auto bg-brand-grey/20 rounded-lg mb-4 flex items-center justify-center">
-            <span class="text-brand-charcoal/20 text-sm">公众号二维码</span>
-          </div>
-          <p class="text-sm font-medium">公众号</p>
-          <p class="text-xs text-brand-charcoal/40">长按识别二维码</p>
+        <div class="surface-panel p-8 text-center">
+          <img :src="homePage.community.qr" alt="加入社区二维码" class="mx-auto h-56 w-56 rounded-xl object-cover" />
+          <p class="mt-4 text-sm text-brand-text">扫码加入微信</p>
         </div>
       </div>
-
-      <!-- 联系方式 -->
-      <div class="card mb-8">
-        <h3 class="font-medium mb-4">直接联系</h3>
-        <div class="space-y-3">
-          <div class="flex items-center justify-between">
-            <span class="text-sm text-brand-charcoal/60">邮箱</span>
-            <button class="text-sm text-accent-blue hover:underline">复制</button>
-          </div>
-          <div class="flex items-center justify-between">
-            <span class="text-sm text-brand-charcoal/60">微信</span>
-            <button class="text-sm text-accent-blue hover:underline">复制</button>
-          </div>
-        </div>
+    </section>
+    <section class="section-shell bg-white">
+      <div class="container-reading">
+        <FaqList :items="communityPage.faq" />
       </div>
-
-      <!-- 留言表单 -->
-      <div class="card text-left">
-        <h3 class="font-medium mb-4">给我留言</h3>
-        <div class="space-y-4">
-          <input type="text" placeholder="你的联系方式" class="w-full px-4 py-3 rounded-lg border border-brand-grey focus:border-amber focus:ring-2 focus:ring-amber/20 outline-none" />
-          <textarea placeholder="留言内容（可选）" rows="3" class="w-full px-4 py-3 rounded-lg border border-brand-grey focus:border-amber focus:ring-2 focus:ring-amber/20 outline-none resize-none"></textarea>
-          <button class="btn-warm w-full">提交</button>
-        </div>
-      </div>
-    </div>
+    </section>
   </div>
 </template>

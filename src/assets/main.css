@@ -1,34 +1,46 @@
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Noto+Sans+SC:wght@400;500;600;700&family=Noto+Serif+SC:wght@500;600;700&display=swap');
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
 @layer base {
+  :root {
+    color-scheme: light;
+  }
+
   html {
     scroll-behavior: smooth;
   }
 
   body {
-    @apply bg-brand-warm text-brand-charcoal;
+    @apply bg-brand-base text-brand-charcoal font-sans;
+  }
+
+  img {
+    @apply block max-w-full;
+  }
+
+  a {
+    @apply transition-colors duration-200;
   }
 
   ::selection {
-    @apply bg-accent-blue/30;
+    @apply bg-accent-blue/20;
   }
 }
 
 @layer components {
-  /* 卡片基础样式 */
   .card {
-    @apply bg-white rounded-card border border-brand-grey/50 p-6
+    @apply bg-brand-card rounded-card border border-brand-grey/70 p-6
            transition-all duration-300 ease-out;
   }
   .card:hover {
-    @apply -translate-y-1 shadow-card-hover border-accent-blue/30;
+    @apply -translate-y-1 shadow-card-hover border-accent-blue/20;
   }
 
-  /* 按钮样式 */
   .btn {
-    @apply inline-flex items-center justify-center px-6 py-3 rounded-lg
+    @apply inline-flex items-center justify-center gap-2 px-5 py-3 rounded-full
            font-medium text-sm transition-all duration-200
            focus:outline-none focus:ring-2 focus:ring-offset-2;
   }
@@ -37,32 +49,31 @@
            focus:ring-accent-blue/50;
   }
   .btn-outline {
-    @apply btn border border-brand-grey text-brand-charcoal
-           hover:border-accent-blue hover:text-accent-blue-dark
+    @apply btn border border-brand-grey text-brand-charcoal bg-white
+           hover:border-accent-blue hover:text-accent-blue-dark hover:bg-accent-soft
            focus:ring-accent-blue/30;
   }
   .btn-warm {
-    @apply btn bg-amber text-white hover:bg-amber/90
-           focus:ring-amber/50;
+    @apply btn bg-gold text-white hover:bg-gold/90 focus:ring-gold/50;
+  }
+  .btn-white {
+    @apply btn bg-white text-accent-blue-dark hover:bg-accent-soft focus:ring-accent-blue/20;
   }
 
-  /* 标签/徽章 */
   .badge {
     @apply inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium;
   }
-  .badge-blue { @apply badge bg-accent-blue/15 text-accent-blue-dark; }
-  .badge-coral { @apply badge bg-coral-light/30 text-coral; }
-  .badge-green { @apply badge bg-success/15 text-success; }
-  .badge-amber { @apply badge bg-amber-light/30 text-amber; }
-  .badge-purple { @apply badge bg-lab-light/30 text-lab; }
-  .badge-grey { @apply badge bg-brand-grey/40 text-brand-charcoal/60; }
+  .badge-blue { @apply badge bg-accent-soft text-accent-blue-dark; }
+  .badge-coral { @apply badge bg-coral-light text-coral; }
+  .badge-green { @apply badge bg-success/10 text-success; }
+  .badge-amber { @apply badge bg-gold-light/60 text-gold; }
+  .badge-purple { @apply badge bg-lab-light text-lab; }
+  .badge-grey { @apply badge bg-brand-warm text-brand-muted; }
 
-  /* 骨架屏 */
   .skeleton {
     @apply bg-brand-grey/40 rounded animate-pulse;
   }
 
-  /* 容器 */
   .container-content {
     @apply max-w-content mx-auto px-4 sm:px-6 lg:px-8;
   }
@@ -71,5 +82,37 @@
   }
   .container-prose {
     @apply max-w-prose mx-auto;
+  }
+
+  .section-shell {
+    @apply py-section;
+  }
+
+  .surface-panel {
+    @apply rounded-panel border border-brand-grey/60 bg-white shadow-card;
+  }
+
+  .eyebrow {
+    @apply inline-flex items-center rounded-full border border-accent-blue/10 bg-accent-soft px-3 py-1 text-xs font-semibold tracking-wide text-accent-blue;
+  }
+}
+
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+
+  .line-clamp-2 {
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  .line-clamp-3 {
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
   }
 }

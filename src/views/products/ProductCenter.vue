@@ -1,21 +1,44 @@
 <script setup>
-import BreadcrumbNav from '@/components/BreadcrumbNav.vue'
+import { ref, computed } from 'vue'
 import ProductCard from '@/components/ProductCard.vue'
+import PageHero from '@/components/site/PageHero.vue'
+import FilterPills from '@/components/site/FilterPills.vue'
+import { products } from '@/data'
 
-const products = [
-  { name: '个人助手', slug: 'personal-assistant', shortDesc: '你的AI个人助理', stage: 'published', supportStatus: 'download' },
-  { name: '育儿助手', slug: 'parenting-assistant', shortDesc: 'AI育儿顾问', stage: 'beta', supportStatus: 'beta_apply' },
-  { name: 'AI工具助手', slug: 'ai-tools', shortDesc: '精选AI工具合集', stage: 'coming_soon', supportStatus: 'wishlist' },
-]
+const filter = ref('全部')
+const filters = ['全部', 'AI 提效', '个人管理', '育儿陪伴', '创作工具', '效率工具']
+
+const filteredProducts = computed(() =>
+  filter.value === '全部'
+    ? products
+    : products.filter((item) => item.tags.includes(filter.value))
+)
 </script>
 
 <template>
-  <div class="container-content py-section">
-    <BreadcrumbNav :items="[{ label: '首页', to: '/' }, { label: '产品中心' }]" />
-    <h1 class="text-3xl font-bold mb-2">产品中心</h1>
-    <p class="text-brand-charcoal/50 mb-8">三个独立应用，解决真实问题</p>
-    <div class="grid md:grid-cols-3 gap-6">
-      <ProductCard v-for="p in products" :key="p.slug" :product="p" />
-    </div>
+  <div>
+    <PageHero
+      eyebrow="Products"
+      title="更聪明的工具，更从容的生活"
+      subtitle="围绕个人效率、育儿陪伴与 AI 提效构建统一产品矩阵。"
+      :image="products[0].banner"
+      image-alt="产品中心"
+    />
+    <section class="section-shell pt-0">
+      <div class="container-content">
+        <div class="surface-panel p-6 md:p-8">
+          <div class="flex flex-col gap-5 lg:flex-row lg:items-center lg:justify-between">
+            <div>
+              <div class="text-lg font-semibold text-brand-charcoal">场景探索</div>
+              <p class="mt-2 text-sm text-brand-text">让列表页支持未来后台动态增减内容，而不是写死三个卡片。</p>
+            </div>
+            <FilterPills v-model="filter" :items="filters" />
+          </div>
+        </div>
+        <div class="mt-8 grid gap-6 md:grid-cols-2 xl:grid-cols-3">
+          <ProductCard v-for="product in filteredProducts" :key="product.slug" :product="product" />
+        </div>
+      </div>
+    </section>
   </div>
 </template>

@@ -1,57 +1,73 @@
 <script setup>
+import { computed } from 'vue'
 import { useRoute } from 'vue-router'
-import BreadcrumbNav from '@/components/BreadcrumbNav.vue'
+import PageHero from '@/components/site/PageHero.vue'
+import SectionTitle from '@/components/site/SectionTitle.vue'
+import FaqList from '@/components/site/FaqList.vue'
+import { getProductBySlug } from '@/data'
 
 const route = useRoute()
-
-const breadcrumbItems = [
-  { label: '首页', to: '/' },
-  { label: '产品中心', to: '/products' },
-  { label: '产品名称' }
-]
+const product = computed(() => getProductBySlug(route.params.slug) || getProductBySlug('personal-assistant'))
 </script>
 
 <template>
   <div>
-    <!-- Hero -->
-    <section class="container-content py-section">
-      <BreadcrumbNav :items="breadcrumbItems" />
-      <div class="grid lg:grid-cols-2 gap-12 items-center">
-        <div>
-          <h1 class="text-3xl font-bold mb-4">产品名称</h1>
-          <p class="text-lg text-brand-charcoal/60 mb-6">一句话价值主张</p>
-          <button class="btn-primary">立即下载</button>
-        </div>
-        <div class="aspect-video bg-brand-grey/20 rounded-2xl flex items-center justify-center">
-          <span class="text-brand-charcoal/10">产品截图</span>
-        </div>
+    <PageHero
+      eyebrow="Product Detail"
+      :title="product.name"
+      :subtitle="product.summary"
+      :image="product.cover"
+      :image-alt="product.name"
+    >
+      <div class="mt-7 flex flex-wrap gap-3">
+        <router-link to="/try" class="btn-primary">获取体验</router-link>
+        <router-link to="/products" class="btn-outline">返回产品中心</router-link>
       </div>
-    </section>
+      <div class="mt-8 flex flex-wrap gap-2">
+        <span v-for="tag in product.tags" :key="tag" class="badge-grey">{{ tag }}</span>
+      </div>
+    </PageHero>
 
-    <!-- 功能亮点 -->
-    <section class="bg-white py-section">
+    <section class="section-shell">
       <div class="container-content">
-        <h2 class="text-2xl font-bold mb-8 text-center">功能亮点</h2>
-        <div class="grid md:grid-cols-3 gap-8">
-          <div v-for="i in 3" :key="i" class="text-center">
-            <div class="w-12 h-12 mx-auto mb-4 rounded-xl bg-accent-blue/10 flex items-center justify-center">
-              <span class="text-accent-blue">✦</span>
-            </div>
-            <h3 class="font-medium mb-2">功能 {{ i }}</h3>
-            <p class="text-sm text-brand-charcoal/50">功能描述</p>
+        <SectionTitle title="核心能力" subtitle="三个产品详情页共用一套模板，只通过数据驱动差异内容。" />
+        <div class="mt-10 grid gap-6 md:grid-cols-3">
+          <div v-for="feature in product.features" :key="feature.title" class="card">
+            <div class="h-12 w-12 rounded-2xl bg-accent-soft"></div>
+            <h3 class="mt-5 text-xl font-semibold text-brand-charcoal">{{ feature.title }}</h3>
+            <p class="mt-3 text-sm leading-7 text-brand-text">{{ feature.description }}</p>
           </div>
         </div>
       </div>
     </section>
 
-    <!-- FAQ -->
-    <section class="container-content py-section">
-      <h2 class="text-2xl font-bold mb-8 text-center">常见问题</h2>
-      <div class="max-w-2xl mx-auto space-y-4">
-        <details v-for="i in 3" :key="i" class="card group">
-          <summary class="cursor-pointer font-medium">问题 {{ i }}？</summary>
-          <p class="mt-3 text-sm text-brand-charcoal/60">回答内容...</p>
-        </details>
+    <section class="section-shell bg-white">
+      <div class="container-content grid gap-8 lg:grid-cols-[1.1fr_0.9fr]">
+        <div class="surface-panel p-8">
+          <SectionTitle title="当前定位" />
+          <p class="mt-4 text-base leading-8 text-brand-text">{{ product.shortDesc }}</p>
+          <div class="mt-6 flex flex-wrap gap-3">
+            <span v-for="item in product.highlights" :key="item" class="rounded-full bg-brand-warm px-4 py-2 text-sm text-brand-text">{{ item }}</span>
+          </div>
+        </div>
+        <div class="surface-panel p-8">
+          <SectionTitle title="用户反馈" />
+          <div class="mt-6 space-y-4">
+            <div v-for="item in product.testimonials" :key="item.author" class="rounded-card bg-brand-warm p-5">
+              <p class="text-sm leading-7 text-brand-text">{{ item.content }}</p>
+              <div class="mt-3 text-sm font-medium text-brand-charcoal">{{ item.author }}</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section-shell">
+      <div class="container-reading">
+        <SectionTitle title="常见问题" align="center" />
+        <div class="mt-8">
+          <FaqList :items="product.faq" />
+        </div>
       </div>
     </section>
   </div>

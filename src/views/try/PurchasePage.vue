@@ -1,37 +1,33 @@
 <script setup>
+import { computed } from 'vue'
 import { useRoute } from 'vue-router'
-import BreadcrumbNav from '@/components/BreadcrumbNav.vue'
+import PageHero from '@/components/site/PageHero.vue'
+import { tryOffers } from '@/data'
 
 const route = useRoute()
-
-const breadcrumbItems = [
-  { label: '首页', to: '/' },
-  { label: '快来尝鲜', to: '/try' },
-  { label: '购买' }
-]
+const offer = computed(() => tryOffers.find((item) => item.slug === route.params.offerSlug) || tryOffers[0])
 </script>
 
 <template>
-  <div class="container-content py-section">
-    <BreadcrumbNav :items="breadcrumbItems" />
-    <div class="max-w-2xl mx-auto">
-      <div class="card mb-6">
-        <h2 class="font-bold text-lg mb-2">商品名称</h2>
-        <p class="text-3xl font-bold text-amber mb-4">¥29</p>
-        <ul class="text-sm text-brand-charcoal/60 space-y-2">
-          <li>✓ 抢先体验资格</li>
-          <li>✓ 优先技术支持</li>
-          <li>✓ 终身更新</li>
-        </ul>
-      </div>
-      <div class="card">
-        <h3 class="font-medium mb-4">购买信息</h3>
-        <div class="space-y-4">
-          <input type="text" placeholder="姓名" class="w-full px-4 py-3 rounded-lg border border-brand-grey focus:border-accent-blue focus:ring-2 focus:ring-accent-blue/20 outline-none" />
-          <input type="text" placeholder="联系方式（微信/邮箱）" class="w-full px-4 py-3 rounded-lg border border-brand-grey focus:border-accent-blue focus:ring-2 focus:ring-accent-blue/20 outline-none" />
-          <button class="btn-warm w-full">确认购买</button>
+  <div>
+    <PageHero eyebrow="Checkout" :title="offer.title" :subtitle="offer.subtitle" compact />
+    <section class="section-shell">
+      <div class="container-reading">
+        <div class="surface-panel p-8">
+          <div class="flex items-end gap-3">
+            <span class="text-4xl font-semibold text-accent-blue">{{ offer.price }}</span>
+            <span class="text-sm text-brand-muted line-through">{{ offer.originalPrice }}</span>
+          </div>
+          <div class="mt-6 space-y-3">
+            <div v-for="item in offer.benefits" :key="item" class="rounded-card bg-brand-warm p-4 text-sm text-brand-text">{{ item }}</div>
+          </div>
+          <div class="mt-8 grid gap-4">
+            <input type="text" placeholder="姓名" class="rounded-2xl border border-brand-grey px-4 py-3 outline-none focus:border-accent-blue" />
+            <input type="email" placeholder="邮箱" class="rounded-2xl border border-brand-grey px-4 py-3 outline-none focus:border-accent-blue" />
+            <button type="button" class="btn-primary justify-center">模拟支付并继续</button>
+          </div>
         </div>
       </div>
-    </div>
+    </section>
   </div>
 </template>

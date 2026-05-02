@@ -1,30 +1,64 @@
 <script setup>
-import BreadcrumbNav from '@/components/BreadcrumbNav.vue'
+import { ref, computed } from 'vue'
 import ArticleCard from '@/components/ArticleCard.vue'
-import EmptyState from '@/components/EmptyState.vue'
+import PageHero from '@/components/site/PageHero.vue'
+import FilterPills from '@/components/site/FilterPills.vue'
+import SectionTitle from '@/components/site/SectionTitle.vue'
+import { articles, articleCategories, articleCenterPage, articleHotTopics, products } from '@/data'
 
-const articles = [] // TODO: 接入API
+const activeCategory = ref('全部')
+
+const filteredArticles = computed(() =>
+  activeCategory.value === '全部'
+    ? articles
+    : articles.filter((item) => item.category === activeCategory.value || item.tags.includes(activeCategory.value))
+)
 </script>
 
 <template>
-  <div class="container-content py-section">
-    <BreadcrumbNav :items="[{ label: '首页', to: '/' }, { label: '文章中心' }]" />
-    <h1 class="text-3xl font-bold mb-2">文章中心</h1>
-    <p class="text-brand-charcoal/50 mb-8">来自两个专栏的思考与分享</p>
-    <div class="flex gap-2 mb-8 flex-wrap">
-      <button v-for="f in ['全部', '昆廷笔记', '启鸣宝宝']" :key="f"
-        class="px-4 py-1.5 rounded-full text-sm border border-brand-grey hover:border-accent-blue transition-all">
-        {{ f }}
-      </button>
-    </div>
-    <div v-if="articles.length" class="grid md:grid-cols-2 gap-6">
-      <ArticleCard v-for="a in articles" :key="a.slug" :article="a" />
-    </div>
-    <EmptyState v-else title="暂无文章" description="去看看两个专栏吧">
-      <div class="flex gap-3 justify-center">
-        <router-link to="/columns/kunting" class="btn-outline text-sm">昆廷笔记</router-link>
-        <router-link to="/columns/qiming" class="btn-outline text-sm">启鸣宝宝</router-link>
+  <div>
+    <PageHero
+      eyebrow="Articles"
+      :title="articleCenterPage.title"
+      :subtitle="articleCenterPage.subtitle"
+      :image="articleCenterPage.banner"
+      image-alt="文章中心"
+      dark
+    />
+    <section class="section-shell pt-0">
+      <div class="container-content">
+        <div class="surface-panel p-6 md:p-8">
+          <FilterPills v-model="activeCategory" :items="articleCategories" />
+        </div>
       </div>
-    </EmptyState>
+    </section>
+
+    <section class="section-shell">
+      <div class="container-content grid gap-8 xl:grid-cols-[minmax(0,1fr)_320px]">
+        <div class="grid gap-6 md:grid-cols-2">
+          <ArticleCard v-for="article in filteredArticles" :key="article.slug" :article="article" />
+        </div>
+        <aside class="space-y-6">
+          <div class="surface-panel p-6">
+            <SectionTitle title="热门主题" />
+            <div class="mt-5 flex flex-wrap gap-2">
+              <span v-for="topic in articleHotTopics" :key="topic" class="badge-grey">{{ topic }}</span>
+            </div>
+          </div>
+          <div class="surface-panel p-6">
+            <SectionTitle title="产品推荐" />
+            <div class="mt-5 space-y-4">
+              <router-link v-for="product in products" :key="product.slug" :to="`/products/${product.slug}`" class="flex items-center gap-4 rounded-card bg-brand-warm p-4 hover:bg-accent-soft">
+                <img :src="product.cover" :alt="product.name" class="h-14 w-14 rounded-xl object-cover" />
+                <div class="min-w-0">
+                  <div class="font-medium text-brand-charcoal">{{ product.name }}</div>
+                  <div class="line-clamp-2 text-xs text-brand-muted">{{ product.shortDesc }}</div>
+                </div>
+              </router-link>
+            </div>
+          </div>
+        </aside>
+      </div>
+    </section>
   </div>
 </template>

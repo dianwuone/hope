@@ -1,18 +1,15 @@
 <template>
-  <div class="container-content py-section text-center">
-    <div class="max-w-md mx-auto">
-      <div class="w-16 h-16 mx-auto mb-6 rounded-full bg-success/15 flex items-center justify-center">
-        <svg class="w-8 h-8 text-success" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
-        </svg>
-      </div>
-      <h1 class="text-2xl font-bold mb-2">支付成功！</h1>
-      <p class="text-brand-charcoal/50 mb-8">感谢你的支持，以下是下一步指引</p>
-      <div class="space-y-3">
-        <router-link to="/downloads" class="btn-primary w-full">查看交付状态</router-link>
-        <router-link to="/community" class="btn-outline w-full">加入社区</router-link>
-        <router-link to="/" class="text-sm text-brand-charcoal/40 hover:text-brand-charcoal">返回首页</router-link>
+  <section class="section-shell">
+    <div class="container-reading">
+      <div class="surface-panel p-10 text-center">
+        <div class="mx-auto flex h-16 w-16 items-center justify-center rounded-full bg-success/10 text-2xl text-success">✓</div>
+        <h1 class="mt-6 font-serif text-4xl text-brand-charcoal">报名成功</h1>
+        <p class="mt-4 text-base leading-8 text-brand-text">你的体验官信息已记录，后续会通过预留联系方式同步最新进展。</p>
+        <div class="mt-8 flex flex-wrap justify-center gap-3">
+          <router-link to="/" class="btn-outline">返回首页</router-link>
+          <router-link to="/community" class="btn-primary">加入社区</router-link>
+        </div>
       </div>
     </div>
-  </div>
+  </section>
 </template>

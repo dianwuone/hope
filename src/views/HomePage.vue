@@ -1,103 +1,166 @@
 <script setup>
-/**
- * 首页 — 全站总入口
- * 区块: Hero、产品矩阵、尝鲜横幅、双IP内容、游戏入口、实验室入口、社区入口、下载动态墙
- */
-import { ref } from 'vue'
 import ProductCard from '@/components/ProductCard.vue'
 import ArticleCard from '@/components/ArticleCard.vue'
-
-// Mock data — 后续替换为API
-const hero = ref({
-  title: 'QUENTIN WINDOW',
-  subtitle: '独立开发者的窗口 — 产品、内容与实验',
-})
-
-const products = ref([
-  { name: '个人助手', slug: 'personal-assistant', shortDesc: '你的AI个人助理，管理日程、整理笔记、处理邮件', stage: 'published', supportStatus: 'download' },
-  { name: '育儿助手', slug: 'parenting-assistant', shortDesc: 'AI育儿顾问，记录成长、解答疑惑、分享时光', stage: 'beta', supportStatus: 'beta_apply' },
-  { name: 'AI工具助手', slug: 'ai-tools', shortDesc: '精选AI工具合集，提升工作效率', stage: 'coming_soon', supportStatus: 'wishlist' },
-])
-
-const featuredArticles = ref([
-  { title: '用AI提升个人效率的5个实践', slug: 'ai-efficiency', summary: '分享我在日常工作中使用AI工具提效的真实经验', column: 'kunting', publishedAt: '2026-04-20', tags: ['AI提效'] },
-  { title: '幼小衔接：拼音学习的正确姿势', slug: 'pinyin-learning', summary: '从教育理念出发，聊聊拼音启蒙的方法论', column: 'qiming', publishedAt: '2026-04-18', tags: ['幼小衔接'] },
-])
+import PageHero from '@/components/site/PageHero.vue'
+import SectionTitle from '@/components/site/SectionTitle.vue'
+import FilterPills from '@/components/site/FilterPills.vue'
+import { homePage } from '@/data'
 </script>
 
 <template>
   <div>
-    <!-- Hero -->
-    <section class="container-content py-section-lg">
-      <div class="grid lg:grid-cols-2 gap-12 items-center">
-        <div>
-          <h1 class="text-4xl lg:text-5xl font-bold mb-4 leading-tight">{{ hero.title }}</h1>
-          <p class="text-lg text-brand-charcoal/60 mb-8">{{ hero.subtitle }}</p>
-          <div class="flex gap-3">
-            <router-link to="/products" class="btn-primary">探索产品</router-link>
-            <router-link to="/try" class="btn-outline">快来尝鲜</router-link>
+    <PageHero
+      :eyebrow="homePage.hero.badge"
+      :title="homePage.hero.title"
+      :subtitle="homePage.hero.subtitle"
+      :image="homePage.hero.visual"
+      image-alt="首页主视觉"
+    >
+      <div class="mt-8 flex flex-wrap gap-3">
+        <router-link
+          v-for="action in homePage.hero.actions"
+          :key="action.to"
+          :to="action.to"
+          :class="action.variant === 'primary' ? 'btn-primary' : 'btn-outline'"
+        >
+          {{ action.label }}
+        </router-link>
+      </div>
+      <div class="mt-10 grid gap-4 sm:grid-cols-3">
+        <div v-for="stat in homePage.hero.stats" :key="stat.label" class="surface-panel p-4">
+          <div class="text-2xl font-semibold text-brand-charcoal">{{ stat.value }}</div>
+          <div class="mt-1 text-sm text-brand-muted">{{ stat.label }}</div>
+        </div>
+      </div>
+    </PageHero>
+
+    <section class="section-shell pt-0">
+      <div class="container-content">
+        <div class="surface-panel p-6 md:p-8">
+          <SectionTitle eyebrow="Explore" title="探索主题" subtitle="让用户能从内容和场景角度快速进入网站结构。" />
+          <div class="mt-6">
+            <FilterPills :items="homePage.exploreTags" model-value="" />
           </div>
         </div>
-        <div class="aspect-square bg-accent-blue/5 rounded-2xl flex items-center justify-center">
-          <span class="text-brand-charcoal/10 text-6xl font-bold">QW</span>
-        </div>
       </div>
     </section>
 
-    <!-- 产品矩阵 -->
-    <section class="bg-white py-section">
+    <section class="section-shell">
       <div class="container-content">
-        <h2 class="text-2xl font-bold mb-2">核心产品</h2>
-        <p class="text-brand-charcoal/50 mb-8">三个独立应用，解决真实问题</p>
-        <div class="grid md:grid-cols-3 gap-6">
-          <ProductCard v-for="p in products" :key="p.slug" :product="p" />
+        <SectionTitle eyebrow="Products" title="核心产品" subtitle="围绕个人管理、育儿陪伴与 AI 提效，构成网站最核心的产品入口。" align="center" />
+        <div class="mt-10 grid gap-6 md:grid-cols-2 xl:grid-cols-3">
+          <ProductCard v-for="product in homePage.products" :key="product.slug" :product="product" />
         </div>
       </div>
     </section>
 
-    <!-- 快来尝鲜横幅 -->
-    <section class="bg-accent-blue/5 py-16">
-      <div class="container-content text-center">
-        <h2 class="text-2xl font-bold mb-2">快来尝鲜</h2>
-        <p class="text-brand-charcoal/50 mb-6">抢先体验，支持独立开发</p>
-        <router-link to="/try" class="btn-warm">发现好物</router-link>
+    <section class="section-shell pt-0">
+      <div class="container-content">
+        <div class="overflow-hidden rounded-panel bg-gradient-to-br from-accent-blue-dark via-accent-blue to-lab p-8 text-white shadow-hero md:p-10">
+          <div class="grid gap-8 lg:grid-cols-[1.4fr_0.8fr] lg:items-center">
+            <div>
+              <div class="eyebrow !border-white/10 !bg-white/10 !text-gold-light">限时招募</div>
+              <h2 class="mt-4 font-serif text-3xl md:text-4xl">{{ homePage.tryOffer.title }}</h2>
+              <p class="mt-4 max-w-2xl text-white/80">{{ homePage.tryOffer.subtitle }}</p>
+              <div class="mt-6 flex flex-wrap gap-3 text-sm text-white/70">
+                <span v-for="item in homePage.tryOffer.benefits" :key="item">{{ item }}</span>
+              </div>
+            </div>
+            <div class="space-y-4 rounded-card bg-white/10 p-6 backdrop-blur">
+              <div class="text-sm text-white/70">当前价格</div>
+              <div class="flex items-end gap-3">
+                <span class="text-4xl font-semibold">{{ homePage.tryOffer.price }}</span>
+                <span class="text-sm text-white/45 line-through">{{ homePage.tryOffer.originalPrice }}</span>
+              </div>
+              <router-link to="/try" class="btn-white w-full justify-center">立即加入</router-link>
+            </div>
+          </div>
+        </div>
       </div>
     </section>
 
-    <!-- 双IP内容入口 -->
-    <section class="container-content py-section">
-      <h2 class="text-2xl font-bold mb-8">最新内容</h2>
-      <div class="grid md:grid-cols-2 gap-6">
-        <ArticleCard v-for="a in featuredArticles" :key="a.slug" :article="a" />
-      </div>
-      <div class="text-center mt-8">
-        <router-link to="/articles" class="btn-outline">查看全部文章</router-link>
+    <section class="section-shell bg-white">
+      <div class="container-content">
+        <SectionTitle eyebrow="Articles" title="最新内容" subtitle="用文章承接品牌表达，让产品之外的价值也能被持续看见。" />
+        <div class="mt-10 grid gap-6 md:grid-cols-2 xl:grid-cols-4">
+          <ArticleCard v-for="article in homePage.featuredArticles" :key="article.slug" :article="article" />
+        </div>
       </div>
     </section>
 
-    <!-- 游戏入口 -->
-    <section class="bg-mint/5 py-section">
-      <div class="container-content text-center">
-        <h2 class="text-2xl font-bold mb-2">游戏与互动</h2>
-        <p class="text-brand-charcoal/50 mb-6">寓教于乐，探索学习的新方式</p>
-        <router-link to="/games" class="btn-outline">进入游戏中心</router-link>
+    <section class="section-shell">
+      <div class="container-content">
+        <SectionTitle eyebrow="Interactive" title="互动体验区" subtitle="把下载、试玩和实时感知模块做成更轻量的参与入口。" />
+        <div class="mt-10 grid gap-6 md:grid-cols-3">
+          <router-link
+            v-for="card in homePage.interactiveCards"
+            :key="card.title"
+            :to="card.to"
+            class="card flex h-full flex-col"
+          >
+            <div class="mb-4 h-12 w-12 rounded-2xl bg-accent-soft"></div>
+            <h3 class="text-xl font-semibold text-brand-charcoal">{{ card.title }}</h3>
+            <p class="mt-3 flex-1 text-sm leading-7 text-brand-text">{{ card.desc }}</p>
+            <span class="mt-5 text-sm font-semibold text-accent-blue">查看详情 →</span>
+          </router-link>
+        </div>
       </div>
     </section>
 
-    <!-- 实验室入口 -->
-    <section class="bg-lab/5 py-section">
-      <div class="container-content text-center">
-        <h2 class="text-2xl font-bold mb-2">实验室</h2>
-        <p class="text-brand-charcoal/50 mb-6">探索中的未来项目</p>
-        <router-link to="/lab" class="btn-outline">进入实验室</router-link>
+    <section class="section-shell bg-white">
+      <div class="container-content">
+        <SectionTitle eyebrow="Lab" title="实验室" subtitle="探索下一步可能的产品方向，并把不确定的想法公开出来。" />
+        <div class="mt-10 grid gap-6 lg:grid-cols-[1fr_1fr_0.8fr]">
+          <router-link v-for="lab in homePage.labs" :key="lab.slug" :to="`/lab/${lab.slug}`" class="card overflow-hidden !p-0">
+            <img :src="lab.cover" :alt="lab.name" class="aspect-[4/3] w-full object-cover" />
+            <div class="p-6">
+              <div class="flex flex-wrap gap-2">
+                <span v-for="tag in lab.tags" :key="tag" class="badge-purple">{{ tag }}</span>
+              </div>
+              <h3 class="mt-4 text-xl font-semibold text-brand-charcoal">{{ lab.name }}</h3>
+              <p class="mt-3 text-sm leading-7 text-brand-text">{{ lab.description }}</p>
+            </div>
+          </router-link>
+          <div class="surface-panel p-6">
+            <h3 class="text-xl font-semibold text-brand-charcoal">正在开发中</h3>
+            <div class="mt-5 space-y-4">
+              <div v-for="item in ['AI 写作助手', '亲子共读 App', '更多游戏内容', '轻量知识整理台']" :key="item" class="flex items-center justify-between gap-4">
+                <span class="text-sm text-brand-text">{{ item }}</span>
+                <span class="badge-grey">规划中</span>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
     </section>
 
-    <!-- 社区入口 -->
-    <section class="container-content py-section text-center">
-      <h2 class="text-2xl font-bold mb-2">加入社区</h2>
-      <p class="text-brand-charcoal/50 mb-6">和志同道合的人一起交流</p>
-      <router-link to="/community" class="btn-primary">加入我们</router-link>
+    <section class="section-shell">
+      <div class="container-content">
+        <div class="overflow-hidden rounded-panel bg-brand-charcoal text-white shadow-hero">
+          <div class="grid gap-6 lg:grid-cols-[1.3fr_0.7fr]">
+            <div class="p-8 md:p-10">
+              <SectionTitle
+                eyebrow="Community"
+                :title="homePage.community.title"
+                :subtitle="homePage.community.subtitle"
+                class="text-white"
+              />
+              <div class="mt-6 flex flex-wrap gap-3">
+                <span v-for="item in homePage.community.benefits" :key="item" class="rounded-full border border-white/10 bg-white/5 px-4 py-2 text-sm text-white/80">
+                  {{ item }}
+                </span>
+              </div>
+              <router-link to="/community" class="btn-white mt-8">了解更多</router-link>
+            </div>
+            <div class="flex items-center justify-center p-8">
+              <div class="rounded-card bg-white p-4 text-center text-brand-charcoal">
+                <img :src="homePage.community.qr" alt="社区二维码" class="h-48 w-48 rounded-xl object-cover" />
+                <div class="mt-3 text-sm font-medium">扫码加入微信</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
     </section>
   </div>
 </template>

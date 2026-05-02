@@ -1,8 +1,4 @@
 <script setup>
-/**
- * 通用产品卡片
- * Props: product { name, slug, shortDesc, icon, stage, supportStatus }
- */
 defineProps({
   product: {
     type: Object,
@@ -31,27 +27,38 @@ const statusLabels = {
 </script>
 
 <template>
-  <router-link :to="`/products/${product.slug}`" class="card group block">
-    <!-- Icon -->
-    <div class="w-16 h-16 bg-brand-grey/20 rounded-xl mb-4 flex items-center justify-center overflow-hidden">
-      <img v-if="product.icon" :src="product.icon" :alt="product.name" class="w-12 h-12" />
-      <span v-else class="text-2xl text-brand-charcoal/20">{{ product.name?.[0] }}</span>
+  <router-link :to="`/products/${product.slug}`" class="card group flex h-full flex-col overflow-hidden !p-0">
+    <div class="relative aspect-[4/3] overflow-hidden bg-brand-warm">
+      <div class="absolute inset-0 bg-gradient-to-br from-accent-soft to-lab-light"></div>
+      <img
+        v-if="product.cover"
+        :src="product.cover"
+        :alt="product.name"
+        class="relative z-10 h-full w-full object-contain p-6 transition-transform duration-500 group-hover:scale-105"
+      />
     </div>
-
-    <!-- Info -->
-    <span :class="stageColors[product.stage] || 'badge-grey'" class="mb-2">
-      {{ stageLabels[product.stage] || product.stage }}
-    </span>
-    <h3 class="font-medium text-lg mt-2 mb-2 group-hover:text-accent-blue-dark transition-colors">
-      {{ product.name }}
-    </h3>
-    <p class="text-sm text-brand-charcoal/60 line-clamp-2 mb-4">
-      {{ product.shortDesc }}
-    </p>
-
-    <!-- CTA -->
-    <span class="btn-outline text-xs">
-      {{ statusLabels[product.supportStatus] || '了解更多' }}
-    </span>
+    <div class="flex flex-1 flex-col p-6">
+      <div class="flex flex-wrap items-center gap-2">
+        <span :class="stageColors[product.stage] || 'badge-grey'">
+          {{ stageLabels[product.stage] || product.stage }}
+        </span>
+        <span v-for="tag in product.highlights?.slice(0, 2)" :key="tag" class="badge-grey">{{ tag }}</span>
+      </div>
+      <h3 class="mt-4 text-xl font-semibold text-brand-charcoal transition-colors group-hover:text-accent-blue-dark">
+        {{ product.name }}
+      </h3>
+      <p class="mt-3 line-clamp-3 text-sm leading-7 text-brand-text">{{ product.shortDesc }}</p>
+      <div class="mt-5 flex flex-wrap gap-2">
+        <span v-for="tag in product.tags?.slice(0, 3)" :key="tag" class="rounded-full bg-brand-warm px-3 py-1 text-xs text-brand-muted">
+          {{ tag }}
+        </span>
+      </div>
+      <div class="mt-auto pt-6">
+        <span class="inline-flex items-center gap-2 text-sm font-semibold text-accent-blue">
+          {{ statusLabels[product.supportStatus] || '了解更多' }}
+          <span aria-hidden="true">→</span>
+        </span>
+      </div>
+    </div>
   </router-link>
 </template>

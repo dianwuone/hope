@@ -1,50 +1,65 @@
 <script setup>
+import { computed } from 'vue'
 import { useRoute } from 'vue-router'
-import BreadcrumbNav from '@/components/BreadcrumbNav.vue'
+import SectionTitle from '@/components/site/SectionTitle.vue'
+import { articles, getArticleBySlug, products } from '@/data'
 
 const route = useRoute()
-
-const breadcrumbItems = [
-  { label: '首页', to: '/' },
-  { label: '昆廷笔记', to: '/columns/kunting' },
-  { label: '文章标题' }
-]
+const article = computed(() => getArticleBySlug(route.params.slug) || articles[0])
+const relatedArticles = computed(() => articles.filter((item) => item.slug !== article.value.slug).slice(0, 3))
 </script>
 
 <template>
-  <div class="container-content py-section">
-    <BreadcrumbNav :items="breadcrumbItems" />
+  <div>
+    <section class="section-shell pt-12">
+      <div class="container-reading">
+        <span class="badge-blue">{{ article.column === 'kunting' ? '昆廷笔记' : '启鸣宝宝' }}</span>
+        <h1 class="mt-5 font-serif text-4xl leading-tight text-brand-charcoal md:text-5xl">{{ article.title }}</h1>
+        <p class="mt-5 text-lg leading-8 text-brand-text">{{ article.summary }}</p>
+        <div class="mt-6 flex flex-wrap items-center gap-3 text-sm text-brand-muted">
+          <span>{{ article.author }}</span>
+          <span>{{ article.publishedAt }}</span>
+          <span>{{ article.viewCount }} 阅读</span>
+        </div>
+        <img :src="article.cover" :alt="article.title" class="mt-8 w-full rounded-panel shadow-hero object-cover" />
+      </div>
+    </section>
 
-    <article class="max-w-prose mx-auto">
-      <h1 class="text-3xl font-bold mb-4">文章标题</h1>
-      <div class="flex items-center gap-3 text-sm text-brand-charcoal/50 mb-8">
-        <span>昆廷</span>
-        <span>·</span>
-        <span>2026-04-30</span>
-        <span>·</span>
-        <span>128 阅读</span>
+    <section class="section-shell pt-0">
+      <div class="container-reading">
+        <div class="surface-panel p-8 md:p-10">
+          <div class="prose prose-lg max-w-none">
+            <p v-for="paragraph in article.content" :key="paragraph">{{ paragraph }}</p>
+          </div>
+          <div class="mt-8 flex flex-wrap gap-2">
+            <span v-for="tag in article.tags" :key="tag" class="badge-grey">{{ tag }}</span>
+          </div>
+        </div>
       </div>
-      <div class="flex gap-2 mb-8">
-        <span class="badge-blue">AI提效</span>
-      </div>
+    </section>
 
-      <!-- 正文占位 -->
-      <div class="prose prose-neutral max-w-none">
-        <p>文章正文内容将在这里渲染。支持 Markdown 格式。</p>
-        <h2>第一个章节</h2>
-        <p>章节内容...</p>
+    <section class="section-shell bg-white">
+      <div class="container-content grid gap-8 lg:grid-cols-[1fr_320px]">
+        <div>
+          <SectionTitle title="相关文章" />
+          <div class="mt-6 grid gap-6 md:grid-cols-3">
+            <router-link v-for="item in relatedArticles" :key="item.slug" :to="`/articles/${item.slug}`" class="card">
+              <img :src="item.cover" :alt="item.title" class="aspect-[16/10] w-full rounded-xl object-cover" />
+              <h3 class="mt-4 line-clamp-2 text-lg font-semibold text-brand-charcoal">{{ item.title }}</h3>
+              <p class="mt-2 line-clamp-3 text-sm text-brand-text">{{ item.summary }}</p>
+            </router-link>
+          </div>
+        </div>
+        <aside class="surface-panel p-6">
+          <SectionTitle title="产品推荐" />
+          <div class="mt-5 space-y-4">
+            <router-link v-for="product in products" :key="product.slug" :to="`/products/${product.slug}`" class="block rounded-card bg-brand-warm p-4 hover:bg-accent-soft">
+              <div class="font-medium text-brand-charcoal">{{ product.name }}</div>
+              <div class="mt-2 text-xs leading-6 text-brand-muted">{{ product.shortDesc }}</div>
+            </router-link>
+          </div>
+        </aside>
       </div>
-
-      <!-- 互动 -->
-      <div class="mt-12 pt-8 border-t border-brand-grey/30 flex items-center gap-6">
-        <button class="flex items-center gap-2 text-brand-charcoal/50 hover:text-coral transition-colors">
-          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-              d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
-          </svg>
-          <span>点赞</span>
-        </button>
-      </div>
-    </article>
+    </section>
   </div>
 </template>

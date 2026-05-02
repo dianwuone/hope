@@ -1,38 +1,36 @@
 <script setup>
+import { computed } from 'vue'
 import { useRoute } from 'vue-router'
-import BreadcrumbNav from '@/components/BreadcrumbNav.vue'
+import PageHero from '@/components/site/PageHero.vue'
+import { getLabBySlug } from '@/data'
 
 const route = useRoute()
-
-const breadcrumbItems = [
-  { label: '首页', to: '/' },
-  { label: '实验室', to: '/lab' },
-  { label: '项目名称' }
-]
+const lab = computed(() => getLabBySlug(route.params.slug) || getLabBySlug('tools'))
 </script>
 
 <template>
-  <div class="container-content py-section">
-    <BreadcrumbNav :items="breadcrumbItems" />
-    <div class="max-w-3xl mx-auto">
-      <div class="text-center mb-12">
-        <div class="w-20 h-20 mx-auto mb-4 rounded-2xl bg-lab/10 flex items-center justify-center">
-          <span class="text-3xl">🔬</span>
+  <div>
+    <PageHero eyebrow="Lab Detail" :title="lab.title" :subtitle="lab.subtitle" :image="lab.cover" :image-alt="lab.name" />
+    <section class="section-shell">
+      <div class="container-content grid gap-6 lg:grid-cols-[1fr_0.9fr]">
+        <div class="surface-panel p-8">
+          <h2 class="text-2xl font-semibold text-brand-charcoal">实验方向</h2>
+          <p class="mt-4 text-base leading-8 text-brand-text">{{ lab.description }}</p>
+          <div class="mt-6 flex flex-wrap gap-2">
+            <span v-for="tag in lab.tags" :key="tag" class="badge-purple">{{ tag }}</span>
+          </div>
         </div>
-        <span class="badge-purple mb-3">原型中</span>
-        <h1 class="text-3xl font-bold mt-2 mb-4">项目名称</h1>
-        <p class="text-brand-charcoal/60">项目一句话描述</p>
-        <div class="flex gap-3 justify-center mt-6">
-          <button class="btn-outline">加入心愿单</button>
-          <router-link to="/community" class="btn-primary">加入社区关注</router-link>
+        <div class="surface-panel p-8">
+          <h2 class="text-2xl font-semibold text-brand-charcoal">项目状态</h2>
+          <div class="mt-6 space-y-4">
+            <div v-for="project in lab.projects" :key="project.name" class="flex items-center justify-between gap-4 rounded-card bg-brand-warm p-4">
+              <span class="text-sm text-brand-text">{{ project.name }}</span>
+              <span class="badge-grey">{{ project.status }}</span>
+            </div>
+          </div>
+          <router-link :to="`/lab/${lab.slug}/apply`" class="btn-primary mt-6">申请内测</router-link>
         </div>
       </div>
-      <div class="prose prose-neutral max-w-none">
-        <h2>关于这个项目</h2>
-        <p>项目背景和目标...</p>
-        <h2>开发进度</h2>
-        <p>路线图...</p>
-      </div>
-    </div>
+    </section>
   </div>
 </template>

@@ -7,42 +7,42 @@ export default {
   theme: {
     extend: {
       colors: {
-        // 品牌主色
         brand: {
-          warm: '#FAFAF8',
-          charcoal: '#2D2D2D',
-          grey: '#E8E6E1',
+          base: '#F5F7FA',
+          warm: '#EDF1F5',
+          card: '#FFFFFF',
+          charcoal: '#1A2332',
+          grey: '#E2E8F0',
+          text: '#4A5568',
+          muted: '#7A8A9E',
         },
-        // 科技蓝灰 — 昆廷笔记 / 产品线
         accent: {
-          blue: '#B8C5D3',
-          'blue-dark': '#8FA4B8',
+          blue: '#3B6B9E',
+          'blue-dark': '#2A5280',
+          'blue-light': '#5B8DBE',
+          soft: '#EBF2F8',
         },
-        // 暖珊瑚 — 启鸣宝宝
-        coral: {
-          DEFAULT: '#D4A89A',
-          light: '#E8C4B8',
+        gold: {
+          DEFAULT: '#B8965A',
+          light: '#F0D9AD',
         },
-        // 琥珀金 — 快来尝鲜 / 销售
-        amber: {
-          DEFAULT: '#D4A574',
-          light: '#E8C4A0',
-        },
-        // 紫色 — 实验室
-        lab: {
-          DEFAULT: '#A89BC4',
-          light: '#C4B8D8',
-        },
-        // 薄荷绿 — 游戏
         mint: {
-          DEFAULT: '#7EC8B8',
-          light: '#A8DCD0',
+          DEFAULT: '#6B9EAE',
+          light: '#DCECEF',
         },
-        // 成功绿
-        success: '#6AAF7B',
+        coral: {
+          DEFAULT: '#E67E22',
+          light: '#FFF3E0',
+        },
+        success: '#2E7D32',
+        lab: {
+          DEFAULT: '#4A90B8',
+          light: '#D4E4F1',
+        },
       },
       fontFamily: {
-        sans: ['Inter', 'PingFang SC', 'Noto Sans SC', 'system-ui', 'sans-serif'],
+        sans: ['DM Sans', 'Noto Sans SC', 'system-ui', 'sans-serif'],
+        serif: ['Noto Serif SC', 'Georgia', 'serif'],
       },
       maxWidth: {
         'content': '1200px',
@@ -52,21 +52,23 @@ export default {
       spacing: {
         'section': '80px',
         'section-lg': '120px',
+        'section-sm': '48px',
       },
       borderRadius: {
-        'card': '12px',
+        'card': '16px',
+        'panel': '20px',
       },
       boxShadow: {
-        'card': '0 1px 3px rgba(0,0,0,0.06), 0 1px 2px rgba(0,0,0,0.04)',
-        'card-hover': '0 10px 25px rgba(0,0,0,0.08), 0 4px 10px rgba(0,0,0,0.04)',
-        'card-active': '0 20px 40px rgba(0,0,0,0.1), 0 8px 16px rgba(0,0,0,0.06)',
+        'card': '0 2px 8px rgba(26,35,50,0.06)',
+        'card-hover': '0 8px 24px rgba(26,35,50,0.12)',
+        'hero': '0 16px 48px rgba(26,35,50,0.12)',
       },
       typography: {
         DEFAULT: {
           css: {
             maxWidth: '720px',
             lineHeight: '1.75',
-            color: '#2D2D2D',
+            color: '#1A2332',
           },
         },
       },

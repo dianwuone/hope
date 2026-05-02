@@ -32,6 +32,12 @@ const routes = [
     meta: { title: '隐私政策', breadcrumb: ['首页', '隐私政策'] },
   },
   {
+    path: '/terms',
+    name: 'Terms',
+    component: () => import('@/views/TermsPage.vue'),
+    meta: { title: '服务条款', breadcrumb: ['首页', '服务条款'] },
+  },
+  {
     path: '/columns/kunting',
     name: 'ColumnKunting',
     component: () => import('@/views/columns/KuntingPage.vue'),
@@ -144,6 +150,24 @@ const routes = [
     name: 'Community',
     component: () => import('@/views/CommunityPage.vue'),
     meta: { title: '加入社区', breadcrumb: ['首页', '加入社区'] },
+  },
+  {
+    path: '/subscribe',
+    name: 'Subscribe',
+    component: () => import('@/views/SubscribePage.vue'),
+    meta: { title: '订阅更新', breadcrumb: ['首页', '订阅更新'] },
+  },
+  {
+    path: '/open-source',
+    name: 'OpenSource',
+    component: () => import('@/views/OpenSourcePage.vue'),
+    meta: { title: '开源项目', breadcrumb: ['首页', '开源项目'] },
+  },
+  {
+    path: '/blog',
+    name: 'Blog',
+    component: () => import('@/views/BlogPage.vue'),
+    meta: { title: '博客', breadcrumb: ['首页', '博客'] },
   },
   {
     path: '/downloads',

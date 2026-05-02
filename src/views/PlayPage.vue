@@ -1,39 +1,27 @@
 <script setup>
-import BreadcrumbNav from '@/components/BreadcrumbNav.vue'
+import PageHero from '@/components/site/PageHero.vue'
+import { playPage } from '@/data'
 </script>
 
 <template>
-  <div class="container-content py-section">
-    <BreadcrumbNav :items="[{ label: '首页', to: '/' }, { label: '在线轻试玩' }]" />
-    <h1 class="text-2xl font-bold mb-8 text-center">在线轻试玩</h1>
-
-    <!-- 游戏区域 -->
-    <div class="max-w-3xl mx-auto">
-      <div class="aspect-video bg-mint/10 rounded-2xl border-2 border-mint/20 flex items-center justify-center mb-6">
-        <div class="text-center">
-          <p class="text-4xl mb-4">🎮</p>
-          <p class="text-brand-charcoal/40 mb-4">拼音大冒险</p>
-          <button class="btn-primary">开始游戏</button>
+  <div>
+    <PageHero eyebrow="Play Online" :title="playPage.title" :subtitle="playPage.subtitle" :image="playPage.banner" image-alt="在线轻试玩" />
+    <section class="section-shell">
+      <div class="container-content">
+        <div class="surface-panel p-8">
+          <div class="grid gap-8 lg:grid-cols-[0.8fr_1.2fr] lg:items-center">
+            <div>
+              <h2 class="text-2xl font-semibold text-brand-charcoal">试玩入口</h2>
+              <p class="mt-4 text-sm leading-7 text-brand-text">这里先保留为前端展示版，后续可以接真正的浏览器小游戏或轻交互试玩模块。</p>
+              <router-link to="/games/pinyin-adventure" class="btn-primary mt-6">查看拼音大冒险</router-link>
+            </div>
+            <div class="rounded-panel bg-gradient-to-br from-accent-soft to-mint-light p-10 text-center">
+              <div class="text-7xl">🦖</div>
+              <div class="mt-4 text-lg font-medium text-brand-charcoal">浏览器轻试玩占位区</div>
+            </div>
+          </div>
         </div>
       </div>
-
-      <!-- 分数 -->
-      <div class="flex justify-center gap-8 mb-8">
-        <div class="text-center">
-          <p class="text-2xl font-bold">0</p>
-          <p class="text-xs text-brand-charcoal/40">当前分数</p>
-        </div>
-        <div class="text-center">
-          <p class="text-2xl font-bold">0</p>
-          <p class="text-xs text-brand-charcoal/40">最高记录</p>
-        </div>
-      </div>
-
-      <!-- 排行榜 -->
-      <div class="card">
-        <h3 class="font-medium mb-4">排行榜</h3>
-        <p class="text-center text-brand-charcoal/40 py-8 text-sm">还没有记录，成为第一个！</p>
-      </div>
-    </div>
+    </section>
   </div>
 </template>

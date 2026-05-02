@@ -1,43 +1,36 @@
 <script setup>
-import BreadcrumbNav from '@/components/BreadcrumbNav.vue'
+import PageHero from '@/components/site/PageHero.vue'
+import FaqList from '@/components/site/FaqList.vue'
+import { playPage } from '@/data'
 
-const breadcrumbItems = [
-  { label: '首页', to: '/' },
-  { label: '游戏中心', to: '/games' },
-  { label: '拼音大冒险' }
+const faq = [
+  { q: '适合什么年龄段？', a: '更适合 4-8 岁启蒙阶段的孩子，用短时互动降低开始门槛。' },
+  { q: '是否必须下载？', a: '当前页面以展示和轻试玩入口为主，后续会逐步补充更多玩法。' },
 ]
 </script>
 
 <template>
   <div>
-    <section class="container-content py-section">
-      <BreadcrumbNav :items="breadcrumbItems" />
-      <div class="grid lg:grid-cols-2 gap-12 items-center">
-        <div>
-          <h1 class="text-3xl font-bold mb-4">拼音大冒险</h1>
-          <p class="text-lg text-brand-charcoal/60 mb-6">在冒险中学习拼音，在游戏中快乐成长</p>
-          <div class="flex gap-3">
-            <router-link to="/play" class="btn-primary">立即试玩</router-link>
-            <button class="btn-outline">加入心愿单</button>
-          </div>
+    <PageHero eyebrow="Game Detail" title="拼音大冒险" subtitle="把拼音练习变成可参与、可重复、可获得即时反馈的小冒险。" :image="playPage.banner" image-alt="拼音大冒险" />
+    <section class="section-shell">
+      <div class="container-content grid gap-6 md:grid-cols-3">
+        <div class="card">
+          <h3 class="text-xl font-semibold text-brand-charcoal">短时反馈</h3>
+          <p class="mt-3 text-sm leading-7 text-brand-text">每次练习都尽量在短时间内给出明确反馈，让孩子更愿意继续。</p>
         </div>
-        <div class="aspect-video bg-mint/10 rounded-2xl flex items-center justify-center">
-          <span class="text-6xl">🎮</span>
+        <div class="card">
+          <h3 class="text-xl font-semibold text-brand-charcoal">视觉化进度</h3>
+          <p class="mt-3 text-sm leading-7 text-brand-text">用角色、关卡和道具代替纯文本练习，增强参与感。</p>
+        </div>
+        <div class="card">
+          <h3 class="text-xl font-semibold text-brand-charcoal">家庭陪伴</h3>
+          <p class="mt-3 text-sm leading-7 text-brand-text">支持家长作为引导者参与，而不是单向督促式练习。</p>
         </div>
       </div>
     </section>
-
-    <section class="bg-white py-section">
-      <div class="container-content">
-        <h2 class="text-2xl font-bold mb-8 text-center">怎么玩？</h2>
-        <div class="grid md:grid-cols-4 gap-6">
-          <div v-for="(step, i) in ['选择关卡', '学习拼音', '完成挑战', '获得奖励']" :key="step" class="text-center">
-            <div class="w-10 h-10 mx-auto mb-3 rounded-full bg-mint/20 flex items-center justify-center font-bold text-mint">
-              {{ i + 1 }}
-            </div>
-            <h3 class="font-medium">{{ step }}</h3>
-          </div>
-        </div>
+    <section class="section-shell bg-white">
+      <div class="container-reading">
+        <FaqList :items="faq" />
       </div>
     </section>
   </div>
