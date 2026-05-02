@@ -164,7 +164,7 @@ const routes = [
 ]
 
 // 默认适配 GitHub Pages(hash)，宝塔使用 history 模式
-const history = process.env.VITE_BAOTA === 'true'
+const history = import.meta.env.VITE_BAOTA === 'true'
   ? createWebHistory(import.meta.env.BASE_URL)
   : createWebHashHistory(import.meta.env.BASE_URL)
 
