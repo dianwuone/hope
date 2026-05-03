@@ -7,6 +7,7 @@ import bannerDownloads from '@/assets/images/shucai/banners/banner-downloads.jpg
 import bannerConnect from '@/assets/images/shucai/banners/banner-connect.jpg'
 import bannerTry from '@/assets/images/shucai/banners/banner-try.jpg'
 import bannerPersonal from '@/assets/images/shucai/banners/banner-personal.jpg'
+import bannerParenting from '@/assets/images/shucai/banners/banner-parenting.jpg'
 import bannerArcade from '@/assets/images/shucai/banners/banner-arcade.jpg'
 import { products, tryOffers } from '@/data/products/products'
 import { articles } from '@/data/articles/articles'
@@ -14,21 +15,26 @@ import { labs } from '@/data/lab/labs'
 
 export const homePage = {
   hero: {
-    badge: '独立开发者窗口',
-    title: '用产品与内容，连接 AI 提效、成长记录与互动体验',
-    subtitle: '这是一个兼具产品展示、内容表达、实验探索和轻量互动的个人品牌网站。',
-    visual: heroVisual,
+    badge: 'AI x 产品 x 游戏',
+    title: '用 AI 提升工作与生活，用产品与游戏解决真实问题',
+    subtitle: '我是 Quentin，一名独立开发者与产品探索者。在这里，我将 AI 能力融入产品与游戏，打造可持续迭代的工具与体验，陪伴每一个认真生活的人。',
     actions: [
-      { label: '探索产品', to: '/products', variant: 'primary' },
-      { label: '进入文章中心', to: '/articles', variant: 'secondary' },
+      { label: '探索产品与游戏', to: '/products', variant: 'primary' },
+      { label: '了解我的故事', to: '/about', variant: 'secondary' },
     ],
     stats: [
-      { value: '3+', label: '核心产品方向' },
-      { value: '12K+', label: '内容阅读' },
-      { value: '2.3K+', label: '体验官加入' },
+      { value: '4', label: '个核心入口' },
+      { value: '2', label: '大内容 IP' },
+      { value: '10K+', label: '社区成员' },
+      { value: '持续更新中', label: '迭代状态' },
+    ],
+    slides: [
+      { background: bannerPersonal, eyebrow: 'AI 助力提效' },
+      { background: bannerParenting, eyebrow: '育儿成长记录' },
+      { background: bannerArcade, eyebrow: '拼音游戏体验' },
     ],
   },
-  exploreTags: ['AI 提效', '个人管理', '学习成长', '育儿陪伴', '亲子教育', '创作工具'],
+  exploreTags: ['AI 提效', 'App 开发', '育儿助手', '拼音游戏', '最新体验'],
   products: products,
   tryOffer: tryOffers[0],
   featuredArticles: articles.slice(0, 4),
