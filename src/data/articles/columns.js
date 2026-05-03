@@ -15,6 +15,20 @@ export const columns = {
     avatar: avatarQuentin,
     author: '昆廷',
     tags: ['AI 提效', '独立开发', '产品思考', '生活记录'],
+    directions: [
+      {
+        title: 'AI 提效',
+        desc: '围绕信息整理、写作辅助与工作流优化，分享真正可复用的方法。',
+      },
+      {
+        title: '独立开发',
+        desc: '记录从想法到上线的过程，把产品验证、节奏管理与踩坑经验讲透。',
+      },
+      {
+        title: '产品思考',
+        desc: '从需求、价值与体验出发，拆解小产品如何做得更快、更稳、更有用。',
+      },
+    ],
     accent: {
       hero: 'from-[#F7EBDD] via-[#FDF8F2] to-[#FFFDFC]',
       panel: 'from-[#FFF9F2] via-[#FFFCF8] to-[#FFFFFF]',
@@ -43,6 +57,20 @@ export const columns = {
     avatar: avatarQiming,
     author: '启鸣妈妈',
     tags: ['亲子成长', '育儿启蒙', '幼小衔接', '亲子游戏'],
+    directions: [
+      {
+        title: '育儿启蒙',
+        desc: '把成长中的关键问题拆成可执行的小方法，减少焦虑，增加陪伴质量。',
+      },
+      {
+        title: '幼小衔接',
+        desc: '聚焦习惯、能力和心理节奏，帮助孩子更从容地迈入新的阶段。',
+      },
+      {
+        title: '亲子游戏',
+        desc: '用更轻松、更有趣的互动方式，把陪伴、学习和生活连接在一起。',
+      },
+    ],
     accent: {
       hero: 'from-[#FCEBDF] via-[#FFF7F2] to-[#FFFDFC]',
       panel: 'from-[#FFF8F2] via-[#FFFCF8] to-[#FFFFFF]',

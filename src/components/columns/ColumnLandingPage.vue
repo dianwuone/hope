@@ -1,5 +1,5 @@
 <script setup>
-import { computed, ref, watch } from 'vue'
+import { computed, ref } from 'vue'
 import { columns, articles, products } from '@/data'
 import appPinyinGame from '@/assets/images/shucai/products/app-pinyin-game.jpg'
 
@@ -11,7 +11,6 @@ const props = defineProps({
 })
 
 const activeCategory = ref('全部')
-const searchQuery = ref('')
 const visibleCount = ref(4)
 
 const column = computed(() => columns[props.columnKey])
@@ -26,23 +25,25 @@ const categoryItems = computed(() => [
 ])
 
 const filteredArticles = computed(() =>
-  columnArticles.value.filter((item) => {
-    const matchCategory = activeCategory.value === '全部' || item.category === activeCategory.value
-    const q = searchQuery.value.trim().toLowerCase()
-    const matchQuery = !q
-      || item.title.toLowerCase().includes(q)
-      || item.summary.toLowerCase().includes(q)
-      || item.tags.some((tag) => tag.toLowerCase().includes(q))
-
-    return matchCategory && matchQuery
-  })
+  columnArticles.value.filter((item) => activeCategory.value === '全部' || item.category === activeCategory.value)
 )
 
-const visibleArticles = computed(() => filteredArticles.value.slice(0, visibleCount.value))
-const hasMore = computed(() => visibleArticles.value.length < filteredArticles.value.length)
-
-watch([activeCategory, searchQuery], () => {
-  visibleCount.value = 4
+const featuredArticle = computed(() => filteredArticles.value[0] || columnArticles.value[0])
+const spotlightArticles = computed(() =>
+  filteredArticles.value
+    .filter((item) => item.slug !== featuredArticle.value?.slug)
+    .slice(0, 2)
+)
+const feedArticles = computed(() =>
+  filteredArticles.value
+    .filter((item) => item.slug !== featuredArticle.value?.slug && !spotlightArticles.value.some((entry) => entry.slug === item.slug))
+    .slice(0, visibleCount.value)
+)
+const hasMore = computed(() => {
+  const remaining = filteredArticles.value.filter((item) =>
+    item.slug !== featuredArticle.value?.slug && !spotlightArticles.value.some((entry) => entry.slug === item.slug)
+  )
+  return feedArticles.value.length < remaining.length
 })
 
 const recommendationMap = {
@@ -99,6 +100,11 @@ const topicTags = computed(() => {
 })
 
 const formatDate = (value) => value?.replaceAll('-', '-') || ''
+const columnStats = computed(() => [
+  { label: '文章数量', value: `${columnArticles.value.length}+` },
+  { label: '栏目主题', value: `${column.value?.directions?.length || 0}` },
+  { label: '关键词', value: `${topicTags.value.length}+` },
+])
 </script>
 
 <template>
@@ -118,6 +124,25 @@ const formatDate = (value) => value?.replaceAll('-', '-') || ''
               <p class="mt-5 max-w-xl text-base leading-8 text-brand-text">
                 {{ column.intro }}
               </p>
+              <div class="mt-7 flex flex-wrap gap-3">
+                <span
+                  v-for="tag in column.tags"
+                  :key="tag"
+                  class="rounded-full border border-[#E9D9C8] bg-white/70 px-4 py-2 text-sm text-brand-text"
+                >
+                  {{ tag }}
+                </span>
+              </div>
+              <div class="mt-8 grid max-w-xl gap-3 sm:grid-cols-3">
+                <div
+                  v-for="item in columnStats"
+                  :key="item.label"
+                  class="rounded-[18px] border border-white/70 bg-white/60 px-4 py-3 shadow-[0_10px_24px_rgba(98,77,55,0.06)]"
+                >
+                  <div class="text-2xl font-semibold text-brand-charcoal">{{ item.value }}</div>
+                  <div class="mt-1 text-xs uppercase tracking-[0.14em] text-brand-muted">{{ item.label }}</div>
+                </div>
+              </div>
             </div>
             <div class="self-end">
               <img :src="column.banner" :alt="column.name" class="w-full object-cover" />
@@ -132,7 +157,32 @@ const formatDate = (value) => value?.replaceAll('-', '-') || ''
         <div class="-mt-6 rounded-[28px] border border-white/80 bg-white/92 p-4 shadow-[0_18px_48px_rgba(98,77,55,0.1)] backdrop-blur md:p-5">
           <div class="grid gap-6 xl:grid-cols-[minmax(0,1fr)_320px]">
             <div>
-              <div class="flex flex-wrap gap-3">
+              <section class="rounded-[24px] border border-[#EFE3D7] bg-[linear-gradient(135deg,#fffaf4_0%,#ffffff_100%)] p-5 shadow-[0_10px_28px_rgba(98,77,55,0.05)] md:p-6">
+                <div class="flex items-center justify-between gap-4">
+                  <div>
+                    <div class="text-sm font-semibold tracking-[0.16em]" :class="column.accent.text">栏目方向</div>
+                    <h2 class="mt-2 text-2xl font-serif font-semibold text-brand-charcoal">这个 IP 在写什么</h2>
+                  </div>
+                  <router-link
+                    to="/articles"
+                    class="hidden rounded-full border border-[#E9D9C8] bg-white px-4 py-2 text-sm font-semibold text-brand-charcoal transition-colors hover:bg-[#FFF7EF] md:inline-flex"
+                  >
+                    查看全部内容
+                  </router-link>
+                </div>
+                <div class="mt-5 grid gap-4 md:grid-cols-3">
+                  <div
+                    v-for="item in column.directions"
+                    :key="item.title"
+                    class="rounded-[20px] border border-[#F2E7DC] bg-white p-4"
+                  >
+                    <div class="text-lg font-semibold text-brand-charcoal">{{ item.title }}</div>
+                    <p class="mt-2 text-sm leading-7 text-brand-text">{{ item.desc }}</p>
+                  </div>
+                </div>
+              </section>
+
+              <div class="mt-6 flex flex-wrap gap-3">
                 <button
                   v-for="item in categoryItems"
                   :key="item"
@@ -147,32 +197,96 @@ const formatDate = (value) => value?.replaceAll('-', '-') || ''
                 </button>
               </div>
 
-              <div class="mt-6 space-y-4">
+              <section v-if="featuredArticle" class="mt-6">
+                <div class="mb-4 flex items-center justify-between gap-4">
+                  <div>
+                    <div class="text-sm font-semibold tracking-[0.16em]" :class="column.accent.text">精选文章</div>
+                    <h2 class="mt-1 text-2xl font-serif font-semibold text-brand-charcoal">先看这几篇</h2>
+                  </div>
+                </div>
                 <router-link
-                  v-for="article in visibleArticles"
-                  :key="article.slug"
-                  :to="`/articles/${article.slug}`"
+                  :to="`/articles/${featuredArticle.slug}`"
                   class="group grid overflow-hidden rounded-[24px] border border-[#EFE3D7] bg-white shadow-[0_10px_28px_rgba(98,77,55,0.06)] transition-all duration-300 hover:-translate-y-0.5 hover:shadow-[0_16px_34px_rgba(98,77,55,0.1)] md:grid-cols-[220px_1fr]"
                 >
                   <div class="aspect-[16/10] overflow-hidden md:aspect-auto md:h-full">
-                    <img :src="article.cover" :alt="article.title" class="h-full w-full object-cover transition-transform duration-500 group-hover:scale-[1.03]" />
+                    <img :src="featuredArticle.cover" :alt="featuredArticle.title" class="h-full w-full object-cover transition-transform duration-500 group-hover:scale-[1.03]" />
                   </div>
                   <div class="flex min-w-0 flex-col p-5 md:p-6">
                     <div class="flex flex-wrap items-center gap-3 text-xs">
-                      <span class="rounded-full px-3 py-1 font-semibold" :class="column.accent.tag">{{ article.category }}</span>
+                      <span class="rounded-full px-3 py-1 font-semibold" :class="column.accent.tag">{{ featuredArticle.category }}</span>
+                      <span class="rounded-full border border-[#F1E5D8] bg-[#FFF8F1] px-3 py-1 text-brand-muted">推荐阅读</span>
                     </div>
                     <h3 class="mt-4 text-2xl font-semibold leading-snug text-brand-charcoal transition-colors group-hover:text-accent-blue-dark">
-                      {{ article.title }}
+                      {{ featuredArticle.title }}
                     </h3>
-                    <p class="mt-3 line-clamp-2 text-sm leading-7 text-brand-text">{{ article.summary }}</p>
+                    <p class="mt-3 text-sm leading-7 text-brand-text">{{ featuredArticle.summary }}</p>
                     <div class="mt-auto flex flex-wrap items-center gap-x-5 gap-y-2 pt-5 text-sm text-brand-muted">
                       <span>{{ column.author }}</span>
-                      <span>{{ formatDate(article.publishedAt) }}</span>
-                      <span>{{ article.viewCount }} 阅读</span>
+                      <span>{{ formatDate(featuredArticle.publishedAt) }}</span>
+                      <span>{{ featuredArticle.viewCount }} 阅读</span>
                     </div>
                   </div>
                 </router-link>
-              </div>
+              </section>
+
+              <section v-if="spotlightArticles.length" class="mt-6">
+                <div class="mb-4">
+                  <div class="text-sm font-semibold tracking-[0.16em]" :class="column.accent.text">专题精选</div>
+                  <h2 class="mt-1 text-2xl font-serif font-semibold text-brand-charcoal">继续深入看看</h2>
+                </div>
+                <div class="grid gap-4 md:grid-cols-2">
+                  <router-link
+                    v-for="article in spotlightArticles"
+                    :key="article.slug"
+                    :to="`/articles/${article.slug}`"
+                    class="group overflow-hidden rounded-[22px] border border-[#EFE3D7] bg-white shadow-[0_10px_28px_rgba(98,77,55,0.06)] transition-all duration-300 hover:-translate-y-0.5 hover:shadow-[0_16px_34px_rgba(98,77,55,0.1)]"
+                  >
+                    <div class="aspect-[16/10] overflow-hidden">
+                      <img :src="article.cover" :alt="article.title" class="h-full w-full object-cover transition-transform duration-500 group-hover:scale-[1.03]" />
+                    </div>
+                    <div class="p-5">
+                      <span class="rounded-full px-3 py-1 text-xs font-semibold" :class="column.accent.tag">{{ article.category }}</span>
+                      <h3 class="mt-4 text-xl font-semibold leading-snug text-brand-charcoal transition-colors group-hover:text-accent-blue-dark">
+                        {{ article.title }}
+                      </h3>
+                      <p class="mt-3 line-clamp-2 text-sm leading-7 text-brand-text">{{ article.summary }}</p>
+                    </div>
+                  </router-link>
+                </div>
+              </section>
+
+              <section class="mt-6">
+                <div class="mb-4">
+                  <div class="text-sm font-semibold tracking-[0.16em]" :class="column.accent.text">最新更新</div>
+                  <h2 class="mt-1 text-2xl font-serif font-semibold text-brand-charcoal">栏目文章流</h2>
+                </div>
+                <div class="space-y-4">
+                  <router-link
+                    v-for="article in feedArticles"
+                    :key="article.slug"
+                    :to="`/articles/${article.slug}`"
+                    class="group grid overflow-hidden rounded-[24px] border border-[#EFE3D7] bg-white shadow-[0_10px_28px_rgba(98,77,55,0.06)] transition-all duration-300 hover:-translate-y-0.5 hover:shadow-[0_16px_34px_rgba(98,77,55,0.1)] md:grid-cols-[220px_1fr]"
+                  >
+                    <div class="aspect-[16/10] overflow-hidden md:aspect-auto md:h-full">
+                      <img :src="article.cover" :alt="article.title" class="h-full w-full object-cover transition-transform duration-500 group-hover:scale-[1.03]" />
+                    </div>
+                    <div class="flex min-w-0 flex-col p-5 md:p-6">
+                      <div class="flex flex-wrap items-center gap-3 text-xs">
+                        <span class="rounded-full px-3 py-1 font-semibold" :class="column.accent.tag">{{ article.category }}</span>
+                      </div>
+                      <h3 class="mt-4 text-2xl font-semibold leading-snug text-brand-charcoal transition-colors group-hover:text-accent-blue-dark">
+                        {{ article.title }}
+                      </h3>
+                      <p class="mt-3 line-clamp-2 text-sm leading-7 text-brand-text">{{ article.summary }}</p>
+                      <div class="mt-auto flex flex-wrap items-center gap-x-5 gap-y-2 pt-5 text-sm text-brand-muted">
+                        <span>{{ column.author }}</span>
+                        <span>{{ formatDate(article.publishedAt) }}</span>
+                        <span>{{ article.viewCount }} 阅读</span>
+                      </div>
+                    </div>
+                  </router-link>
+                </div>
+              </section>
 
               <div class="mt-5 flex justify-center" v-if="hasMore">
                 <button
@@ -187,16 +301,21 @@ const formatDate = (value) => value?.replaceAll('-', '-') || ''
             </div>
 
             <aside class="space-y-4">
-              <div class="rounded-[20px] border border-[#F0DED0] bg-white p-4 shadow-[0_10px_28px_rgba(98,77,55,0.05)]">
-                <div class="relative">
-                  <input
-                    v-model="searchQuery"
-                    type="text"
-                    placeholder="搜索文章、主题或关键词"
-                    class="h-12 w-full rounded-[14px] border border-[#E9D9C8] bg-[#FFFDFC] pl-4 pr-12 text-sm text-brand-charcoal outline-none transition-colors placeholder:text-[#B7A593] focus:border-[#D9B38C]"
-                  />
-                  <span class="absolute right-4 top-1/2 -translate-y-1/2 text-brand-muted">⌕</span>
+              <div class="rounded-[24px] border border-[#EFE3D7] bg-[linear-gradient(135deg,#fffaf4_0%,#ffffff_100%)] p-5 shadow-[0_10px_28px_rgba(98,77,55,0.05)]">
+                <div class="flex items-center gap-4">
+                  <img :src="column.avatar" :alt="column.author" class="h-14 w-14 rounded-2xl object-cover" />
+                  <div>
+                    <div class="text-sm font-semibold tracking-[0.16em]" :class="column.accent.text">{{ column.name }}</div>
+                    <div class="mt-1 text-lg font-semibold text-brand-charcoal">{{ column.author }}</div>
+                  </div>
                 </div>
+                <p class="mt-4 text-sm leading-7 text-brand-text">{{ column.subtitle }}</p>
+                <router-link
+                  to="/articles"
+                  class="mt-5 inline-flex items-center rounded-full border border-[#E9D9C8] bg-white px-4 py-2 text-sm font-semibold text-brand-charcoal transition-colors hover:bg-[#FFF7EF]"
+                >
+                  返回文章中心
+                </router-link>
               </div>
 
               <div class="rounded-[20px] border border-dashed border-[#EDB790] bg-[#FFF9F4] p-5 text-center text-sm text-brand-muted">
@@ -236,7 +355,7 @@ const formatDate = (value) => value?.replaceAll('-', '-') || ''
                     :key="tag"
                     type="button"
                     class="rounded-full border border-[#E9D9C8] bg-[#FAF7F2] px-3 py-2 text-sm text-brand-text transition-colors hover:border-[#D9B38C] hover:bg-white hover:text-brand-charcoal"
-                    @click="activeCategory = '全部'; searchQuery = tag"
+                    @click="activeCategory = '全部'"
                   >
                     #
                     {{ tag }}
