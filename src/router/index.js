@@ -146,6 +146,12 @@ const routes = [
     meta: { title: '心愿单', breadcrumb: ['首页', '心愿单'] },
   },
   {
+    path: '/wishlist/submit',
+    name: 'WishlistSubmit',
+    component: () => import('@/views/WishlistSubmitPage.vue'),
+    meta: { title: '提交心愿', breadcrumb: ['首页', '心愿单', '提交心愿'] },
+  },
+  {
     path: '/community',
     name: 'Community',
     component: () => import('@/views/CommunityPage.vue'),

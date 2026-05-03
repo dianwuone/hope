@@ -266,7 +266,7 @@ const iconMap = {
               <p>• 支持多种状态标记，帮助你管理兴趣优先级</p>
               <p>• 我们会根据你的心愿推荐相关内容与更新</p>
             </div>
-            <router-link to="/community" class="mt-6 inline-flex rounded-[14px] border border-[#DCE7F8] bg-white px-5 py-3 text-sm font-semibold text-[#2F7AF3]">
+            <router-link to="/wishlist/submit" class="mt-6 inline-flex rounded-[14px] border border-[#DCE7F8] bg-white px-5 py-3 text-sm font-semibold text-[#2F7AF3]">
               了解更多心愿单功能
             </router-link>
           </div>
@@ -319,7 +319,7 @@ const iconMap = {
               </div>
             </div>
 
-            <router-link to="/community" class="inline-flex items-center rounded-full bg-[#FF8A47] px-7 py-4 text-sm font-semibold text-white shadow-[0_18px_30px_rgba(255,138,71,0.22)] transition-colors hover:bg-[#F57A34]">
+            <router-link to="/wishlist/submit" class="inline-flex items-center rounded-full bg-[#FF8A47] px-7 py-4 text-sm font-semibold text-white shadow-[0_18px_30px_rgba(255,138,71,0.22)] transition-colors hover:bg-[#F57A34]">
               提交我的心愿 →
             </router-link>
           </div>

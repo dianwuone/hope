@@ -28,7 +28,6 @@ export const footerSections = [
       { name: '昆廷笔记', path: '/columns/kunting' },
       { name: '启鸣宝宝', path: '/columns/qiming' },
       { name: '文章中心', path: '/articles' },
-      { name: '博客', path: '/blog' },
     ],
   },
   {
@@ -41,22 +40,18 @@ export const footerSections = [
     ],
   },
   {
-    title: '互动',
+    title: '游戏',
     links: [
       { name: '游戏中心', path: '/games' },
-      { name: '在线轻试玩', path: '/play' },
-      { name: '下载动态墙', path: '/download-wall' },
-      { name: '快来尝鲜', path: '/try' },
+      { name: '拼音大冒险', path: '/games/pinyin-adventure' },
     ],
   },
   {
-    title: '更多',
+    title: '互动',
     links: [
-      { name: '开源项目', path: '/open-source' },
-      { name: '订阅更新', path: '/subscribe' },
-      { name: '隐私政策', path: '/privacy' },
-      { name: '服务条款', path: '/terms' },
-      { name: '网站地图', path: '/sitemap' },
+      { name: '在线轻试玩', path: '/play' },
+      { name: '下载动态墙', path: '/download-wall' },
+      { name: '快来尝鲜', path: '/try' },
     ],
   },
 ]

@@ -45,6 +45,12 @@ export const wishlistApi = {
   list: () => request(() => []),
   add: (projectId) => request(() => ({ ok: true, projectId })),
   remove: (id) => request(() => ({ ok: true, id })),
+  submitWish: (data) =>
+    request(() => ({
+      ok: true,
+      id: `wish-${Date.now()}`,
+      ...data,
+    })),
 }
 
 export const orderApi = {
