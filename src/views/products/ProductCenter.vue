@@ -77,8 +77,6 @@ const filteredProducts = computed(() => {
   )
 })
 
-const selectedScene = computed(() => sceneItems.find((item) => item.label === activeScene.value) || sceneItems[0])
-
 const tryBenefits = [
   '优先体验最新功能',
   '专属用户社区',
@@ -92,141 +90,99 @@ const downloadProducts = enhancedProducts.value.map((product) => ({
   tone: product.accent,
 }))
 
-const heroHighlights = [
-  { title: '隐私安全', desc: '本地优先，数据可控', icon: '⬡' },
-  { title: '持续迭代', desc: '每周更新，快速进化', icon: '⚡' },
-  { title: '用户共创', desc: '倾听反馈，共同成长', icon: '♡' },
-]
 </script>
 
 <template>
-  <div>
-    <section class="overflow-hidden border-b border-brand-grey/40 bg-white">
-      <div class="bg-[radial-gradient(circle_at_center_top,rgba(244,201,145,0.20),transparent_34%),radial-gradient(circle_at_right_center,rgba(247,213,167,0.30),transparent_24%),linear-gradient(180deg,#FFF9F1_0%,#FFFFFF_74%)]">
-        <div class="container-content py-8 md:py-10">
-          <div class="text-sm text-brand-muted">
-            <router-link to="/" class="transition-colors hover:text-brand-charcoal">首页</router-link>
-            <span class="mx-2">›</span>
-            <span>产品中心</span>
-          </div>
+  <div class="bg-[linear-gradient(180deg,#F6FAFF_0%,#FFFFFF_48%,#F8FBFF_100%)]">
+    <section class="overflow-hidden border-b border-[#E4ECF8] bg-[linear-gradient(180deg,#F5FAFF_0%,#FFFFFF_100%)]">
+      <div class="container-content py-5 md:py-7">
+        <div class="text-xs font-medium text-[#6E7D96]">
+          <router-link to="/" class="transition-colors hover:text-[#2379F6]">首页</router-link>
+          <span class="mx-2">›</span>
+          <span>产品中心</span>
+        </div>
 
-          <div class="relative mt-6 overflow-hidden rounded-[36px] px-1 pb-24 pt-1 md:pb-20 lg:pb-8">
-            <div class="grid items-start gap-8 lg:grid-cols-[minmax(0,0.92fr)_minmax(520px,1.08fr)] lg:gap-10">
-              <div class="relative z-10">
-              <div class="inline-flex items-center rounded-full border border-[#F2DAB9] bg-white/78 px-4 py-2 text-sm font-semibold text-[#C38742] shadow-[0_8px_20px_rgba(163,117,52,0.08)]">
+        <div class="relative mt-5 min-h-[178px] overflow-hidden rounded-[18px]">
+          <div class="absolute inset-0 bg-[linear-gradient(90deg,rgba(246,250,255,0.98)_0%,rgba(246,250,255,0.94)_39%,rgba(246,250,255,0.58)_63%,rgba(246,250,255,0.12)_100%)]"></div>
+          <img
+            :src="bannerProducts"
+            alt="产品中心展示图"
+            class="absolute right-[-18px] top-[-42px] h-[268px] w-[680px] max-w-none object-contain opacity-95 md:right-[-6px] lg:right-0"
+          />
+
+          <div class="relative z-10 max-w-[560px] px-1 py-4 md:px-0 md:py-6">
+            <div class="flex flex-wrap items-center gap-4">
+              <h1 class="font-serif text-4xl font-semibold leading-tight text-[#17233D] md:text-5xl">
                 产品中心
-              </div>
-
-              <h1 class="mt-7 max-w-4xl font-serif text-5xl leading-[1.08] text-brand-charcoal md:text-6xl">
-                更聪明的工具，更从容的生活
               </h1>
-
-              <p class="mt-5 max-w-2xl text-lg leading-8 text-brand-text">
-                我们专注于打造实用、好用、有温度的 AI 与效率工具，帮助你解决工作与生活中的真实问题。
-              </p>
-
-              <div class="mt-8 flex flex-wrap gap-6 border-t border-[#F2E7D8] pt-6">
-                <div v-for="item in heroHighlights" :key="item.title" class="flex min-w-[150px] items-start gap-3">
-                  <span class="mt-0.5 text-xl text-[#C58A43]">{{ item.icon }}</span>
-                  <div>
-                    <div class="text-base font-semibold text-brand-charcoal">{{ item.title }}</div>
-                    <div class="mt-1 text-sm text-brand-muted">{{ item.desc }}</div>
-                  </div>
-                </div>
-              </div>
-              </div>
-
-              <div class="relative hidden min-h-[300px] lg:block">
-                <div class="absolute right-[4%] top-[4%] h-[300px] w-[300px] rounded-full bg-[radial-gradient(circle,rgba(248,216,166,0.60),rgba(248,216,166,0.14)_62%,transparent_74%)]"></div>
-                <div class="absolute inset-x-[12%] bottom-[8%] h-12 rounded-full bg-[radial-gradient(circle,rgba(220,189,145,0.28),transparent_70%)] blur-2xl"></div>
-                <img
-                  :src="bannerProducts"
-                  alt="产品中心展示图"
-                  class="absolute right-0 top-0 z-10 w-full max-w-[720px] object-contain opacity-[0.94] drop-shadow-[0_24px_34px_rgba(137,107,62,0.12)]"
-                />
-              </div>
+              <span class="inline-flex items-center rounded-full border border-[#BFD9FF] bg-[#F1F7FF] px-3 py-1 text-sm font-semibold text-[#2379F6]">
+                3 款核心产品
+              </span>
             </div>
-
-            <div class="pointer-events-none absolute bottom-2 right-0 z-30 w-full max-w-[290px] overflow-hidden rounded-[26px] border border-[#F0DFCF] bg-white/92 p-5 shadow-[0_20px_36px_rgba(143,111,70,0.14)] md:pointer-events-auto">
-                <div class="flex items-center gap-3">
-                  <div class="text-xl font-semibold text-brand-charcoal">下载动态墙</div>
-                  <span class="rounded-full bg-[#F58A33] px-2 py-0.5 text-xs font-bold uppercase tracking-[0.08em] text-white">
-                    New
-                  </span>
-                </div>
-                <p class="mt-3 text-sm leading-7 text-brand-text">
-                  实时查看大家正在下载的 App 与游戏，感知每一次支持与热度变化。
-                </p>
-                <div class="mt-4 flex items-center justify-between gap-4">
-                  <router-link
-                    to="/download-wall"
-                    class="inline-flex items-center rounded-full border border-[#F0DCC7] bg-[#FFF8F1] px-4 py-2 text-sm font-semibold text-[#C98339] transition-colors hover:bg-white"
-                  >
-                    去看看
-                    <span class="ml-2" aria-hidden="true">→</span>
-                  </router-link>
-                  <div class="flex items-end gap-2">
-                    <span v-for="item in [18, 26, 14, 22, 28, 16]" :key="item" class="block w-2 rounded-full bg-[linear-gradient(180deg,#F7B26C_0%,#F7D7B0_100%)]" :style="{ height: `${item}px` }"></span>
-                  </div>
-                </div>
-            </div>
+            <p class="mt-4 max-w-[520px] text-base leading-7 text-[#51627A]">
+              打造简单、好用、持续进化的工具与游戏，帮助你更高效地工作、更好地成长，更从容地陪伴家人。
+            </p>
           </div>
+        </div>
 
-          <div class="mt-8 rounded-[24px] border border-[#E7EEF9] bg-white/88 p-3 shadow-[0_14px_32px_rgba(86,118,168,0.08)]">
-            <div class="flex flex-wrap items-center gap-3">
-              <div class="inline-flex h-11 items-center rounded-full bg-[#F5F8FE] px-5 text-sm font-semibold text-brand-charcoal">
-                适用场景
-              </div>
-              <button
-                v-for="scene in sceneItems"
-                :key="scene.label"
-                type="button"
-                class="inline-flex h-11 items-center gap-2 rounded-full border px-4 text-sm font-medium transition-all"
-                :class="scene.label === activeScene
-                  ? 'border-[#CFE0FF] bg-[#F4F8FF] text-brand-charcoal shadow-[0_6px_16px_rgba(75,122,194,0.08)]'
-                  : 'border-transparent bg-white text-brand-muted hover:border-[#E1EAF7] hover:text-brand-charcoal'"
-                @click="activeScene = scene.label"
-              >
-                <span :class="scene.tone">{{ scene.icon }}</span>
-                <span>{{ scene.label }}</span>
-              </button>
-              <div class="ml-auto hidden text-sm font-semibold text-[#4E83E7] md:block">
-                查看全部场景 →
-              </div>
+        <div class="mt-5 rounded-[16px] border border-[#E2EBF8] bg-white/92 p-3 shadow-[0_12px_28px_rgba(57,94,150,0.07)]">
+          <div class="flex flex-wrap items-center gap-3">
+            <div class="inline-flex h-10 items-center rounded-full bg-[#F6F9FE] px-5 text-sm font-semibold text-[#17233D]">
+              适用场景
             </div>
+            <button
+              v-for="scene in sceneItems.slice(1)"
+              :key="scene.label"
+              type="button"
+              class="inline-flex h-10 items-center gap-2 rounded-full border px-4 text-sm font-medium transition-all"
+              :class="scene.label === activeScene
+                ? 'border-[#BFD9FF] bg-[#F0F6FF] text-[#2379F6] shadow-[0_6px_14px_rgba(35,121,246,0.08)]'
+                : 'border-transparent bg-white text-[#6E7D96] hover:border-[#DFE9F7] hover:text-[#17233D]'"
+              @click="activeScene = scene.label"
+            >
+              <span :class="scene.tone">{{ scene.icon }}</span>
+              <span>{{ scene.label }}</span>
+            </button>
+            <button
+              type="button"
+              class="ml-auto hidden h-10 items-center rounded-full px-4 text-sm font-semibold text-[#2379F6] transition-colors hover:bg-[#F2F7FF] lg:inline-flex"
+              @click="activeScene = '全部场景'"
+            >
+              查看全部场景 →
+            </button>
           </div>
         </div>
       </div>
     </section>
 
-    <section class="section-shell pt-8">
+    <section class="pb-10 pt-5">
       <div class="container-content">
-        <div class="grid gap-6 xl:grid-cols-3">
+        <div class="grid gap-5 lg:grid-cols-3">
           <router-link
             v-for="product in filteredProducts"
             :key="product.slug"
             :to="`/products/${product.slug}`"
-            class="group flex h-full flex-col overflow-hidden rounded-[28px] border bg-white p-6 shadow-[0_14px_34px_rgba(92,111,146,0.08)] transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_22px_42px_rgba(92,111,146,0.12)]"
+            class="group flex h-full flex-col overflow-hidden rounded-[16px] border bg-white p-5 shadow-[0_12px_28px_rgba(57,94,150,0.08)] transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_18px_36px_rgba(57,94,150,0.13)]"
             :class="[product.border, product.panel]"
           >
             <div class="flex items-start gap-4">
-              <div class="flex h-14 w-14 shrink-0 items-center justify-center rounded-[18px] text-2xl font-bold shadow-[0_10px_20px_rgba(112,135,171,0.14)]" :class="product.iconWrap">
+              <div class="flex h-14 w-14 shrink-0 items-center justify-center rounded-[14px] text-2xl font-bold shadow-[0_10px_20px_rgba(112,135,171,0.14)]" :class="product.iconWrap">
                 {{ product.icon }}
               </div>
               <div class="min-w-0">
-                <h2 class="text-[2rem] font-semibold leading-none text-brand-charcoal">{{ product.name }}</h2>
-                <p class="mt-3 text-sm leading-7 text-brand-text">{{ product.shortDesc }}</p>
+                <h2 class="text-2xl font-semibold leading-tight text-[#17233D]">{{ product.name }}</h2>
+                <p class="mt-2 text-sm leading-6 text-[#51627A]">{{ product.shortDesc }}</p>
               </div>
             </div>
 
-            <div class="mt-4 flex flex-wrap gap-4 text-sm text-brand-muted">
+            <div class="mt-4 flex flex-wrap gap-4 text-sm text-[#7A89A2]">
               <span v-for="platform in product.platforms" :key="platform" class="inline-flex items-center gap-2">
                 <span class="text-[#A5B0C1]">◌</span>
                 <span>{{ platform }}</span>
               </span>
             </div>
 
-            <div class="mt-5 overflow-hidden rounded-[24px] border border-white/70 shadow-[inset_0_1px_0_rgba(255,255,255,0.7)]" :class="product.imageWrap">
+            <div class="mt-4 overflow-hidden rounded-[12px] border border-white/80 shadow-[inset_0_1px_0_rgba(255,255,255,0.7)]" :class="product.imageWrap">
               <img
                 :src="product.cover"
                 :alt="product.name"
@@ -249,7 +205,7 @@ const heroHighlights = [
               </span>
             </div>
 
-            <p class="mt-5 text-sm leading-7 text-brand-text">
+            <p class="mt-4 text-sm leading-7 text-[#51627A]">
               {{ product.description }}
             </p>
 
@@ -258,7 +214,7 @@ const heroHighlights = [
                 了解更多 →
               </span>
               <span
-                class="inline-flex items-center rounded-full px-5 py-3 text-sm font-semibold text-white shadow-[0_14px_24px_rgba(65,104,171,0.18)] transition-all"
+                class="inline-flex items-center rounded-[8px] px-5 py-3 text-sm font-semibold text-white shadow-[0_14px_24px_rgba(65,104,171,0.18)] transition-all"
                 :class="product.button"
               >
                 {{ product.primaryLabel }}
@@ -267,42 +223,50 @@ const heroHighlights = [
           </router-link>
         </div>
 
-        <div class="mt-6 grid gap-5 lg:grid-cols-[minmax(0,1.02fr)_minmax(0,0.98fr)]">
-          <section class="relative overflow-hidden rounded-[26px] border border-[#D9E5F8] bg-[#F3F7FF] p-6 shadow-[0_14px_30px_rgba(92,111,146,0.08)] md:p-7">
-            <div class="absolute right-6 top-3 text-[9rem] leading-none text-[#CFE0FF]/55">↑</div>
-            <div class="relative grid gap-5 md:grid-cols-[minmax(0,1fr)_170px] md:items-end">
+        <div class="mt-5 grid gap-5 md:grid-cols-[minmax(0,1.04fr)_minmax(0,0.96fr)]">
+          <section class="relative overflow-hidden rounded-[16px] border border-[#DCE7F8] bg-[linear-gradient(135deg,#F7FAFF_0%,#EEF5FF_46%,#F6FAFF_100%)] p-6 shadow-[0_12px_28px_rgba(57,94,150,0.08)]">
+            <div class="absolute inset-y-0 right-0 w-[36%] bg-[radial-gradient(circle_at_70%_38%,rgba(102,164,255,0.18),transparent_38%),radial-gradient(circle_at_50%_84%,rgba(255,255,255,0.96),rgba(255,255,255,0.18)_46%,transparent_72%)]"></div>
+            <div class="absolute bottom-[-24px] right-[12%] h-[132px] w-[132px] rounded-full bg-[radial-gradient(circle,rgba(255,255,255,0.95)_0%,rgba(255,255,255,0.4)_46%,transparent_72%)] blur-sm"></div>
+            <div class="absolute bottom-[22px] right-[8%] hidden h-14 w-[180px] rounded-full bg-[radial-gradient(circle,rgba(153,188,243,0.36),rgba(153,188,243,0.12)_52%,transparent_76%)] blur-xl md:block"></div>
+
+            <div class="relative grid gap-6 md:grid-cols-[minmax(0,1fr)_188px] md:items-center">
               <div>
-                <h2 class="text-[2rem] font-serif font-semibold text-brand-charcoal">抢先体验，参与产品共创</h2>
-                <p class="mt-3 max-w-[520px] text-sm leading-7 text-brand-text">
+                <h2 class="font-serif text-2xl font-semibold leading-tight text-[#17233D] md:text-3xl">抢先体验，参与产品共创</h2>
+                <p class="mt-2 max-w-[520px] text-sm leading-7 text-[#51627A]">
                   我们正在不断打磨产品体验，邀请你成为早期用户，提供反馈建议，一起让产品变得更好。
                 </p>
-                <div class="mt-5 flex flex-wrap gap-x-4 gap-y-3 text-sm text-brand-muted">
+                <div class="mt-5 flex flex-wrap gap-x-4 gap-y-3 text-sm text-[#6E7D96]">
                   <span v-for="benefit in tryBenefits" :key="benefit" class="inline-flex items-center gap-2">
-                    <span class="text-[#4E83E7]">◌</span>
+                    <span class="inline-flex h-5 w-5 items-center justify-center rounded-full bg-[#E8F1FF] text-[11px] font-semibold text-[#4E83E7]">✦</span>
                     <span>{{ benefit }}</span>
                   </span>
                 </div>
                 <div class="mt-6">
                   <router-link
                     to="/try"
-                    class="inline-flex items-center rounded-full bg-[linear-gradient(135deg,#3A82F6_0%,#2E68DA_100%)] px-6 py-3 text-sm font-semibold text-white shadow-[0_14px_24px_rgba(65,104,171,0.18)] transition-all hover:brightness-105"
+                    class="inline-flex items-center rounded-[8px] bg-[linear-gradient(135deg,#2F7AF3_0%,#215FD8_100%)] px-6 py-3 text-sm font-semibold text-white shadow-[0_14px_24px_rgba(65,104,171,0.18)] transition-all hover:brightness-105"
                   >
                     立即加入早期体验
                     <span class="ml-2" aria-hidden="true">→</span>
                   </router-link>
                 </div>
               </div>
-              <div class="relative hidden h-full min-h-[150px] md:block">
-                <div class="absolute bottom-0 right-4 text-[7rem] leading-none text-[#A7CCFF]/75">↑</div>
+
+              <div class="relative hidden h-[170px] md:block">
+                <div class="absolute right-[34px] top-[8px] text-[6.2rem] leading-none text-[#2F7AF3] drop-shadow-[0_14px_20px_rgba(47,122,243,0.18)]">
+                  🚀
+                </div>
+                <div class="absolute bottom-[10px] right-[58px] h-12 w-12 rounded-full bg-[radial-gradient(circle,rgba(255,255,255,0.92),rgba(255,255,255,0.22)_52%,transparent_76%)] blur-[1px]"></div>
+                <div class="absolute bottom-[0] right-[24px] h-16 w-16 rounded-full bg-[radial-gradient(circle,rgba(255,255,255,0.95),rgba(255,255,255,0.2)_48%,transparent_74%)] blur-[1px]"></div>
               </div>
             </div>
           </section>
 
-          <section class="overflow-hidden rounded-[26px] border border-[#D9E5F8] bg-[#F7FAFF] p-6 shadow-[0_14px_30px_rgba(92,111,146,0.08)] md:p-7">
+          <section class="overflow-hidden rounded-[16px] border border-[#DCE7F8] bg-[linear-gradient(135deg,#FBFDFF_0%,#F3F8FF_100%)] p-6 shadow-[0_12px_28px_rgba(57,94,150,0.08)]">
             <div class="flex items-start justify-between gap-4">
               <div>
-                <h2 class="text-[2rem] font-serif font-semibold text-brand-charcoal">下载动态墙</h2>
-                <p class="mt-3 text-sm leading-7 text-brand-text">
+                <h2 class="font-serif text-2xl font-semibold leading-tight text-[#17233D] md:text-3xl">下载动态墙</h2>
+                <p class="mt-2 text-sm leading-7 text-[#51627A]">
                   实时汇聚每一次下载与支持，感谢你的信任与陪伴。
                 </p>
               </div>
@@ -311,11 +275,11 @@ const heroHighlights = [
               </router-link>
             </div>
 
-            <div class="mt-5 flex flex-wrap items-center gap-3">
+            <div class="mt-5 flex flex-wrap items-center gap-2.5">
               <span
                 v-for="item in downloadProducts"
                 :key="item.name"
-                class="inline-flex h-10 w-10 items-center justify-center rounded-full border border-white/80 bg-white text-sm font-semibold shadow-[0_8px_18px_rgba(92,111,146,0.08)]"
+                class="inline-flex h-10 w-10 items-center justify-center rounded-full border border-[#E5EDFA] bg-white text-sm font-semibold shadow-[0_8px_18px_rgba(92,111,146,0.08)]"
                 :class="item.tone"
               >
                 {{ item.icon }}
@@ -323,23 +287,34 @@ const heroHighlights = [
               <span
                 v-for="avatar in ['🙂', '🧠', '🎮', '👩', '🧒']"
                 :key="avatar"
-                class="inline-flex h-10 w-10 items-center justify-center rounded-full border border-white/80 bg-[#F7FAFF] text-base shadow-[0_8px_18px_rgba(92,111,146,0.05)]"
+                class="inline-flex h-10 w-10 items-center justify-center rounded-full border border-[#E5EDFA] bg-[#F7FAFF] text-base shadow-[0_8px_18px_rgba(92,111,146,0.05)]"
               >
                 {{ avatar }}
               </span>
             </div>
 
             <div class="mt-5 grid gap-4 md:grid-cols-[auto_minmax(0,1fr)] md:items-end">
-              <div>
-                <div class="text-sm text-brand-muted">已有</div>
-                <div class="mt-1 text-4xl font-semibold leading-none text-[#4E83E7]">12,458</div>
-                <div class="mt-1 text-sm text-brand-muted">次下载与体验</div>
+              <div class="whitespace-nowrap">
+                <div class="text-sm text-brand-muted">已有 <span class="text-4xl font-semibold leading-none text-[#4E83E7]">12,458</span> 次下载与体验</div>
               </div>
-              <div class="flex h-20 items-end gap-1.5">
-                <span v-for="height in [16, 22, 12, 30, 18, 42, 24, 48, 28, 56, 34, 46, 20, 40, 26, 52]" :key="height" class="block flex-1 rounded-full bg-[linear-gradient(180deg,#8BB8FF_0%,#DCE9FF_100%)]" :style="{ height: `${height}px` }"></span>
+              <div class="flex h-20 items-end gap-[5px]">
+                <span v-for="height in [14, 18, 24, 12, 28, 34, 20, 42, 16, 30, 48, 26, 38, 22, 54, 18, 32, 44, 24, 36, 20, 46, 28, 40]" :key="height" class="block w-[4px] rounded-full bg-[linear-gradient(180deg,#6CA7FF_0%,#D6E7FF_100%)]" :style="{ height: `${height}px` }"></span>
               </div>
             </div>
           </section>
+        </div>
+
+        <div class="mt-4 rounded-[12px] border border-[#E2EBF8] bg-white/92 px-5 py-4 shadow-[0_10px_24px_rgba(57,94,150,0.06)]">
+          <div class="flex flex-col gap-3 text-sm text-[#51627A] md:flex-row md:items-center md:justify-between">
+            <div class="flex items-center gap-3">
+              <span class="inline-flex h-8 w-8 items-center justify-center rounded-[8px] bg-[#EFF6FF] text-[#2379F6]">▣</span>
+              <span class="font-semibold text-[#17233D]">想了解更多使用技巧与产品故事？</span>
+              <span class="hidden md:inline">访问文章中心，阅读使用教程、产品更新与真实案例。</span>
+            </div>
+            <router-link to="/articles" class="font-semibold text-[#2379F6]">
+              前往文章中心 →
+            </router-link>
+          </div>
         </div>
       </div>
     </section>
