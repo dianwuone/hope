@@ -8,36 +8,36 @@ export default {
     extend: {
       colors: {
         brand: {
-          base: '#F5F7FA',
-          warm: '#EDF1F5',
-          card: '#FFFFFF',
-          charcoal: '#1A2332',
-          grey: '#E2E8F0',
-          text: '#4A5568',
-          muted: '#7A8A9E',
+          base: '#FAF8F3',
+          warm: '#F3EEE6',
+          card: '#FFFDF9',
+          charcoal: '#2F2A26',
+          grey: '#DED6CA',
+          text: '#62584E',
+          muted: '#8A7D72',
         },
         accent: {
-          blue: '#3B6B9E',
-          'blue-dark': '#2A5280',
-          'blue-light': '#5B8DBE',
-          soft: '#EBF2F8',
+          blue: '#8EA7BB',
+          'blue-dark': '#6F8699',
+          'blue-light': '#B9CBD8',
+          soft: '#EEF3F6',
         },
         gold: {
-          DEFAULT: '#B8965A',
-          light: '#F0D9AD',
+          DEFAULT: '#C49A6C',
+          light: '#F3E1C8',
         },
         mint: {
-          DEFAULT: '#6B9EAE',
-          light: '#DCECEF',
+          DEFAULT: '#8BA79A',
+          light: '#E7F0EB',
         },
         coral: {
-          DEFAULT: '#E67E22',
-          light: '#FFF3E0',
+          DEFAULT: '#C98E7B',
+          light: '#F5E5DE',
         },
-        success: '#2E7D32',
+        success: '#6A8C63',
         lab: {
-          DEFAULT: '#4A90B8',
-          light: '#D4E4F1',
+          DEFAULT: '#9B9AB4',
+          light: '#E7E5F0',
         },
       },
       fontFamily: {
@@ -59,16 +59,16 @@ export default {
         'panel': '20px',
       },
       boxShadow: {
-        'card': '0 2px 8px rgba(26,35,50,0.06)',
-        'card-hover': '0 8px 24px rgba(26,35,50,0.12)',
-        'hero': '0 16px 48px rgba(26,35,50,0.12)',
+        'card': '0 6px 18px rgba(70, 56, 41, 0.06)',
+        'card-hover': '0 14px 32px rgba(70, 56, 41, 0.1)',
+        'hero': '0 18px 48px rgba(70, 56, 41, 0.12)',
       },
       typography: {
         DEFAULT: {
           css: {
             maxWidth: '720px',
             lineHeight: '1.75',
-            color: '#1A2332',
+            color: '#2F2A26',
           },
         },
       },

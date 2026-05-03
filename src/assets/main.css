@@ -15,6 +15,9 @@
 
   body {
     @apply bg-brand-base text-brand-charcoal font-sans;
+    background-image:
+      radial-gradient(circle at top left, rgba(185, 203, 216, 0.16), transparent 32%),
+      radial-gradient(circle at top right, rgba(243, 225, 200, 0.22), transparent 28%);
   }
 
   img {
@@ -26,7 +29,7 @@
   }
 
   ::selection {
-    @apply bg-accent-blue/20;
+    @apply bg-accent-blue/30;
   }
 }
 
@@ -36,7 +39,7 @@
            transition-all duration-300 ease-out;
   }
   .card:hover {
-    @apply -translate-y-1 shadow-card-hover border-accent-blue/20;
+    @apply -translate-y-1 shadow-card-hover border-accent-blue/30;
   }
 
   .btn {
@@ -46,7 +49,7 @@
   }
   .btn-primary {
     @apply btn bg-accent-blue text-white hover:bg-accent-blue-dark
-           focus:ring-accent-blue/50;
+           shadow-sm focus:ring-accent-blue/40;
   }
   .btn-outline {
     @apply btn border border-brand-grey text-brand-charcoal bg-white
@@ -89,11 +92,11 @@
   }
 
   .surface-panel {
-    @apply rounded-panel border border-brand-grey/60 bg-white shadow-card;
+    @apply rounded-panel border border-brand-grey/60 bg-brand-card shadow-card;
   }
 
   .eyebrow {
-    @apply inline-flex items-center rounded-full border border-accent-blue/10 bg-accent-soft px-3 py-1 text-xs font-semibold tracking-wide text-accent-blue;
+    @apply inline-flex items-center rounded-full border border-accent-blue/15 bg-accent-soft px-3 py-1 text-xs font-semibold tracking-wide text-accent-blue-dark;
   }
 }
 
