@@ -1,1 +1,0 @@
-import{_ as a}from"./LegalContentLayout-BmnN7udu.js";import{e,u as r,z as s,o as c}from"./index-LGDOcQ9O.js";const l={__name:"PrivacyPage",setup(o){return(_,p)=>(c(),e(a,{page:r(s).privacy},null,8,["page"]))}};export{l as default};
