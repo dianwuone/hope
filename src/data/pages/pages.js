@@ -12,6 +12,7 @@ import bannerArcade from '@/assets/images/shucai/banners/banner-arcade.jpg'
 import { products, tryOffers } from '@/data/products/products'
 import { articles } from '@/data/articles/articles'
 import { labs } from '@/data/lab/labs'
+import avatarQuentin from '@/assets/images/shucai/avatars/avatar-quentin.jpg'
 
 export const homePage = {
   hero: {
@@ -88,23 +89,257 @@ export const communityPage = {
 }
 
 export const tryPage = {
-  title: '成为首批体验官',
-  subtitle: '加入体验计划，优先使用最新功能，享受专属优惠，与开发者一起打磨产品。',
+  title: '快来尝鲜',
+  subtitle: '新想法的验证场，限定内容的首发站。文档、工具、体验资格、内测名额，先到先得。',
   banner: bannerTry,
-  benefits: ['抢先体验新功能', '专属权益与优惠', '内测资格解锁'],
-  testimonials: [
-    { author: '体验官 A', content: '能直接看到产品迭代的过程，也能把自己的反馈变成更新。' },
-    { author: '体验官 B', content: '相比冷冰冰的下载页，这里更像在和开发者一起共创。' },
+  hero: {
+    badge: '文档/资料包',
+    title: '独立开发实战手册',
+    description: '从零到一的完整开发经验，包含项目规划、技术选型、产品设计、上线运营全流程。',
+    price: '¥29',
+    originalPrice: '早鸟体验价',
+    ctaLabel: '立即购买',
+    ctaTo: '/try/founding-pass',
+    secondaryLabel: '查看更多',
+    secondaryTo: '#try-grid',
+    visual: '📖',
+  },
+  filters: ['全部', '文档/资料包', '方法模板', '软件小工具', '游戏体验资格', '资源体验包', '内测资格'],
+  offerGroups: [
+    {
+      title: '全部',
+      items: [
+        {
+          slug: 'founding-pass',
+          category: '文档/资料包',
+          status: '早鸟尝鲜中',
+          statusTone: 'green',
+          title: '独立开发实战手册',
+          summary: '从零到一的完整开发经验，涵盖项目规划、技术选型、产品设计与上线运营全流程。',
+          meta: ['人', '独立开发者', 'PDF 下载'],
+          price: '¥29',
+          ctaLabel: '立即购买',
+        },
+        {
+          slug: 'ai-toolkit',
+          category: '方法模板',
+          status: '限量首发',
+          statusTone: 'amber',
+          title: 'AI 效率工具包',
+          summary: '精选 AI 工具使用方法与高频工作流清单，让内容生产和信息整理效率提升。',
+          meta: ['人', '内容创作者', '在线查阅'],
+          price: '¥19',
+          ctaLabel: '立即购买',
+        },
+        {
+          slug: '育儿时间管理模板',
+          category: '方法模板',
+          status: '早鸟尝鲜中',
+          statusTone: 'green',
+          title: '育儿时间管理模板',
+          summary: '科学规划育儿日程，帮助新手爸妈高效安排日常，减少混乱，提升陪伴质量。',
+          meta: ['人', '新手爸妈', 'PDF 下载'],
+          price: '¥9',
+          ctaLabel: '立即购买',
+        },
+        {
+          slug: '拼音大冒险完整版',
+          category: '游戏体验资格',
+          status: '首发测试',
+          statusTone: 'coral',
+          title: '拼音大冒险完整版',
+          summary: '完整拼音学习游戏包，更多关卡、更多陪练，让孩子在趣味中掌握拼音。',
+          meta: ['人', '4-8 岁儿童', '游戏版'],
+          price: '¥15',
+          ctaLabel: '立即购买',
+        },
+        {
+          slug: '智能写作伴侣内测',
+          category: '内测资格',
+          status: '限时验证中',
+          statusTone: 'purple',
+          title: '智能写作伴侣内测',
+          summary: '基于上下文理解的写作辅助工具，让内容表达更流畅，抢先体验连贯写作链路。',
+          meta: ['人', '写作爱好者', '会员资格'],
+          price: '¥1',
+          ctaLabel: '特别验证',
+        },
+        {
+          slug: '产品设计检查清单',
+          category: '文档/资料包',
+          status: '早鸟尝鲜中',
+          statusTone: 'green',
+          title: '产品设计检查清单',
+          summary: '系统化的产品设计自查工具，覆盖需求分析到上线前验收的关键节点。',
+          meta: ['人', '产品经理', 'PDF 下载'],
+          price: '¥5',
+          ctaLabel: '立即购买',
+        },
+      ],
+    },
   ],
+  validatingOffers: {
+    title: '预付费验证中',
+    subtitle: '这些项目还在探索阶段，你的预付费支持是对想法的投票',
+    items: [
+      {
+        slug: '智能写作伴侣内测',
+        category: '内测资格',
+        status: '特别验证中',
+        statusTone: 'purple',
+        title: '智能写作伴侣内测',
+        summary: '基于上下文理解的写作辅助工具，让表达更流畅自然。仅需 1 元可参与早期验证，项目启动后优先获得内测资格。',
+        price: '¥1',
+        ctaLabel: '特别验证',
+      },
+      {
+        slug: '家庭时间管理器',
+        category: '软件小工具',
+        status: '特别验证中',
+        statusTone: 'purple',
+        title: '家庭时间管理器',
+        summary: '为家庭协同规划日程与任务而生，帮助全家人规划日程，预付验证后会优先同步后续动态。',
+        price: '¥1',
+        ctaLabel: '特别验证',
+      },
+    ],
+  },
+  limitedDrop: {
+    title: '限时首发',
+    subtitle: '限量首发，先到先得，错过不再',
+    items: [
+      {
+        slug: '拼音大冒险完整版',
+        category: '游戏体验资格',
+        status: '首发测试',
+        statusTone: 'coral',
+        title: '拼音大冒险完整版',
+        summary: '游戏试用升级版，抢先体验更多关卡与成长反馈，适合亲子陪伴场景。',
+        price: '¥15',
+        ctaLabel: '立即购买',
+      },
+      {
+        slug: 'ai-toolkit',
+        category: '方法模板',
+        status: '限量首发',
+        statusTone: 'amber',
+        title: 'AI 效率工具包',
+        summary: '限量首发包，精选 AI 工具方法，让提示词、写作和灵感整理更快进入状态。',
+        price: '¥19',
+        ctaLabel: '立即购买',
+      },
+      {
+        slug: '创意灵感卡片',
+        category: '资源体验包',
+        status: '首发测试',
+        statusTone: 'coral',
+        title: '创意灵感卡片',
+        summary: '帮助记录灵感、激发思路的数字卡片包，适合创作者和头脑风暴场景。',
+        price: '¥3',
+        ctaLabel: '立即购买',
+      },
+    ],
+  },
+  trust: {
+    title: '安心购买',
+    subtitle: '你的每一笔支持都值得被认真对待',
+    items: [
+      {
+        icon: 'lock',
+        title: '安全支付',
+        description: '支持微信、支付宝等主流支付方式，交易安全有保障。',
+      },
+      {
+        icon: 'shield',
+        title: '售后保障',
+        description: '对内容不满意可联系客服售后或退款，购买无后顾之忧。',
+      },
+      {
+        icon: 'user',
+        title: '作者直连',
+        description: '独立开发者直接交付，认真对待每一位支持者。',
+      },
+    ],
+  },
   faq: [
-    { q: '体验官适合谁？', a: '适合愿意尝鲜、乐于反馈、对新工具有兴趣的用户。' },
-    { q: '购买后会获得什么？', a: '会获得优先体验资格、后续更新通知和阶段权益。' },
+    { q: '购买后多久能收到内容？', a: '已上架内容通常为即时获取；预付验证类项目会在页面说明中标注交付节奏。' },
+    { q: '预付费验证是什么意思？', a: '表示项目仍处于验证阶段，你的支持会帮助判断是否继续投入开发与交付。' },
+    { q: '对购买的内容不满意怎么办？', a: '可先通过社区或联系页反馈问题，已交付的数字内容会按说明处理售后与补充。' },
+    { q: '限量首发和普通尝鲜有什么区别？', a: '限量首发更强调时效和名额，通常附带首发价、优先权或早期反馈资格。' },
   ],
+  cta: {
+    title: '有任何问题？',
+    subtitle: '欢迎联系作者，我们会尽快回复',
+    label: '联系作者',
+    to: '/community',
+  },
 }
 
 export const aboutPage = {
-  title: '关于 QUENTIN WINDOW',
-  subtitle: '一个独立开发者的产品与内容窗口，连接产品、内容、实验与社区。',
+  title: '一起创造有价值的产品，让生活更美好',
+  subtitle: '这里是 QUENTIN WINDOW 的私人社区入口。如果你认同我的理念，想第一时间体验新产品、参与共建、获取独家内容，欢迎加入我们，期待与你相遇。',
+  eyebrow: '欢迎来到昆廷的窗口',
+  actions: [
+    { label: '加入社区', to: '/community', variant: 'primary' },
+    { label: '了解更多', to: '#about-story', variant: 'secondary' },
+  ],
+  journeyTitle: '加入社区，三步完成',
+  journey: [
+    { step: '1. 扫码 / 添加微信', detail: '添加我的助手，发送「加入社区」。' },
+    { step: '2. 通过审核', detail: '简单沟通后，确认是同频的小伙伴。' },
+    { step: '3. 进入社区', detail: '获取专属内容、内测资格与更新。' },
+  ],
+  joinCard: {
+    title: '加入方式',
+    subtitle: '添加助手后，备注「加入社区」，通过后即可获得专属邀请。',
+    qrLabel: '微信号：quentin_window',
+  },
+  privilegesTitle: '你将获得这些专属权益',
+  privileges: [
+    {
+      icon: 'rocket',
+      title: '新产品内测资格',
+      description: '第一时间体验我正在打磨的 App 与游戏。',
+    },
+    {
+      icon: 'note',
+      title: '独家内容与笔记',
+      description: '沉淀思考、产品复盘与方法论，优先分享。',
+    },
+    {
+      icon: 'chat',
+      title: '共建与反馈通道',
+      description: '你的建议会被认真看见，一起让产品变得更好。',
+    },
+    {
+      icon: 'gift',
+      title: '限时福利与活动',
+      description: '内测福利、专属折扣，不定期社区活动。',
+    },
+    {
+      icon: 'heart',
+      title: '长期陪伴与信任',
+      description: '一个温暖、真诚、长期创作的创作者社区。',
+    },
+  ],
+  channelsTitle: '社区动态 & 更新渠道',
+  channelsSubtitle: '不想错过重要更新，关注以下渠道。',
+  channels: [
+    { name: '微信公众号', desc: '产品更新 & 深度文章' },
+    { name: '小红书', desc: '育儿 & 产品日常' },
+    { name: '邮件订阅', desc: '每周精选简报' },
+    { name: 'B站 / 视频号', desc: '教程问答 & 轻度分享' },
+  ],
+  featureCard: {
+    title: '做有价值的产品，陪伴更多人成长',
+    description: '从工具到内容，再到互动体验，我希望把温柔、实用和长期主义放进每一次创作里。',
+  },
+  author: {
+    title: '关于我',
+    name: 'Quentin',
+    avatar: avatarQuentin,
+    description: '独立开发者、产品创造者、两个孩子的爸爸。我相信，好产品可以解决真实问题，好的陪伴可以让孩子和我们一起成长。希望你在这里也能找到共鸣。',
+  },
   story: [
     '我希望把做产品、写内容、做实验和与用户对话，放在同一个连续空间里。',
     '这个站点不是简单的作品集，也不是单一博客，而是一套不断成长中的个人品牌系统。',
@@ -114,6 +349,20 @@ export const aboutPage = {
     { year: '2025', title: '形成产品、内容与实验三线并行模式' },
     { year: '2026', title: '搭建统一品牌站点与互动体验' },
   ],
+  stats: [
+    '独立开发',
+    '持续迭代',
+    '已发布 3 款 App',
+    '服务用户 10 万+',
+    '专注教育与效率方向',
+    '长期主义，真诚创造',
+  ],
+  subscribe: {
+    title: '获取最新更新',
+    subtitle: '输入你的邮箱，获取产品更新与精选内容',
+    placeholder: '你的邮箱',
+    buttonLabel: '订阅',
+  },
 }
 
 export const legalPages = {
