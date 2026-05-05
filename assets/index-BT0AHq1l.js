@@ -1,0 +1,1 @@
+import"./index-DxuuudV1.js";const s=(t=120)=>new Promise(i=>setTimeout(i,t));async function e(t){return await s(),t()}const a={list:()=>e(()=>[]),add:t=>e(()=>({ok:!0,projectId:t})),remove:t=>e(()=>({ok:!0,id:t})),submitWish:t=>e(()=>({ok:!0,id:`wish-${Date.now()}`,...t}))},r={submitLead:t=>e(()=>({ok:!0,...t}))},u={apply:t=>e(()=>({ok:!0,...t}))};export{u as b,r as c,a as w};
