@@ -44,7 +44,7 @@ import { footerSections, siteMeta } from '@/data'
           </a>
         </p>
         <div class="flex gap-4">
-          <router-link to="/privacy" class="text-xs text-white/40 hover:text-white/70">隐私政策</router-link>
+          <router-link to="/privacy-policy" class="text-xs text-white/40 hover:text-white/70">隐私政策</router-link>
           <router-link to="/terms" class="text-xs text-white/40 hover:text-white/70">服务条款</router-link>
           <router-link to="/sitemap" class="text-xs text-white/40 hover:text-white/70">网站地图</router-link>
           <a href="#" class="text-white/30 hover:text-white/60 transition-colors" aria-label="GitHub">

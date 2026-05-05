@@ -26,7 +26,7 @@ const routes = [
     meta: { title: '404' },
   },
   {
-    path: '/privacy',
+    path: '/privacy-policy',
     name: 'Privacy',
     component: () => import('@/views/PrivacyPage.vue'),
     meta: { title: '隐私政策', breadcrumb: ['首页', '隐私政策'] },

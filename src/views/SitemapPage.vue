@@ -79,7 +79,7 @@ const sections = [
       { name: '关于页', path: '/about' },
       { name: '搜索结果页', path: '/search' },
       { name: '网站地图', path: '/sitemap' },
-      { name: '隐私政策', path: '/privacy' },
+      { name: '隐私政策', path: '/privacy-policy' },
       { name: '服务条款', path: '/terms' },
       { name: '404 页面', path: '/404' },
     ],
