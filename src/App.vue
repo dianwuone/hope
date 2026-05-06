@@ -1,5 +1,13 @@
 <script setup>
 import DefaultLayout from '@/layouts/DefaultLayout.vue'
+import { onMounted } from 'vue'
+import { useSiteStore } from '@/stores/site'
+
+const siteStore = useSiteStore()
+
+onMounted(() => {
+  siteStore.loadBootstrap()
+})
 </script>
 
 <template>

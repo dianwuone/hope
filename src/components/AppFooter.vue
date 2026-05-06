@@ -1,5 +1,9 @@
 <script setup>
-import { footerSections, siteMeta } from '@/data'
+import { useSiteStore } from '@/stores/site'
+
+const siteStore = useSiteStore()
+const footerSections = siteStore.footerSectionsData
+const siteMeta = siteStore.siteMetaData
 </script>
 
 <template>

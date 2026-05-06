@@ -1,12 +1,14 @@
 <script setup>
 import { computed, ref, onMounted, onUnmounted } from 'vue'
 import { useRoute } from 'vue-router'
-import { mainNav } from '@/data'
+import { useSiteStore } from '@/stores/site'
 
 const route = useRoute()
+const siteStore = useSiteStore()
 const isScrolled = ref(false)
 const isMobileMenuOpen = ref(false)
 const isAboutPage = computed(() => route.name === 'About')
+const mainNav = siteStore.mainNavData
 
 const handleScroll = () => {
   isScrolled.value = window.scrollY > 16
