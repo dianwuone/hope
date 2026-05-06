@@ -1,1 +1,0 @@
-import{_ as r}from"./LegalContentLayout-Zppzc5Yr.js";import{k as e,u as a,i as o}from"./index-DxuuudV1.js";import{l as t}from"./pages-BvxrPqiw.js";import"./products-WNV_98MA.js";import"./banner-arcade-cFCQJMyb.js";import"./labs-DWO6GfKZ.js";const u={__name:"TermsPage",setup(m){return(s,p)=>(o(),e(r,{page:a(t).terms},null,8,["page"]))}};export{u as default};

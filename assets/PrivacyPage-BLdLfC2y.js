@@ -1,0 +1,1 @@
+import{_ as a}from"./LegalContentLayout-CLz64znF.js";import{k as r,u as e,i as o}from"./index-DB9uFxyj.js";import{l as p}from"./pages-Dhwj_7gp.js";import"./products-Bf_seRe1.js";import"./banner-arcade-cFCQJMyb.js";import"./labs-DWO6GfKZ.js";const u={__name:"PrivacyPage",setup(t){return(m,s)=>(o(),r(a,{page:e(p).privacy},null,8,["page"]))}};export{u as default};
