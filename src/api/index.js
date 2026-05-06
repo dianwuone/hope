@@ -15,10 +15,21 @@ import {
   articleHotTopics,
 } from '@/data'
 
-const API_BASE = (import.meta.env.VITE_API_BASE || 'http://127.0.0.1:4100').replace(/\/$/, '')
+const DEFAULT_API_BASE = import.meta.env.DEV ? 'http://127.0.0.1:4100' : '/api'
+const API_BASE = (import.meta.env.VITE_API_BASE || DEFAULT_API_BASE).replace(/\/$/, '')
+
+function resolveApiBase() {
+  if (/^https?:\/\//i.test(API_BASE) || API_BASE.startsWith('//')) {
+    return API_BASE
+  }
+
+  const prefix = API_BASE.startsWith('/') ? API_BASE : `/${API_BASE}`
+  return `${window.location.origin}${prefix}`.replace(/\/$/, '')
+}
 
 function buildUrl(path, params = {}) {
-  const url = new URL(`${API_BASE}${path}`)
+  const normalizedPath = path.startsWith('/') ? path : `/${path}`
+  const url = new URL(`${resolveApiBase()}${normalizedPath}`)
   Object.entries(params).forEach(([key, value]) => {
     if (value !== undefined && value !== null && `${value}` !== '') {
       url.searchParams.set(key, value)
@@ -83,7 +94,7 @@ function buildBootstrapFallback() {
 export const siteApi = {
   bootstrap: () =>
     requestWithFallback(
-      () => requestJson('/api/bootstrap'),
+      () => requestJson('/bootstrap'),
       buildBootstrapFallback,
     ),
 }
@@ -91,12 +102,12 @@ export const siteApi = {
 export const projectApi = {
   list: (params = {}) =>
     requestWithFallback(
-      () => requestJson('/api/projects', { params }),
+      () => requestJson('/projects', { params }),
       () => pickItems({ items: products }, products),
     ),
   get: (slug) =>
     requestWithFallback(
-      () => requestJson(`/api/projects/${encodeURIComponent(slug)}`),
+      () => requestJson(`/projects/${encodeURIComponent(slug)}`),
       () => getProductBySlug(slug),
     ),
 }
@@ -109,7 +120,7 @@ export const productApi = {
 export const articleApi = {
   list: (params = {}) =>
     requestWithFallback(
-      () => requestJson('/api/articles', { params }),
+      () => requestJson('/articles', { params }),
       () => {
         const query = params.q?.toLowerCase?.() || ''
         const tag = params.tag
@@ -129,7 +140,7 @@ export const articleApi = {
     ),
   get: (slug) =>
     requestWithFallback(
-      () => requestJson(`/api/articles/${encodeURIComponent(slug)}`),
+      () => requestJson(`/articles/${encodeURIComponent(slug)}`),
       () => getArticleBySlug(slug),
     ),
 }
@@ -137,24 +148,24 @@ export const articleApi = {
 export const offerApi = {
   list: () =>
     requestWithFallback(
-      () => requestJson('/api/offers'),
+      () => requestJson('/offers'),
       () => pickItems({ items: tryOffers }, tryOffers),
     ),
   get: (slug) =>
     requestWithFallback(
-      () => requestJson(`/api/offers/${encodeURIComponent(slug)}`),
+      () => requestJson(`/offers/${encodeURIComponent(slug)}`),
       () => tryOffers.find((item) => item.slug === slug),
     ),
 }
 
 export const wishlistApi = {
-  list: () => requestWithFallback(() => requestJson('/api/wishlist/summary'), () => []),
+  list: () => requestWithFallback(() => requestJson('/wishlist/summary'), () => []),
   add: (projectId) => requestWithFallback(() => Promise.resolve({ ok: true, projectId }), () => ({ ok: true, projectId })),
   remove: (id) => requestWithFallback(() => Promise.resolve({ ok: true, id }), () => ({ ok: true, id })),
   submitWish: async (data) => {
     const visitorId = globalThis.localStorage?.getItem('hope-visitor-id') || `guest-${Date.now()}`
     globalThis.localStorage?.setItem('hope-visitor-id', visitorId)
-    return requestJson('/api/wishlist', {
+    return requestJson('/wishlist', {
       method: 'POST',
       data: {
         visitorId,
@@ -184,7 +195,7 @@ export const orderApi = {
 
 export const communityApi = {
   submitLead: (data) =>
-    requestJson('/api/community-leads', {
+    requestJson('/community-leads', {
       method: 'POST',
       data: {
         leadType: data.leadType || 'community',
@@ -199,7 +210,7 @@ export const communityApi = {
 
 export const betaApi = {
   apply: (data) =>
-    requestJson('/api/beta-applications', {
+    requestJson('/beta-applications', {
       method: 'POST',
       data: {
         projectSlug: data.projectSlug || data.project_id || '',
@@ -238,12 +249,12 @@ export const searchApi = {
 export const labApi = {
   list: (params = {}) =>
     requestWithFallback(
-      () => requestJson('/api/projects', { params: { ...params, projectType: 'lab' } }),
+      () => requestJson('/projects', { params: { ...params, projectType: 'lab' } }),
       () => pickItems({ items: labs }, labs),
     ),
   get: (slug) =>
     requestWithFallback(
-      () => requestJson(`/api/projects/${encodeURIComponent(slug)}`),
+      () => requestJson(`/projects/${encodeURIComponent(slug)}`),
       () => getLabBySlug(slug),
     ),
 }

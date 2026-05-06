@@ -5,8 +5,9 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "vite build",
-    "build:baota": "cross-env VITE_BAOTA=true vite build",
+    "build": "vite build --mode github",
+    "build:github": "vite build --mode github",
+    "build:baota": "cross-env VITE_BAOTA=true VITE_API_BASE=/api vite build --mode baota",
     "preview": "vite preview",
     "lint": "eslint . --ext .vue,.js,.jsx,.cjs,.mjs --fix"
   },
