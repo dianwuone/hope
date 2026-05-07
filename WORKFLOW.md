@@ -49,7 +49,7 @@
 ### 后端（一期）
 - **语言：** TypeScript
 - **框架：** NestJS（或 Fastify）
-- **数据库：** PostgreSQL
+- **数据库：** SQLite（当前后台 MVP）
 - **ORM：** Prisma 或 TypeORM
 
 ### 后端（二期辅助）

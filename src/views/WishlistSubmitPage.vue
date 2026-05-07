@@ -1,7 +1,8 @@
 <script setup>
-import { reactive, ref } from 'vue'
+import { computed, reactive, ref } from 'vue'
 import BreadcrumbNav from '@/components/BreadcrumbNav.vue'
 import { wishlistApi } from '@/api'
+import { contactInputType, validateContactValue } from '@/utils/contact'
 
 const breadcrumbItems = [
   { label: '首页', to: '/' },
@@ -20,6 +21,18 @@ const form = reactive({
 
 const isSubmitting = ref(false)
 const submitted = ref(false)
+const errors = reactive({
+  projectName: '',
+  contactValue: '',
+})
+
+const contactFieldType = computed(() => contactInputType(form.contactType))
+
+const validateForm = () => {
+  errors.projectName = form.projectName.trim() ? '' : '请输入项目名称'
+  errors.contactValue = validateContactValue(form.contactType, form.contactValue)
+  return !errors.projectName && !errors.contactValue
+}
 
 const categoryOptions = [
   { value: 'app', label: '应用工具' },
@@ -36,7 +49,7 @@ const goalOptions = [
 ]
 
 const submitForm = async () => {
-  if (!form.projectName.trim() || !form.contactValue.trim()) return
+  if (!validateForm()) return
   isSubmitting.value = true
   try {
     await wishlistApi.submitWish({ ...form })
@@ -108,8 +121,10 @@ const submitForm = async () => {
                     v-model="form.projectName"
                     type="text"
                     placeholder="例如：AI 阅读助手 / 亲子桌游 / 实验工具"
+                    @blur="errors.projectName = form.projectName.trim() ? '' : '请输入项目名称'"
                     class="mt-3 h-12 w-full rounded-[14px] border border-[#DCE7F8] bg-white px-4 text-sm text-[#17233D] outline-none transition-colors placeholder:text-[#A0AEC2] focus:border-[#2F7AF3]"
                   />
+                  <p v-if="errors.projectName" class="mt-2 text-xs text-red-500">{{ errors.projectName }}</p>
                 </label>
 
                 <label class="block">
@@ -136,10 +151,10 @@ const submitForm = async () => {
 
                 <label class="block">
                   <span class="text-sm font-semibold text-[#5A6E8C]">联系方式类型</span>
-                  <select
-                    v-model="form.contactType"
-                    class="mt-3 h-12 w-full rounded-[14px] border border-[#DCE7F8] bg-white px-4 text-sm text-[#17233D] outline-none transition-colors focus:border-[#2F7AF3]"
-                  >
+                <select
+                  v-model="form.contactType"
+                  class="mt-3 h-12 w-full rounded-[14px] border border-[#DCE7F8] bg-white px-4 text-sm text-[#17233D] outline-none transition-colors focus:border-[#2F7AF3]"
+                >
                     <option value="wechat">微信</option>
                     <option value="email">邮箱</option>
                   </select>
@@ -150,10 +165,12 @@ const submitForm = async () => {
                 <span class="text-sm font-semibold text-[#5A6E8C]">联系方式</span>
                 <input
                   v-model="form.contactValue"
-                  type="text"
+                  :type="contactFieldType"
                   placeholder="请输入微信号或邮箱"
+                  @blur="errors.contactValue = validateContactValue(form.contactType, form.contactValue)"
                   class="mt-3 h-12 w-full rounded-[14px] border border-[#DCE7F8] bg-white px-4 text-sm text-[#17233D] outline-none transition-colors placeholder:text-[#A0AEC2] focus:border-[#2F7AF3]"
                 />
+                <p v-if="errors.contactValue" class="mt-2 text-xs text-red-500">{{ errors.contactValue }}</p>
               </label>
 
               <label class="block">

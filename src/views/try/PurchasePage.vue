@@ -4,6 +4,7 @@ import { useRouter, useRoute } from 'vue-router'
 import BreadcrumbNav from '@/components/BreadcrumbNav.vue'
 import { tryOffers } from '@/data'
 import { wishlistApi } from '@/api'
+import { contactInputType, validateContactValue } from '@/utils/contact'
 
 const route = useRoute()
 const router = useRouter()
@@ -23,13 +24,26 @@ const form = reactive({
 })
 
 const submitting = ref(false)
+const errors = reactive({
+  name: '',
+  contactValue: '',
+})
+
+const contactFieldType = computed(() => contactInputType(form.contactType))
+
+const validateForm = () => {
+  errors.name = form.name.trim() ? '' : '请输入姓名'
+  errors.contactValue = validateContactValue(form.contactType, form.contactValue)
+  return !errors.name && !errors.contactValue
+}
 
 const submitOrder = async () => {
-  if (!form.name.trim() || !form.contactValue.trim()) return
+  if (!validateForm()) return
   submitting.value = true
   try {
     await wishlistApi.submitWish({
       projectName: offer.value.title,
+      sourcePage: 'try',
       contactType: form.contactType,
       contactValue: form.contactValue,
       note: `purchase:${offer.value.slug}`,
@@ -80,7 +94,8 @@ const submitOrder = async () => {
             <div class="mt-5 grid gap-4 md:grid-cols-2">
               <label>
                 <div class="text-sm font-semibold text-[#5A6E8C]">姓名</div>
-                <input v-model="form.name" type="text" class="mt-2 h-12 w-full rounded-[14px] border border-[#DCE7F8] bg-white px-4 outline-none focus:border-[#2F7AF3]" />
+                <input v-model="form.name" type="text" class="mt-2 h-12 w-full rounded-[14px] border border-[#DCE7F8] bg-white px-4 outline-none focus:border-[#2F7AF3]" @blur="errors.name = form.name.trim() ? '' : '请输入姓名'" />
+                <p v-if="errors.name" class="mt-2 text-xs text-red-500">{{ errors.name }}</p>
               </label>
               <label>
                 <div class="text-sm font-semibold text-[#5A6E8C]">联系方式类型</div>
@@ -91,10 +106,11 @@ const submitOrder = async () => {
                 </select>
               </label>
             </div>
-            <label class="mt-4 block">
-              <div class="text-sm font-semibold text-[#5A6E8C]">联系方式值</div>
-              <input v-model="form.contactValue" type="text" class="mt-2 h-12 w-full rounded-[14px] border border-[#DCE7F8] bg-white px-4 outline-none focus:border-[#2F7AF3]" />
-            </label>
+              <label class="mt-4 block">
+                <div class="text-sm font-semibold text-[#5A6E8C]">联系方式值</div>
+              <input v-model="form.contactValue" :type="contactFieldType" class="mt-2 h-12 w-full rounded-[14px] border border-[#DCE7F8] bg-white px-4 outline-none focus:border-[#2F7AF3]" @blur="errors.contactValue = validateContactValue(form.contactType, form.contactValue)" />
+              <p v-if="errors.contactValue" class="mt-2 text-xs text-red-500">{{ errors.contactValue }}</p>
+              </label>
           </article>
 
           <article class="rounded-[26px] border border-[#E7EEF9] bg-white p-6 shadow-[0_16px_34px_rgba(76,108,168,0.07)]">

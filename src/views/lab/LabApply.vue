@@ -5,6 +5,7 @@ import BreadcrumbNav from '@/components/BreadcrumbNav.vue'
 import FaqList from '@/components/site/FaqList.vue'
 import { getLabBySlug } from '@/data'
 import { betaApi } from '@/api'
+import { contactInputType, validateContactValue } from '@/utils/contact'
 
 const route = useRoute()
 const router = useRouter()
@@ -28,9 +29,21 @@ const form = reactive({
 
 const submitting = ref(false)
 const submitted = ref(false)
+const errors = reactive({
+  name: '',
+  contactValue: '',
+})
+
+const contactFieldType = computed(() => contactInputType(form.contactType))
+
+const validateForm = () => {
+  errors.name = form.name.trim() ? '' : '请输入姓名或昵称'
+  errors.contactValue = validateContactValue(form.contactType, form.contactValue)
+  return !errors.name && !errors.contactValue
+}
 
 const submit = async () => {
-  if (!form.name.trim() || !form.contactValue.trim()) return
+  if (!validateForm()) return
   submitting.value = true
   try {
     await betaApi.apply({
@@ -92,7 +105,8 @@ const faq = [
             <div class="grid gap-6 md:grid-cols-2">
               <label class="block">
                 <div class="text-sm font-semibold text-[#5A6E8C]">姓名或昵称</div>
-                <input v-model="form.name" type="text" class="mt-2 h-12 w-full rounded-[14px] border border-[#DCE7F8] bg-white px-4 outline-none focus:border-[#2F7AF3]" />
+                <input v-model="form.name" type="text" class="mt-2 h-12 w-full rounded-[14px] border border-[#DCE7F8] bg-white px-4 outline-none focus:border-[#2F7AF3]" @blur="errors.name = form.name.trim() ? '' : '请输入姓名或昵称'" />
+                <p v-if="errors.name" class="mt-2 text-xs text-red-500">{{ errors.name }}</p>
               </label>
               <label class="block">
                 <div class="text-sm font-semibold text-[#5A6E8C]">城市</div>
@@ -111,7 +125,8 @@ const faq = [
               </label>
               <label class="block">
                 <div class="text-sm font-semibold text-[#5A6E8C]">联系方式值</div>
-                <input v-model="form.contactValue" type="text" class="mt-2 h-12 w-full rounded-[14px] border border-[#DCE7F8] bg-white px-4 outline-none focus:border-[#2F7AF3]" />
+                <input v-model="form.contactValue" :type="contactFieldType" class="mt-2 h-12 w-full rounded-[14px] border border-[#DCE7F8] bg-white px-4 outline-none focus:border-[#2F7AF3]" @blur="errors.contactValue = validateContactValue(form.contactType, form.contactValue)" />
+                <p v-if="errors.contactValue" class="mt-2 text-xs text-red-500">{{ errors.contactValue }}</p>
               </label>
             </div>
 

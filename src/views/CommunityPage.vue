@@ -1,9 +1,10 @@
 <script setup>
-import { reactive, ref } from 'vue'
+import { computed, reactive, ref } from 'vue'
 import PageHero from '@/components/site/PageHero.vue'
 import FaqList from '@/components/site/FaqList.vue'
 import { communityPage, homePage } from '@/data'
 import { communityApi } from '@/api'
+import { contactInputType, validateContactValue } from '@/utils/contact'
 
 const form = reactive({
   name: '',
@@ -14,9 +15,21 @@ const form = reactive({
 })
 
 const submitted = ref(false)
+const errors = reactive({
+  name: '',
+  contactValue: '',
+})
+
+const contactFieldType = computed(() => contactInputType(form.contactType))
+
+const validateForm = () => {
+  errors.name = form.name.trim() ? '' : '请输入姓名或昵称'
+  errors.contactValue = validateContactValue(form.contactType, form.contactValue)
+  return !errors.name && !errors.contactValue
+}
 
 const submit = async () => {
-  if (!form.name.trim() || !form.contactValue.trim()) return
+  if (!validateForm()) return
   await communityApi.submitLead({ ...form })
   submitted.value = true
 }
@@ -63,13 +76,17 @@ const intents = [
           <div v-if="submitted" class="mt-6 rounded-[18px] bg-[#F8FBFF] p-6 text-center text-brand-text">已收到你的联系信息，我们会尽快回复。</div>
           <form v-else class="mt-6 space-y-4" @submit.prevent="submit">
             <div class="grid gap-4 md:grid-cols-2">
-              <input v-model="form.name" type="text" placeholder="你的姓名 / 昵称" class="rounded-2xl border border-brand-grey px-4 py-3 outline-none focus:border-accent-blue" />
+              <label class="block">
+                <input v-model="form.name" type="text" placeholder="你的姓名 / 昵称" class="w-full rounded-2xl border border-brand-grey px-4 py-3 outline-none focus:border-accent-blue" @blur="errors.name = form.name.trim() ? '' : '请输入姓名或昵称'" />
+                <p v-if="errors.name" class="mt-2 text-xs text-red-500">{{ errors.name }}</p>
+              </label>
               <select v-model="form.contactType" class="rounded-2xl border border-brand-grey px-4 py-3 outline-none focus:border-accent-blue">
                 <option value="wechat">微信</option>
                 <option value="email">邮箱</option>
               </select>
             </div>
-            <input v-model="form.contactValue" type="text" placeholder="联系方式值" class="w-full rounded-2xl border border-brand-grey px-4 py-3 outline-none focus:border-accent-blue" />
+            <input v-model="form.contactValue" :type="contactFieldType" placeholder="联系方式值" class="w-full rounded-2xl border border-brand-grey px-4 py-3 outline-none focus:border-accent-blue" @blur="errors.contactValue = validateContactValue(form.contactType, form.contactValue)" />
+            <p v-if="errors.contactValue" class="text-xs text-red-500">{{ errors.contactValue }}</p>
             <select v-model="form.intent" class="w-full rounded-2xl border border-brand-grey px-4 py-3 outline-none focus:border-accent-blue">
               <option v-for="item in intents" :key="item.value" :value="item.value">{{ item.label }}</option>
             </select>
