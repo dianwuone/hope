@@ -1,0 +1,1 @@
+function n(t,r){const e=(r||"").trim();return e?t==="email"?/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(e)?"":"邮箱格式不正确":t==="phone"?/^\+?[0-9][0-9\s-]{6,18}[0-9]$/.test(e)?"":"电话号码格式不正确":t==="wechat"?/^[a-zA-Z][-_a-zA-Z0-9]{5,19}$/.test(e)?"":"微信号格式不正确":"":"联系方式不能为空"}function i(t){return t==="email"?"email":t==="phone"?"tel":"text"}export{i as c,n as v};
