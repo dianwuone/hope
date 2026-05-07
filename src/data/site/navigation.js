@@ -59,5 +59,5 @@ export const footerSections = [
 export const socialLinks = [
   { name: 'GitHub', href: '#' },
   { name: '微信', href: '#' },
-  { name: 'Email', href: 'mailto:hello@example.com' },
+  { name: 'Email', href: '' },
 ]

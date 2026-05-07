@@ -1,5 +1,9 @@
 <script setup>
 import { aboutPage, homePage } from '@/data'
+import { useSiteStore } from '@/stores/site'
+
+const siteStore = useSiteStore()
+const communityWechat = siteStore.communityWechatData
 
 const iconMap = {
   rocket: '✦',
@@ -79,7 +83,7 @@ const iconMap = {
           <p class="mt-3 text-sm leading-7 text-[#7F6A59]">{{ aboutPage.joinCard.subtitle }}</p>
           <img :src="homePage.community.qr" alt="社区二维码" class="mx-auto mt-5 h-52 w-52 rounded-[18px] border border-[#F0E2D2] bg-white p-3 shadow-[0_12px_28px_rgba(143,101,55,0.08)]" />
           <div class="mt-4 rounded-[12px] bg-white px-4 py-3 text-center text-sm font-medium text-[#9A7A61] shadow-[inset_0_1px_0_rgba(255,255,255,0.82)]">
-            {{ aboutPage.joinCard.qrLabel }}
+            {{ communityWechat ? `微信号：${communityWechat}` : '微信联系方式待配置' }}
           </div>
         </div>
 

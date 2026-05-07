@@ -5,6 +5,11 @@ import FaqList from '@/components/site/FaqList.vue'
 import { communityPage, homePage } from '@/data'
 import { communityApi } from '@/api'
 import { contactInputType, validateContactValue } from '@/utils/contact'
+import { useSiteStore } from '@/stores/site'
+
+const siteStore = useSiteStore()
+const contactEmail = siteStore.contactEmailData
+const communityWechat = siteStore.communityWechatData
 
 const form = reactive({
   name: '',
@@ -55,8 +60,8 @@ const intents = [
           <div class="mt-8 rounded-[18px] border border-[#E8EEF8] bg-white p-5">
             <h3 class="text-xl font-semibold text-[#17233D]">直接联系</h3>
             <div class="mt-4 text-sm leading-7 text-[#61718B]">
-              <p>微信：{{ homePage.community.qr ? '二维码识别加入' : 'hello' }}</p>
-              <p>邮箱：hello@example.com</p>
+              <p>微信：{{ communityWechat || '暂未配置' }}</p>
+              <p>邮箱：{{ contactEmail || '暂未配置' }}</p>
             </div>
           </div>
         </div>

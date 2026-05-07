@@ -292,7 +292,7 @@ export const aboutPage = {
   joinCard: {
     title: '加入方式',
     subtitle: '添加助手后，备注「加入社区」，通过后即可获得专属邀请。',
-    qrLabel: '微信号：quentin_window',
+    qrLabel: '',
   },
   privilegesTitle: '你将获得这些专属权益',
   privileges: [

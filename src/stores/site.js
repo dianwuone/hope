@@ -10,6 +10,8 @@ const defaultBootstrap = {
   socialLinks,
   articleCategories,
   articleHotTopics,
+  contactEmail: '',
+  communityWechat: '',
   pages: {},
   content: {},
   pageConfigs: [],
@@ -26,6 +28,8 @@ export const useSiteStore = defineStore('site', () => {
   const socialLinksData = computed(() => bootstrap.value.socialLinks || socialLinks)
   const articleCategoriesData = computed(() => bootstrap.value.articleCategories || articleCategories)
   const articleHotTopicsData = computed(() => bootstrap.value.articleHotTopics || articleHotTopics)
+  const contactEmailData = computed(() => bootstrap.value.contactEmail || '')
+  const communityWechatData = computed(() => bootstrap.value.communityWechat || '')
 
   const loadBootstrap = async () => {
     if (isLoading.value) return bootstrap.value
@@ -40,6 +44,8 @@ export const useSiteStore = defineStore('site', () => {
         socialLinks: result?.site?.socialLinks || socialLinks,
         articleCategories: result?.site?.articleCategories || articleCategories,
         articleHotTopics: result?.site?.articleHotTopics || articleHotTopics,
+        contactEmail: result?.site?.contactEmail || '',
+        communityWechat: result?.site?.communityWechat || '',
         pages: result?.pages || {},
         content: result?.content || {},
         pageConfigs: result?.pageConfigs || [],
@@ -63,6 +69,8 @@ export const useSiteStore = defineStore('site', () => {
     socialLinksData,
     articleCategoriesData,
     articleHotTopicsData,
+    contactEmailData,
+    communityWechatData,
     loadBootstrap,
   }
 })

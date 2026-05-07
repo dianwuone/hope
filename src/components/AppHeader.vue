@@ -9,6 +9,7 @@ const isScrolled = ref(false)
 const isMobileMenuOpen = ref(false)
 const isAboutPage = computed(() => route.name === 'About')
 const mainNav = siteStore.mainNavData
+const siteMeta = siteStore.siteMetaData
 
 const handleScroll = () => {
   isScrolled.value = window.scrollY > 16
@@ -50,7 +51,7 @@ onUnmounted(() => window.removeEventListener('scroll', handleScroll))
             QUENTIN WINDOW
           </div>
           <div class="truncate text-xs" :class="isAboutPage ? 'text-[#9A7C62]' : 'text-brand-muted'">
-            用户产品与热爱，让生活更美好
+            {{ siteMeta.tagline || siteMeta.description || '用户产品与热爱，让生活更美好' }}
           </div>
         </div>
       </router-link>
