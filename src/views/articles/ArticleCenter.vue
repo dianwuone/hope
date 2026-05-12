@@ -1,19 +1,21 @@
 <script setup>
 import { computed, ref } from 'vue'
-import { articles, articleCategories, articleCenterPage, articleHotTopics, columns, products } from '@/data'
+import { useSiteStore } from '@/stores/site'
 
+const siteStore = useSiteStore()
+const articleCenterPageData = computed(() => siteStore.pageData('article_center', { title: '文章中心', subtitle: '', banner: '' }))
 const searchQuery = ref('')
 const activeColumn = ref('全部 IP')
 const activeCategory = ref('全部分类')
 const activeTopic = ref('全部主题')
 const visibleCount = ref(4)
 
-const columnOptions = ['全部 IP', '昆廷笔记', '启鸣宝宝']
-const categoryOptions = ['全部分类', ...articleCategories.filter((item) => item !== '全部')]
-const topicOptions = ['全部主题', ...articleHotTopics]
+const columnOptions = computed(() => ['全部 IP', ...siteStore.columnsData.map((item) => item.name)])
+const categoryOptions = computed(() => ['全部分类', ...siteStore.articleCategoriesData.filter((item) => item !== '全部')])
+const topicOptions = computed(() => ['全部主题', ...siteStore.articleHotTopicsData])
 
 const filteredArticles = computed(() =>
-  articles
+  siteStore.articlesData
     .filter((item) => {
       const query = searchQuery.value.trim().toLowerCase()
       const matchQuery = !query
@@ -22,8 +24,7 @@ const filteredArticles = computed(() =>
         || item.tags.some((tag) => tag.toLowerCase().includes(query))
 
       const matchColumn = activeColumn.value === '全部 IP'
-        || (activeColumn.value === '昆廷笔记' && item.column === 'kunting')
-        || (activeColumn.value === '启鸣宝宝' && item.column === 'qiming')
+        || item.columnName === activeColumn.value
 
       const matchCategory = activeCategory.value === '全部分类'
         || item.category === activeCategory.value
@@ -40,20 +41,20 @@ const filteredArticles = computed(() =>
 const visibleArticles = computed(() => filteredArticles.value.slice(0, visibleCount.value))
 const hasMore = computed(() => visibleArticles.value.length < filteredArticles.value.length)
 
-const featuredProducts = computed(() => products.slice(0, 3))
+const featuredProducts = computed(() => siteStore.productsData.slice(0, 3))
 
 const columnMetaMap = {
   kunting: {
-    label: '昆廷笔记',
+    label: siteStore.columnBySlug('kunting')?.name || '昆廷笔记',
     className: 'bg-[#E8F3EF] text-[#5B8479]',
   },
   qiming: {
-    label: '启鸣宝宝',
+    label: siteStore.columnBySlug('qiming')?.name || '启鸣宝宝',
     className: 'bg-[#FFF0E6] text-[#D07E61]',
   },
 }
 
-const quickCategories = computed(() => articleCategories)
+const quickCategories = computed(() => siteStore.articleCategoriesData)
 </script>
 
 <template>
@@ -64,14 +65,14 @@ const quickCategories = computed(() => articleCategories)
           <div class="grid items-center gap-8 pb-0 pt-10 lg:grid-cols-[0.95fr_1.05fr]">
             <div class="pb-8 lg:pb-12">
               <h1 class="font-serif text-4xl leading-[1.2] text-brand-charcoal md:text-5xl">
-                {{ articleCenterPage.title }}
+                {{ articleCenterPageData.title }}
               </h1>
               <p class="mt-5 max-w-2xl text-base leading-8 text-brand-text">
-                在这里，探索关于 AI 提效、App 开发、成长思考、育儿启蒙、亲子时光与生活方式的真实记录。所有内容来自昆廷笔记与启鸣宝宝，持续更新中。
+                {{ articleCenterPageData.subtitle }}
               </p>
             </div>
             <div class="self-end">
-              <img :src="articleCenterPage.banner" alt="文章中心" class="w-full object-cover" />
+              <img :src="articleCenterPageData.banner" alt="文章中心" class="w-full object-cover" />
             </div>
           </div>
         </div>
@@ -184,7 +185,7 @@ const quickCategories = computed(() => articleCategories)
                 </div>
                 <div class="mt-4 flex flex-wrap gap-2">
                   <button
-                    v-for="topic in articleHotTopics"
+                    v-for="topic in siteStore.articleHotTopicsData"
                     :key="topic"
                     type="button"
                     class="rounded-full border border-[#E9D9C8] bg-[#FAF7F2] px-3 py-2 text-sm text-brand-text transition-colors hover:border-[#D9B38C] hover:bg-white hover:text-brand-charcoal"

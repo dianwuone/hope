@@ -1,6 +1,10 @@
 <script setup>
+import { computed } from 'vue'
 import PageHero from '@/components/site/PageHero.vue'
-import { openSourcePage } from '@/data'
+import { useSiteStore } from '@/stores/site'
+
+const siteStore = useSiteStore()
+const openSourcePage = computed(() => siteStore.pageData('open_source', { projects: [] }))
 </script>
 
 <template>

@@ -3,12 +3,15 @@ import { computed } from 'vue'
 import { useRoute } from 'vue-router'
 import ArticleCard from '@/components/ArticleCard.vue'
 import PageHero from '@/components/site/PageHero.vue'
-import { articles } from '@/data'
+import { useSiteStore } from '@/stores/site'
 
 const route = useRoute()
+const siteStore = useSiteStore()
 const slug = computed(() => route.params.slug)
 const normalizedTag = computed(() => decodeURIComponent(slug.value).replace(/-/g, ' '))
-const filtered = computed(() => articles.filter((item) => item.tags.includes(normalizedTag.value) || item.category === normalizedTag.value))
+const filtered = computed(() =>
+  siteStore.articlesData.filter((item) => item.tags.includes(normalizedTag.value) || item.category === normalizedTag.value),
+)
 </script>
 
 <template>

@@ -2,13 +2,22 @@
 import { computed, reactive, ref } from 'vue'
 import { useRouter, useRoute } from 'vue-router'
 import BreadcrumbNav from '@/components/BreadcrumbNav.vue'
-import { tryOffers } from '@/data'
 import { wishlistApi } from '@/api'
 import { contactInputType, validateContactValue } from '@/utils/contact'
+import { useSiteStore } from '@/stores/site'
 
 const route = useRoute()
 const router = useRouter()
-const offer = computed(() => tryOffers.find((item) => item.slug === route.params.offerSlug) || tryOffers[0])
+const siteStore = useSiteStore()
+const emptyOffer = {
+  slug: '',
+  title: '',
+  subtitle: '',
+  price: '',
+  originalPrice: '',
+  benefits: [],
+}
+const offer = computed(() => siteStore.offerBySlug(route.params.offerSlug) || siteStore.offersData[0] || emptyOffer)
 
 const breadcrumbItems = computed(() => [
   { label: '首页', to: '/' },

@@ -2,7 +2,10 @@
 import { computed, ref } from 'vue'
 import FaqList from '@/components/site/FaqList.vue'
 import { tryPage } from '@/data'
+import { useSiteStore } from '@/stores/site'
 
+const siteStore = useSiteStore()
+const tryPageData = computed(() => siteStore.pageData('try', tryPage))
 const activeFilter = ref('全部')
 
 const toneClasses = {
@@ -19,7 +22,7 @@ const trustIconMap = {
   user: '◌',
 }
 
-const allOffers = computed(() => tryPage.offerGroups.flatMap((group) => group.items))
+const allOffers = computed(() => tryPageData.value.offerGroups?.flatMap((group) => group.items) || tryPage.offerGroups.flatMap((group) => group.items))
 
 const filteredOffers = computed(() => {
   if (activeFilter.value === '全部') {
@@ -29,7 +32,7 @@ const filteredOffers = computed(() => {
   return allOffers.value.filter((item) => item.category === activeFilter.value)
 })
 
-const limitedOffers = computed(() => tryPage.limitedDrop.items)
+const limitedOffers = computed(() => tryPageData.value.limitedDrop?.items || tryPage.limitedDrop.items)
 
 const toneClass = (tone) => toneClasses[tone] || toneClasses.blue
 </script>
@@ -46,10 +49,10 @@ const toneClass = (tone) => toneClasses[tone] || toneClasses.blue
 
         <div class="mx-auto max-w-[760px] py-12 text-center md:py-16">
           <h1 class="font-serif text-4xl font-semibold tracking-tight text-[#202739] md:text-6xl">
-            {{ tryPage.title }}
+            {{ tryPageData.title }}
           </h1>
           <p class="mx-auto mt-5 max-w-[540px] text-base leading-8 text-[#8B8278] md:text-lg">
-            {{ tryPage.subtitle }}
+            {{ tryPageData.subtitle }}
           </p>
         </div>
       </div>
@@ -61,34 +64,34 @@ const toneClass = (tone) => toneClasses[tone] || toneClasses.blue
           <div class="grid gap-8 md:grid-cols-[minmax(0,1fr)_220px] md:items-center">
             <div>
               <span class="inline-flex rounded-full bg-white/12 px-3 py-1 text-xs font-semibold tracking-[0.14em] text-white/88">
-                {{ tryPage.hero.badge }}
+                {{ tryPageData.hero?.badge || tryPage.hero.badge }}
               </span>
               <h2 class="mt-5 text-3xl font-semibold leading-tight md:text-[2.5rem]">
-                {{ tryPage.hero.title }}
+                {{ tryPageData.hero?.title || tryPage.hero.title }}
               </h2>
               <p class="mt-4 max-w-[560px] text-sm leading-7 text-white/72 md:text-base">
-                {{ tryPage.hero.description }}
+                {{ tryPageData.hero?.description || tryPage.hero.description }}
               </p>
 
               <div class="mt-6 flex items-end gap-3">
-                <span class="text-4xl font-semibold leading-none">{{ tryPage.hero.price }}</span>
+                <span class="text-4xl font-semibold leading-none">{{ tryPageData.hero?.price || tryPage.hero.price }}</span>
                 <span class="rounded-full bg-[#2CD389]/14 px-3 py-1 text-xs font-semibold text-[#81EDB7]">
-                  {{ tryPage.hero.originalPrice }}
+                  {{ tryPageData.hero?.originalPrice || tryPage.hero.originalPrice }}
                 </span>
               </div>
 
               <div class="mt-8 flex flex-wrap gap-3">
-                <router-link :to="tryPage.hero.ctaTo" class="inline-flex items-center rounded-[12px] bg-white px-5 py-3 text-sm font-semibold text-[#315BE7] transition hover:bg-[#EEF4FF]">
-                  {{ tryPage.hero.ctaLabel }}
+                <router-link :to="tryPageData.hero?.ctaTo || tryPage.hero.ctaTo" class="inline-flex items-center rounded-[12px] bg-white px-5 py-3 text-sm font-semibold text-[#315BE7] transition hover:bg-[#EEF4FF]">
+                  {{ tryPageData.hero?.ctaLabel || tryPage.hero.ctaLabel }}
                 </router-link>
-                <a :href="tryPage.hero.secondaryTo" class="inline-flex items-center rounded-[12px] border border-white/22 px-5 py-3 text-sm font-semibold text-white/92 transition hover:bg-white/10">
-                  {{ tryPage.hero.secondaryLabel }}
+                <a :href="tryPageData.hero?.secondaryTo || tryPage.hero.secondaryTo" class="inline-flex items-center rounded-[12px] border border-white/22 px-5 py-3 text-sm font-semibold text-white/92 transition hover:bg-white/10">
+                  {{ tryPageData.hero?.secondaryLabel || tryPage.hero.secondaryLabel }}
                 </a>
               </div>
             </div>
 
             <div class="mx-auto flex h-[152px] w-[152px] items-center justify-center rounded-[24px] border border-white/14 bg-white/10 text-[3.5rem] shadow-[inset_0_1px_0_rgba(255,255,255,0.16)] md:h-[170px] md:w-[170px]">
-              <span aria-hidden="true">{{ tryPage.hero.visual }}</span>
+              <span aria-hidden="true">{{ tryPageData.hero?.visual || tryPage.hero.visual }}</span>
             </div>
           </div>
         </div>
@@ -99,7 +102,7 @@ const toneClass = (tone) => toneClasses[tone] || toneClasses.blue
       <div class="container-content">
         <div class="flex flex-wrap justify-center gap-3">
           <button
-            v-for="filter in tryPage.filters"
+            v-for="filter in tryPageData.filters || tryPage.filters"
             :key="filter"
             type="button"
             class="rounded-full px-4 py-2 text-sm font-medium transition-all"
@@ -159,13 +162,13 @@ const toneClass = (tone) => toneClasses[tone] || toneClasses.blue
       <div class="container-content">
         <div class="rounded-[28px] border border-[#ECE8F3] bg-[linear-gradient(180deg,#F7F8FC_0%,#FAFBFD_100%)] px-6 py-10 shadow-[0_18px_38px_rgba(72,81,122,0.06)] md:px-8">
           <div class="text-center">
-            <h2 class="font-serif text-3xl font-semibold text-[#202739]">{{ tryPage.validatingOffers.title }}</h2>
-            <p class="mt-3 text-sm leading-7 text-[#928A80]">{{ tryPage.validatingOffers.subtitle }}</p>
+            <h2 class="font-serif text-3xl font-semibold text-[#202739]">{{ tryPageData.validatingOffers?.title || tryPage.validatingOffers.title }}</h2>
+            <p class="mt-3 text-sm leading-7 text-[#928A80]">{{ tryPageData.validatingOffers?.subtitle || tryPage.validatingOffers.subtitle }}</p>
           </div>
 
           <div class="mt-8 grid gap-5 lg:grid-cols-2">
             <article
-              v-for="item in tryPage.validatingOffers.items"
+              v-for="item in tryPageData.validatingOffers?.items || tryPage.validatingOffers.items"
               :key="item.slug"
               class="rounded-[18px] border border-[#E9E4F1] bg-white px-6 py-5 shadow-[0_12px_28px_rgba(80,87,132,0.05)]"
             >
@@ -202,8 +205,8 @@ const toneClass = (tone) => toneClasses[tone] || toneClasses.blue
       <div class="container-content">
         <div class="rounded-[28px] border border-[#F0CB74] bg-[linear-gradient(180deg,#FFF4CD_0%,#FFF7DF_100%)] px-6 py-10 shadow-[0_18px_36px_rgba(201,154,55,0.08)] md:px-8">
           <div class="text-center">
-            <h2 class="font-serif text-3xl font-semibold text-[#A86118]">{{ tryPage.limitedDrop.title }}</h2>
-            <p class="mt-3 text-sm leading-7 text-[#C2832C]">{{ tryPage.limitedDrop.subtitle }}</p>
+            <h2 class="font-serif text-3xl font-semibold text-[#A86118]">{{ tryPageData.limitedDrop?.title || tryPage.limitedDrop.title }}</h2>
+            <p class="mt-3 text-sm leading-7 text-[#C2832C]">{{ tryPageData.limitedDrop?.subtitle || tryPage.limitedDrop.subtitle }}</p>
           </div>
 
           <div class="mt-8 grid gap-5 lg:grid-cols-3">
@@ -242,13 +245,13 @@ const toneClass = (tone) => toneClasses[tone] || toneClasses.blue
     <section class="pb-12">
       <div class="container-content">
         <div class="mx-auto max-w-[880px] text-center">
-          <h2 class="font-serif text-3xl font-semibold text-[#202739]">{{ tryPage.trust.title }}</h2>
-          <p class="mt-3 text-sm leading-7 text-[#928A80]">{{ tryPage.trust.subtitle }}</p>
+          <h2 class="font-serif text-3xl font-semibold text-[#202739]">{{ tryPageData.trust?.title || tryPage.trust.title }}</h2>
+          <p class="mt-3 text-sm leading-7 text-[#928A80]">{{ tryPageData.trust?.subtitle || tryPage.trust.subtitle }}</p>
         </div>
 
         <div class="mt-10 grid gap-8 md:grid-cols-3">
           <article
-            v-for="item in tryPage.trust.items"
+            v-for="item in tryPageData.trust?.items || tryPage.trust.items"
             :key="item.title"
             class="text-center"
           >
@@ -270,7 +273,7 @@ const toneClass = (tone) => toneClasses[tone] || toneClasses.blue
         </div>
 
         <div class="mx-auto mt-8 max-w-[880px]">
-          <FaqList :items="tryPage.faq" />
+          <FaqList :items="tryPageData.faq || tryPage.faq" />
         </div>
       </div>
     </section>
@@ -278,13 +281,13 @@ const toneClass = (tone) => toneClasses[tone] || toneClasses.blue
     <section class="pb-16">
       <div class="container-content">
         <div class="rounded-[24px] bg-[linear-gradient(90deg,#5657F4_0%,#23A4EC_100%)] px-6 py-12 text-center text-white shadow-[0_22px_50px_rgba(58,101,226,0.2)] md:px-8">
-          <h2 class="font-serif text-3xl font-semibold">{{ tryPage.cta.title }}</h2>
-          <p class="mt-4 text-sm leading-7 text-white/80">{{ tryPage.cta.subtitle }}</p>
+          <h2 class="font-serif text-3xl font-semibold">{{ tryPageData.cta?.title || tryPage.cta.title }}</h2>
+          <p class="mt-4 text-sm leading-7 text-white/80">{{ tryPageData.cta?.subtitle || tryPage.cta.subtitle }}</p>
           <router-link
-            :to="tryPage.cta.to"
+            :to="tryPageData.cta?.to || tryPage.cta.to"
             class="mt-8 inline-flex items-center rounded-[12px] bg-white px-6 py-3 text-sm font-semibold text-[#3D67E8] transition hover:bg-[#EEF4FF]"
           >
-            {{ tryPage.cta.label }}
+            {{ tryPageData.cta?.label || tryPage.cta.label }}
           </router-link>
         </div>
       </div>

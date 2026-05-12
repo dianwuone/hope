@@ -1,22 +1,6 @@
-import {
-  products,
-  getProductBySlug,
-  articles,
-  getArticleBySlug,
-  labs,
-  getLabBySlug,
-  tryOffers,
-  openSourcePage,
-  siteMeta,
-  mainNav,
-  footerSections,
-  socialLinks,
-  articleCategories,
-  articleHotTopics,
-} from '@/data'
-
 const DEFAULT_API_BASE = import.meta.env.DEV ? 'http://127.0.0.1:4100' : '/api'
 const API_BASE = (import.meta.env.VITE_API_BASE || DEFAULT_API_BASE).replace(/\/$/, '')
+const ENABLE_API_FALLBACK = import.meta.env.VITE_ENABLE_API_FALLBACK === 'true'
 
 function resolveApiBase() {
   if (/^https?:\/\//i.test(API_BASE) || API_BASE.startsWith('//')) {
@@ -56,7 +40,10 @@ async function requestJson(path, { method = 'GET', params, data } = {}) {
 async function requestWithFallback(requester, fallback) {
   try {
     return await requester()
-  } catch {
+  } catch (error) {
+    if (!ENABLE_API_FALLBACK) {
+      throw error
+    }
     return typeof fallback === 'function' ? fallback() : fallback
   }
 }
@@ -71,12 +58,12 @@ function pickItems(result, fallbackItems = []) {
 function buildBootstrapFallback() {
   return {
     site: {
-      siteMeta,
-      mainNav,
-      footerSections,
-      socialLinks,
-      articleCategories,
-      articleHotTopics,
+      siteMeta: {},
+      mainNav: [],
+      footerSections: [],
+      socialLinks: [],
+      articleCategories: [],
+      articleHotTopics: [],
     },
     pages: {},
     content: {
@@ -103,12 +90,12 @@ export const projectApi = {
   list: (params = {}) =>
     requestWithFallback(
       () => requestJson('/projects', { params }),
-      () => pickItems({ items: products }, products),
+      () => pickItems({ items: [] }, []),
     ),
   get: (slug) =>
     requestWithFallback(
       () => requestJson(`/projects/${encodeURIComponent(slug)}`),
-      () => getProductBySlug(slug),
+      () => null,
     ),
 }
 
@@ -122,26 +109,13 @@ export const articleApi = {
     requestWithFallback(
       () => requestJson('/articles', { params }),
       () => {
-        const query = params.q?.toLowerCase?.() || ''
-        const tag = params.tag
-        const column = params.column
-        const items = articles.filter((item) => {
-          const matchesQuery =
-            !query
-            || item.title.toLowerCase().includes(query)
-            || item.summary.toLowerCase().includes(query)
-            || item.tags.some((entry) => entry.toLowerCase().includes(query))
-          const matchesTag = !tag || item.tags.includes(tag) || item.category === tag
-          const matchesColumn = !column || item.column === column
-          return matchesQuery && matchesTag && matchesColumn
-        })
-        return pickItems({ items }, items)
+        return pickItems({ items: [] }, [])
       },
     ),
   get: (slug) =>
     requestWithFallback(
       () => requestJson(`/articles/${encodeURIComponent(slug)}`),
-      () => getArticleBySlug(slug),
+      () => null,
     ),
 }
 
@@ -149,12 +123,12 @@ export const offerApi = {
   list: () =>
     requestWithFallback(
       () => requestJson('/offers'),
-      () => pickItems({ items: tryOffers }, tryOffers),
+      () => pickItems({ items: [] }, []),
     ),
   get: (slug) =>
     requestWithFallback(
       () => requestJson(`/offers/${encodeURIComponent(slug)}`),
-      () => tryOffers.find((item) => item.slug === slug),
+      () => null,
     ),
 }
 
@@ -241,7 +215,7 @@ export const searchApi = {
       products: productResult.items.filter((item) => item.name?.includes(q) || item.summary?.includes(q)),
       labs: labResult.items.filter((item) => item.name?.includes(q) || item.description?.includes(q)),
       offers: offerResult.items.filter((item) => item.title?.includes(q)),
-      openSource: openSourcePage.projects.filter((item) => item.name.includes(q)),
+      openSource: [],
     }
   },
 }
@@ -250,11 +224,11 @@ export const labApi = {
   list: (params = {}) =>
     requestWithFallback(
       () => requestJson('/projects', { params: { ...params, projectType: 'lab' } }),
-      () => pickItems({ items: labs }, labs),
+      () => pickItems({ items: [] }, []),
     ),
   get: (slug) =>
     requestWithFallback(
       () => requestJson(`/projects/${encodeURIComponent(slug)}`),
-      () => getLabBySlug(slug),
+      () => null,
     ),
 }

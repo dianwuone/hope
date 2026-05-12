@@ -1,6 +1,10 @@
 <script setup>
+import { computed } from 'vue'
 import PageHero from '@/components/site/PageHero.vue'
-import { subscribePage } from '@/data'
+import { useSiteStore } from '@/stores/site'
+
+const siteStore = useSiteStore()
+const subscribePage = computed(() => siteStore.pageData('subscribe', { highlights: [] }))
 </script>
 
 <template>

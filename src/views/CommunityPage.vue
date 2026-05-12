@@ -10,6 +10,9 @@ import { useSiteStore } from '@/stores/site'
 const siteStore = useSiteStore()
 const contactEmail = siteStore.contactEmailData
 const communityWechat = siteStore.communityWechatData
+const siteError = computed(() => siteStore.error)
+const communityPageData = computed(() => siteStore.pageData('community', communityPage))
+const communityQrCode = computed(() => siteStore.siteConfigValue('community_qr_code', homePage.community.qr))
 
 const form = reactive({
   name: '',
@@ -48,14 +51,17 @@ const intents = [
 
 <template>
   <div>
-    <PageHero eyebrow="Community" :title="communityPage.title" :subtitle="communityPage.subtitle" :image="communityPage.banner" image-alt="加入社区" />
+    <PageHero eyebrow="Community" :title="communityPageData.title" :subtitle="communityPageData.subtitle" :image="communityPageData.banner || communityPage.banner" image-alt="加入社区" />
 
     <section class="section-shell pt-0">
       <div class="container-content grid gap-6 xl:grid-cols-[minmax(0,1fr)_360px]">
         <div class="surface-panel p-8">
           <h2 class="text-2xl font-semibold text-brand-charcoal">加入后你会获得什么</h2>
+          <div v-if="siteError" class="mt-4 rounded-[14px] border border-[#F3D3D3] bg-[#FFF7F7] px-4 py-3 text-sm text-[#B24C4C]">
+            站点配置加载失败：{{ siteError }}
+          </div>
           <div class="mt-6 grid gap-4 sm:grid-cols-2">
-            <div v-for="item in communityPage.benefits" :key="item" class="rounded-card bg-brand-warm p-4 text-sm text-brand-text">{{ item }}</div>
+            <div v-for="item in communityPageData.benefits" :key="item" class="rounded-card bg-brand-warm p-4 text-sm text-brand-text">{{ item }}</div>
           </div>
           <div class="mt-8 rounded-[18px] border border-[#E8EEF8] bg-white p-5">
             <h3 class="text-xl font-semibold text-[#17233D]">直接联系</h3>
@@ -67,7 +73,7 @@ const intents = [
         </div>
 
         <div class="surface-panel p-8 text-center">
-          <img :src="homePage.community.qr" alt="加入社区二维码" class="mx-auto h-56 w-56 rounded-xl object-cover" />
+          <img :src="communityQrCode" alt="加入社区二维码" class="mx-auto h-56 w-56 rounded-xl object-cover" />
           <p class="mt-4 text-sm text-brand-text">扫码加入微信</p>
           <p class="mt-2 text-sm text-brand-muted">长按识别，发送“加入社区”</p>
         </div>
@@ -102,7 +108,7 @@ const intents = [
 
         <div class="surface-panel p-8">
           <h2 class="text-2xl font-semibold text-brand-charcoal">FAQ</h2>
-          <FaqList :items="communityPage.faq" />
+          <FaqList :items="communityPageData.faq || communityPage.faq" />
         </div>
       </div>
     </section>

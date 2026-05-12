@@ -2,12 +2,20 @@
 import { computed } from 'vue'
 import { useRoute } from 'vue-router'
 import BreadcrumbNav from '@/components/BreadcrumbNav.vue'
-import { articles, columns, getArticleBySlug, products } from '@/data'
+import { useSiteStore } from '@/stores/site'
 
 const route = useRoute()
+const siteStore = useSiteStore()
+const emptyColumn = {
+  slug: '',
+  name: '',
+  author: '',
+  avatar: '',
+  subtitle: '',
+}
 
-const article = computed(() => getArticleBySlug(route.params.slug) || articles[0])
-const column = computed(() => columns[article.value.column] || columns.kunting)
+const article = computed(() => siteStore.articleBySlug(route.params.slug) || siteStore.articlesData[0] || { tags: [], content: [], sections: [] })
+const column = computed(() => siteStore.columnBySlug(article.value.column) || siteStore.columnsData[0] || emptyColumn)
 const articleSections = computed(() =>
   article.value.sections?.length
     ? article.value.sections
@@ -18,7 +26,7 @@ const articleSections = computed(() =>
 )
 
 const relatedArticles = computed(() =>
-  articles
+  siteStore.articlesData
     .filter((item) =>
       item.slug !== article.value.slug
       && (
@@ -28,16 +36,16 @@ const relatedArticles = computed(() =>
       ))
     .slice(0, 3)
 )
-const articleIndex = computed(() => articles.findIndex((item) => item.slug === article.value.slug))
-const previousArticle = computed(() => (articleIndex.value > 0 ? articles[articleIndex.value - 1] : null))
-const nextArticle = computed(() => (articleIndex.value >= 0 && articleIndex.value < articles.length - 1 ? articles[articleIndex.value + 1] : null))
+const articleIndex = computed(() => siteStore.articlesData.findIndex((item) => item.slug === article.value.slug))
+const previousArticle = computed(() => (articleIndex.value > 0 ? siteStore.articlesData[articleIndex.value - 1] : null))
+const nextArticle = computed(() => (articleIndex.value >= 0 && articleIndex.value < siteStore.articlesData.length - 1 ? siteStore.articlesData[articleIndex.value + 1] : null))
 
 const recommendedProducts = computed(() => {
   if (article.value.column === 'qiming') {
-    return products.filter((item) => ['parenting-assistant'].includes(item.slug))
+    return siteStore.productsData.filter((item) => ['parenting-assistant'].includes(item.slug))
   }
 
-  return products.filter((item) => ['personal-assistant', 'ai-tools'].includes(item.slug))
+  return siteStore.productsData.filter((item) => ['personal-assistant', 'ai-tools'].includes(item.slug))
 })
 
 const breadcrumbItems = computed(() => [
@@ -81,7 +89,7 @@ const functionalCard = computed(() => {
 const engagementStats = computed(() => [
   { label: '点赞', value: article.value.likes ?? 0, icon: '♡' },
   { label: '收藏', value: article.value.favorites ?? 0, icon: '☆' },
-  { label: '评论', value: Math.max(12, Math.round((article.value.viewCount ?? 0) / 90)), icon: '✎' },
+  { label: '评论', value: Math.max(12, Math.round((article.value.viewCountNumber ?? 0) / 90)), icon: '✎' },
 ])
 </script>
 

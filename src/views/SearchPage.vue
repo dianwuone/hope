@@ -3,10 +3,11 @@ import { computed, ref } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import PageHero from '@/components/site/PageHero.vue'
 import FilterPills from '@/components/site/FilterPills.vue'
-import { articles, products, labs } from '@/data'
+import { useSiteStore } from '@/stores/site'
 
 const route = useRoute()
 const router = useRouter()
+const siteStore = useSiteStore()
 const query = ref(route.query.q || '')
 const filter = ref('全部')
 const filters = ['全部', '文章', '产品', '实验室']
@@ -15,9 +16,9 @@ const results = computed(() => {
   const keyword = query.value.trim().toLowerCase()
   if (!keyword) return []
   const mixed = [
-    ...articles.map((item) => ({ type: '文章', title: item.title, summary: item.summary, to: `/articles/${item.slug}` })),
-    ...products.map((item) => ({ type: '产品', title: item.name, summary: item.shortDesc, to: `/products/${item.slug}` })),
-    ...labs.map((item) => ({ type: '实验室', title: item.name, summary: item.description, to: `/lab/${item.slug}` })),
+    ...siteStore.articlesData.map((item) => ({ type: '文章', title: item.title, summary: item.summary, to: `/articles/${item.slug}` })),
+    ...siteStore.productsData.map((item) => ({ type: '产品', title: item.name, summary: item.shortDesc, to: `/products/${item.slug}` })),
+    ...siteStore.labsData.map((item) => ({ type: '实验室', title: item.name, summary: item.description, to: `/lab/${item.slug}` })),
   ]
   return mixed.filter((item) => item.title.toLowerCase().includes(keyword) || item.summary.toLowerCase().includes(keyword))
 })
@@ -31,7 +32,7 @@ const doSearch = () => {
 
 <template>
   <div>
-    <PageHero eyebrow="Search" title="搜索结果" subtitle="搜索结果页也按前端临时数据实现，但结构已经对齐未来 API。" compact />
+    <PageHero eyebrow="Search" title="搜索结果" subtitle="文章、产品与实验室内容统一来自后台数据。" compact />
     <section class="section-shell pt-0">
       <div class="container-content">
         <div class="surface-panel p-6">

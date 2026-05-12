@@ -3,10 +3,22 @@ import { computed } from 'vue'
 import { useRoute } from 'vue-router'
 import BreadcrumbNav from '@/components/BreadcrumbNav.vue'
 import SectionTitle from '@/components/site/SectionTitle.vue'
-import { articles, getProductBySlug, products } from '@/data'
+import { useSiteStore } from '@/stores/site'
 
 const route = useRoute()
-const product = computed(() => getProductBySlug(route.params.slug) || getProductBySlug('personal-assistant'))
+const siteStore = useSiteStore()
+const emptyProduct = {
+  slug: '',
+  name: '',
+  shortDesc: '',
+  summary: '',
+  cover: '',
+  banner: '',
+  tags: [],
+  features: [],
+  detailPage: {},
+}
+const product = computed(() => siteStore.productBySlug(route.params.slug) || siteStore.productsData[0] || emptyProduct)
 
 const breadcrumbItems = computed(() => [
   { label: '首页', to: '/' },
@@ -106,7 +118,7 @@ const productToneMap = {
   },
 }
 
-const articleMap = computed(() => Object.fromEntries(articles.map((item) => [item.slug, item])))
+const articleMap = computed(() => Object.fromEntries(siteStore.articlesData.map((item) => [item.slug, item])))
 
 const defaultDetail = computed(() => {
   const tone = productToneMap[product.value.slug] || productToneMap['ai-tools']
@@ -169,12 +181,12 @@ const defaultDetail = computed(() => {
     articlesTitle: '相关文章',
     articlesCtaLabel: '进入文章中心',
     articlesCtaTo: '/articles',
-    articles: articles
+    articles: siteStore.articlesData
       .filter((item) => item.tags.some((tag) => product.value.tags.includes(tag)))
       .slice(0, 4)
       .map((item) => item.slug),
     moreTitle: '更多产品',
-    moreItems: products
+    moreItems: siteStore.productsData
       .filter((item) => item.slug !== product.value.slug)
       .slice(0, 4)
       .map((item, index) => ({

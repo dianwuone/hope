@@ -1,9 +1,12 @@
 <script setup>
+import { computed } from 'vue'
 import { aboutPage, homePage } from '@/data'
 import { useSiteStore } from '@/stores/site'
 
 const siteStore = useSiteStore()
 const communityWechat = siteStore.communityWechatData
+const aboutPageData = computed(() => siteStore.pageData('about', aboutPage))
+const communityQrCode = computed(() => siteStore.siteConfigValue('community_qr_code', homePage.community.qr))
 
 const iconMap = {
   rocket: '✦',
@@ -22,17 +25,17 @@ const iconMap = {
       <div class="container-content relative z-10 py-8">
         <div class="grid gap-6 xl:grid-cols-[minmax(0,1.12fr)_minmax(380px,0.88fr)]">
           <div class="overflow-hidden rounded-[30px] border border-[#F1DFC9] bg-[linear-gradient(135deg,rgba(255,251,245,0.94)_0%,rgba(255,248,240,0.92)_100%)] p-8 shadow-[0_22px_54px_rgba(143,101,55,0.12)] md:p-10">
-            <div class="text-sm font-semibold tracking-[0.16em] text-[#DD8B46]">{{ aboutPage.eyebrow }}</div>
+            <div class="text-sm font-semibold tracking-[0.16em] text-[#DD8B46]">{{ aboutPageData.eyebrow }}</div>
             <h1 class="mt-5 max-w-[720px] font-serif text-4xl font-semibold leading-[1.22] text-[#433024] md:text-[3.55rem]">
-              {{ aboutPage.title }}
+              {{ aboutPageData.title }}
             </h1>
             <p class="mt-5 max-w-[560px] text-base leading-8 text-[#7B6552] md:text-lg">
-              {{ aboutPage.subtitle }}
+              {{ aboutPageData.subtitle }}
             </p>
 
             <div class="mt-8 flex flex-wrap gap-4">
               <router-link
-                v-for="action in aboutPage.actions"
+                v-for="action in aboutPageData.actions"
                 :key="action.label"
                 :to="action.to"
                 :class="action.variant === 'primary'
@@ -57,9 +60,9 @@ const iconMap = {
 
                 <div class="flex items-start justify-end">
                   <div class="w-full max-w-[280px] rounded-[24px] border border-white/75 bg-white/86 p-5 shadow-[0_18px_36px_rgba(143,101,55,0.1)] backdrop-blur">
-                    <h2 class="text-xl font-semibold text-[#493425]">{{ aboutPage.journeyTitle }}</h2>
+                    <h2 class="text-xl font-semibold text-[#493425]">{{ aboutPageData.journeyTitle }}</h2>
                     <div class="mt-5 space-y-4">
-                      <div v-for="item in aboutPage.journey" :key="item.step" class="flex gap-3">
+                      <div v-for="item in aboutPageData.journey" :key="item.step" class="flex gap-3">
                         <span class="mt-0.5 inline-flex h-9 w-9 items-center justify-center rounded-full bg-[#FFF1E4] text-[#D27C42]">◌</span>
                         <div>
                           <div class="text-sm font-semibold text-[#5A4333]">{{ item.step }}</div>
@@ -79,19 +82,19 @@ const iconMap = {
     <section class="py-8">
       <div class="container-content grid gap-6 xl:grid-cols-[320px_minmax(0,1fr)]">
         <div class="rounded-[24px] border border-[#EFDCC7] bg-[linear-gradient(180deg,#FFFDF9_0%,#FFF7EE_100%)] p-6 shadow-[0_18px_40px_rgba(143,101,55,0.08)]">
-          <h2 class="text-xl font-semibold text-[#493425]">{{ aboutPage.joinCard.title }}</h2>
-          <p class="mt-3 text-sm leading-7 text-[#7F6A59]">{{ aboutPage.joinCard.subtitle }}</p>
-          <img :src="homePage.community.qr" alt="社区二维码" class="mx-auto mt-5 h-52 w-52 rounded-[18px] border border-[#F0E2D2] bg-white p-3 shadow-[0_12px_28px_rgba(143,101,55,0.08)]" />
+          <h2 class="text-xl font-semibold text-[#493425]">{{ aboutPageData.joinCard.title }}</h2>
+          <p class="mt-3 text-sm leading-7 text-[#7F6A59]">{{ aboutPageData.joinCard.subtitle }}</p>
+          <img :src="communityQrCode" alt="社区二维码" class="mx-auto mt-5 h-52 w-52 rounded-[18px] border border-[#F0E2D2] bg-white p-3 shadow-[0_12px_28px_rgba(143,101,55,0.08)]" />
           <div class="mt-4 rounded-[12px] bg-white px-4 py-3 text-center text-sm font-medium text-[#9A7A61] shadow-[inset_0_1px_0_rgba(255,255,255,0.82)]">
             {{ communityWechat ? `微信号：${communityWechat}` : '微信联系方式待配置' }}
           </div>
         </div>
 
         <div class="rounded-[24px] border border-[#EFDCC7] bg-[linear-gradient(180deg,#FFFDF9_0%,#FFF8F0_100%)] p-6 shadow-[0_18px_40px_rgba(143,101,55,0.08)]">
-          <h2 class="text-xl font-semibold text-[#493425]">{{ aboutPage.privilegesTitle }}</h2>
+          <h2 class="text-xl font-semibold text-[#493425]">{{ aboutPageData.privilegesTitle }}</h2>
           <div class="mt-6 grid gap-4 md:grid-cols-2 xl:grid-cols-5">
             <article
-              v-for="item in aboutPage.privileges"
+              v-for="item in aboutPageData.privileges"
               :key="item.title"
               class="rounded-[20px] border border-[#F0E3D5] bg-white/86 p-5 text-center shadow-[0_12px_28px_rgba(143,101,55,0.06)]"
             >
@@ -109,12 +112,12 @@ const iconMap = {
     <section id="about-story" class="pb-8">
       <div class="container-content">
         <div class="rounded-[24px] border border-[#EFDCC7] bg-[linear-gradient(180deg,#FFFDF9_0%,#FFF8F0_100%)] p-6 shadow-[0_18px_40px_rgba(143,101,55,0.08)]">
-          <h2 class="text-xl font-semibold text-[#493425]">{{ aboutPage.channelsTitle }}</h2>
-          <p class="mt-3 text-sm leading-7 text-[#7F6A59]">{{ aboutPage.channelsSubtitle }}</p>
+          <h2 class="text-xl font-semibold text-[#493425]">{{ aboutPageData.channelsTitle }}</h2>
+          <p class="mt-3 text-sm leading-7 text-[#7F6A59]">{{ aboutPageData.channelsSubtitle }}</p>
 
           <div class="mt-5 grid gap-4 md:grid-cols-2 xl:grid-cols-4">
             <article
-              v-for="item in aboutPage.channels"
+              v-for="item in aboutPageData.channels"
               :key="item.name"
               class="rounded-[18px] border border-[#F0E3D5] bg-white/88 p-4 shadow-[0_10px_24px_rgba(143,101,55,0.05)]"
             >
@@ -126,18 +129,18 @@ const iconMap = {
           <div class="mt-6 grid gap-6 lg:grid-cols-[minmax(0,0.88fr)_minmax(220px,0.52fr)]">
             <div class="rounded-[20px] border border-[#F0E3D5] bg-white/86 p-5 shadow-[0_10px_24px_rgba(143,101,55,0.05)]">
               <div class="flex gap-4">
-                <img :src="aboutPage.author.avatar" :alt="aboutPage.author.name" class="h-20 w-20 rounded-full object-cover shadow-[0_12px_24px_rgba(143,101,55,0.12)]" />
+                <img :src="aboutPageData.author.avatar" :alt="aboutPageData.author.name" class="h-20 w-20 rounded-full object-cover shadow-[0_12px_24px_rgba(143,101,55,0.12)]" />
                 <div>
-                  <div class="text-xl font-semibold text-[#513A2A]">{{ aboutPage.author.title }}</div>
-                  <div class="mt-1 text-sm font-medium text-[#C97745]">{{ aboutPage.author.name }}</div>
+                  <div class="text-xl font-semibold text-[#513A2A]">{{ aboutPageData.author.title }}</div>
+                  <div class="mt-1 text-sm font-medium text-[#C97745]">{{ aboutPageData.author.name }}</div>
                 </div>
               </div>
-              <p class="mt-4 text-sm leading-7 text-[#7F6A59]">{{ aboutPage.author.description }}</p>
+              <p class="mt-4 text-sm leading-7 text-[#7F6A59]">{{ aboutPageData.author.description }}</p>
             </div>
 
             <div class="overflow-hidden rounded-[20px] border border-[#E9D4BC] bg-[linear-gradient(135deg,#C88C56_0%,#9F6A40_100%)] p-5 text-white shadow-[0_14px_30px_rgba(143,101,55,0.14)]">
-              <h3 class="font-serif text-3xl leading-tight">{{ aboutPage.featureCard.title }}</h3>
-              <p class="mt-4 text-sm leading-7 text-white/82">{{ aboutPage.featureCard.description }}</p>
+              <h3 class="font-serif text-3xl leading-tight">{{ aboutPageData.featureCard.title }}</h3>
+              <p class="mt-4 text-sm leading-7 text-white/82">{{ aboutPageData.featureCard.description }}</p>
             </div>
           </div>
         </div>
@@ -148,7 +151,7 @@ const iconMap = {
       <div class="container-content">
         <div class="grid gap-3 rounded-[20px] border border-[#EFDCC7] bg-[linear-gradient(180deg,#FFFDF9_0%,#FFF8F0_100%)] px-5 py-4 shadow-[0_14px_30px_rgba(143,101,55,0.06)] md:grid-cols-2 xl:grid-cols-6">
           <div
-            v-for="item in aboutPage.stats"
+            v-for="item in aboutPageData.stats"
             :key="item"
             class="text-center text-sm font-medium text-[#7A6656]"
           >
@@ -163,21 +166,21 @@ const iconMap = {
         <div class="rounded-[26px] border border-[#EFDCC7] bg-[linear-gradient(180deg,#FFFDF9_0%,#FFF7EE_100%)] px-6 py-7 shadow-[0_18px_40px_rgba(143,101,55,0.08)] md:px-8">
           <div class="grid gap-5 lg:grid-cols-[minmax(0,1fr)_340px] lg:items-center">
             <div>
-              <h2 class="text-2xl font-semibold text-[#493425]">{{ aboutPage.subscribe.title }}</h2>
-              <p class="mt-3 text-sm leading-7 text-[#7F6A59]">{{ aboutPage.subscribe.subtitle }}</p>
+              <h2 class="text-2xl font-semibold text-[#493425]">{{ aboutPageData.subscribe.title }}</h2>
+              <p class="mt-3 text-sm leading-7 text-[#7F6A59]">{{ aboutPageData.subscribe.subtitle }}</p>
             </div>
 
             <form class="grid gap-3 sm:grid-cols-[minmax(0,1fr)_108px]">
               <input
                 type="email"
-                :placeholder="aboutPage.subscribe.placeholder"
+                :placeholder="aboutPageData.subscribe.placeholder"
                 class="h-12 rounded-[12px] border border-[#E8D4BF] bg-white px-4 text-sm text-[#5A4333] outline-none transition-colors placeholder:text-[#B39A86] focus:border-[#D38B56]"
               />
               <button
                 type="button"
                 class="h-12 rounded-[12px] bg-[#C97545] px-5 text-sm font-semibold text-white transition-colors hover:bg-[#B96738]"
               >
-                {{ aboutPage.subscribe.buttonLabel }}
+                {{ aboutPageData.subscribe.buttonLabel }}
               </button>
             </form>
           </div>

@@ -1,58 +1,25 @@
 <script setup>
 import { computed, ref } from 'vue'
-import { articles, gamesPage, getProductBySlug } from '@/data'
-import pinyinGameImage from '@/assets/images/shucai/products/app-pinyin-game.jpg'
-import articleThumb3 from '@/assets/images/shucai/articles/article-thumb-3.jpg'
-import articleThumb6 from '@/assets/images/shucai/articles/article-thumb-6.jpg'
+import { useSiteStore } from '@/stores/site'
 
+const siteStore = useSiteStore()
+const gamesPageData = computed(() => siteStore.pageData('games', { title: '游戏中心', subtitle: '', banner: '' }))
 const activeCategory = ref('全部游戏')
 const activeAge = ref('全部')
 
-const categories = ['全部游戏', '精选推荐', '教育益智', '动作冒险', '解谜策略', '模拟经营', '创意休闲']
-const ages = ['全部', '4-7岁', '8-12岁', '13+']
+const games = computed(() =>
+  siteStore.gamesData.map((game) => ({
+    ...game,
+    title: game.name,
+    subtitle: game.summary || game.shortDesc || '后台已配置，等待更多游戏内容补充。',
+    age: game.age || '全年龄',
+    category: game.category || '精选推荐',
+    to: game.route || `/games/${game.slug}`,
+  })),
+)
 
-const games = [
-  {
-    title: '拼音大冒险',
-    subtitle: '趣味拼音闯关，轻松掌握声母韵母',
-    cover: pinyinGameImage,
-    age: '4-7岁',
-    category: '教育益智',
-    tags: ['教育益智', '语言学习'],
-    to: '/games/pinyin-adventure',
-    tone: 'blue',
-  },
-  {
-    title: '星际小探险',
-    subtitle: '太空探索与英语词汇收集冒险之旅',
-    cover: articleThumb3,
-    age: '8+',
-    category: '动作冒险',
-    tags: ['冒险', '探索', '策略'],
-    to: '/play',
-    tone: 'indigo',
-  },
-  {
-    title: '逻辑迷宫',
-    subtitle: '挑战思维极限，破解精妙迷宫',
-    cover: articleThumb6,
-    age: '9+',
-    category: '解谜策略',
-    tags: ['解谜', '逻辑', '单机'],
-    to: '/play',
-    tone: 'cyan',
-  },
-  {
-    title: '岛屿建造者',
-    subtitle: '建造梦想岛屿，经营你的世界',
-    cover: gamesPage.banner,
-    age: '10+',
-    category: '模拟经营',
-    tags: ['模拟经营', '建造', '创意'],
-    to: '/play',
-    tone: 'green',
-  },
-]
+const categories = computed(() => ['全部游戏', ...new Set(games.value.map((item) => item.category).filter(Boolean))])
+const ages = computed(() => ['全部', ...new Set(games.value.map((item) => item.age).filter(Boolean))])
 
 const learningDirections = [
   { title: '语言表达', desc: '拼音 识字 阅读', icon: '♟', color: 'bg-[#E7FAF2] text-[#25A97F]' },
@@ -63,33 +30,39 @@ const learningDirections = [
   { title: '生活技能', desc: '时间管理 财商培养', icon: '▣', color: 'bg-[#EBF5FF] text-[#4B91F7]' },
 ]
 
-const updates = [
-  { title: '拼音大冒险 1.2.0 版本更新', desc: '新增 20 个趣味关卡', time: '2 天前', cover: pinyinGameImage },
-  { title: '星际小探险 新章节上线', desc: '探索神秘的冰冻星球', time: '5 天前', cover: articleThumb3 },
-  { title: '逻辑迷宫 新增挑战模式', desc: '100 个全新谜题等你挑战', time: '1 周前', cover: articleThumb6 },
-]
-
 const relatedArticles = computed(() =>
-  articles
+  siteStore.articlesData
     .filter((article) =>
       article.category.includes('亲子')
-      || article.tags.some((tag) => ['亲子游戏', '幼小衔接', '拼音启蒙'].includes(tag))
+      || article.tags.some((tag) => ['亲子游戏', '幼小衔接', '拼音启蒙'].includes(tag)),
     )
-    .slice(0, 3)
+    .slice(0, 3),
 )
 
-const parentingProduct = computed(() => getProductBySlug('parenting-assistant'))
+const parentingProduct = computed(() => siteStore.productBySlug('parenting-assistant') || siteStore.productsData[0] || { name: '', cover: '' })
+const heroGame = computed(() => games.value[0] || { cover: '', to: '/play', title: '', subtitle: '' })
+
+const updates = computed(() => [
+  ...games.value.slice(0, 1).map((item) => ({
+    title: `${item.title} 已上线`,
+    desc: item.subtitle,
+    time: item.age,
+    cover: item.cover,
+  })),
+  ...relatedArticles.value.slice(0, 2).map((item) => ({
+    title: item.title,
+    desc: item.summary,
+    time: item.publishedAt,
+    cover: item.cover,
+  })),
+])
 
 const filteredGames = computed(() =>
-  games.filter((game) => {
-    const categoryMatched = activeCategory.value === '全部游戏'
-      || activeCategory.value === '精选推荐'
-      || game.category === activeCategory.value
-    const ageMatched = activeAge.value === '全部'
-      || game.age.includes(activeAge.value.replace('岁', ''))
-
+  games.value.filter((game) => {
+    const categoryMatched = activeCategory.value === '全部游戏' || game.category === activeCategory.value
+    const ageMatched = activeAge.value === '全部' || game.age === activeAge.value
     return categoryMatched && ageMatched
-  })
+  }),
 )
 </script>
 
@@ -98,7 +71,7 @@ const filteredGames = computed(() =>
     <section class="overflow-hidden border-b border-[#E3ECF8] bg-white">
       <div class="relative">
         <img
-          :src="gamesPage.banner"
+          :src="gamesPageData.banner"
           alt="游戏中心"
           class="absolute inset-y-0 right-0 h-full w-[72%] object-cover object-center opacity-95"
         />
@@ -106,10 +79,10 @@ const filteredGames = computed(() =>
 
         <div class="container-content relative z-10 grid min-h-[300px] gap-8 py-10 lg:grid-cols-[minmax(0,0.72fr)_320px] lg:items-center">
           <div>
-            <h1 class="font-serif text-5xl font-semibold leading-tight text-[#17233D]">游戏中心</h1>
+            <h1 class="font-serif text-5xl font-semibold leading-tight text-[#17233D]">{{ gamesPageData.title || '游戏中心' }}</h1>
             <p class="mt-4 text-2xl font-semibold text-[#2379F6]">好玩 · 有用 · 帮助成长</p>
             <p class="mt-5 max-w-[420px] text-base leading-8 text-[#51627A]">
-              我们相信，优秀的游戏不仅带来快乐，还能启发思考、培养能力、连接彼此。
+              {{ gamesPageData.subtitle || '我们相信，优秀的游戏不仅带来快乐，还能启发思考、培养能力、连接彼此。' }}
             </p>
             <div class="mt-8 flex flex-wrap gap-3">
               <router-link to="/play" class="inline-flex items-center rounded-[10px] bg-[#2379F6] px-6 py-3 text-sm font-semibold text-white shadow-[0_14px_26px_rgba(35,121,246,0.22)] transition-colors hover:bg-[#1868DB]">
@@ -127,16 +100,16 @@ const filteredGames = computed(() =>
             <p class="mt-4 text-sm leading-7 text-[#51627A]">“在探索与挑战中，发现更好的自己。”</p>
             <div class="mt-6 grid grid-cols-3 gap-5 border-y border-[#E4ECF8] py-5 text-center">
               <div>
-                <div class="text-2xl font-semibold text-[#2379F6]">12+</div>
-                <div class="mt-1 text-xs text-[#7A89A2]">优质游戏</div>
+                <div class="text-2xl font-semibold text-[#2379F6]">{{ games.length }}</div>
+                <div class="mt-1 text-xs text-[#7A89A2]">可见游戏</div>
               </div>
               <div>
-                <div class="text-2xl font-semibold text-[#2379F6]">6,842</div>
-                <div class="mt-1 text-xs text-[#7A89A2]">今日游玩</div>
+                <div class="text-2xl font-semibold text-[#2379F6]">{{ relatedArticles.length }}</div>
+                <div class="mt-1 text-xs text-[#7A89A2]">相关文章</div>
               </div>
               <div>
-                <div class="text-2xl font-semibold text-[#2379F6]">98%</div>
-                <div class="mt-1 text-xs text-[#7A89A2]">好评推荐</div>
+                <div class="text-2xl font-semibold text-[#2379F6]">{{ siteStore.labsData.length }}</div>
+                <div class="mt-1 text-xs text-[#7A89A2]">实验项目</div>
               </div>
             </div>
             <router-link to="/articles" class="mt-5 inline-flex text-sm font-semibold text-[#2379F6]">
@@ -183,7 +156,7 @@ const filteredGames = computed(() =>
             <div class="flex items-center justify-between gap-4">
               <div class="flex items-center gap-3">
                 <h2 class="text-2xl font-semibold text-[#17233D]">精选游戏推荐</h2>
-                <span class="rounded-full bg-[#F1F6FF] px-3 py-1 text-xs font-semibold text-[#7A89A2]">为你精选的优质游戏</span>
+                <span class="rounded-full bg-[#F1F6FF] px-3 py-1 text-xs font-semibold text-[#7A89A2]">全部来自后台项目数据</span>
               </div>
               <router-link to="/play" class="hidden text-sm font-semibold text-[#2379F6] md:inline-flex">查看全部游戏 →</router-link>
             </div>
@@ -191,7 +164,7 @@ const filteredGames = computed(() =>
             <div class="mt-5 grid gap-5 md:grid-cols-2 xl:grid-cols-4">
               <router-link
                 v-for="game in filteredGames"
-                :key="game.title"
+                :key="game.slug"
                 :to="game.to"
                 class="group overflow-hidden rounded-[16px] border border-[#DFE8F5] bg-white shadow-[0_12px_28px_rgba(57,94,150,0.08)] transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_18px_36px_rgba(57,94,150,0.13)]"
               >
@@ -205,13 +178,16 @@ const filteredGames = computed(() =>
                     <span class="shrink-0 rounded-full bg-[#FFF4E7] px-2.5 py-1 text-xs font-semibold text-[#F08A2F]">{{ game.age }}</span>
                   </div>
                   <div class="mt-4 flex flex-wrap gap-2">
-                    <span v-for="tag in game.tags" :key="tag" class="rounded-full bg-[#EFF6FF] px-3 py-1 text-xs font-semibold text-[#4D91F7]">{{ tag }}</span>
+                    <span v-for="tag in game.tags?.slice(0, 3)" :key="tag" class="rounded-full bg-[#EFF6FF] px-3 py-1 text-xs font-semibold text-[#4D91F7]">{{ tag }}</span>
                   </div>
                   <div class="mt-4 flex justify-end">
                     <span class="inline-flex h-8 w-8 items-center justify-center rounded-full border border-[#DFE8F5] text-[#2379F6] transition-colors group-hover:border-[#2379F6] group-hover:bg-[#2379F6] group-hover:text-white">→</span>
                   </div>
                 </div>
               </router-link>
+              <div v-if="!filteredGames.length" class="rounded-[16px] border border-dashed border-[#DFE8F5] bg-white p-6 text-sm text-[#7384A0]">
+                后台暂未配置符合筛选条件的游戏。
+              </div>
             </div>
 
             <section class="mt-6 rounded-[16px] border border-[#DFE8F5] bg-white p-5 shadow-[0_10px_24px_rgba(57,94,150,0.06)]">
@@ -243,7 +219,7 @@ const filteredGames = computed(() =>
                   <img :src="article.cover" :alt="article.title" class="h-20 w-20 rounded-[10px] object-cover" />
                   <div class="min-w-0">
                     <h3 class="line-clamp-2 text-sm font-semibold leading-6 text-[#17233D]">{{ article.title }}</h3>
-                    <p class="mt-2 text-xs text-[#7A89A2]">{{ article.publishedAt }} · {{ article.readingTime }}阅读</p>
+                    <p class="mt-2 text-xs text-[#7A89A2]">{{ article.publishedAt }} · {{ article.readingTime }}</p>
                   </div>
                 </router-link>
               </div>
@@ -267,10 +243,10 @@ const filteredGames = computed(() =>
               <div class="grid grid-cols-[1fr_116px] items-center gap-4">
                 <div>
                   <h2 class="text-xl font-semibold">在线轻试玩</h2>
-                  <p class="mt-2 text-sm leading-6 text-white/88">无需下载，立即体验一款我们精选小游戏</p>
-                  <router-link to="/play" class="mt-5 inline-flex rounded-[8px] bg-white px-4 py-2.5 text-sm font-semibold text-[#2379F6]">立即开始 →</router-link>
+                  <p class="mt-2 text-sm leading-6 text-white/88">无需下载，立即体验当前已公开的小游戏入口。</p>
+                  <router-link :to="heroGame.to || '/play'" class="mt-5 inline-flex rounded-[8px] bg-white px-4 py-2.5 text-sm font-semibold text-[#2379F6]">立即开始 →</router-link>
                 </div>
-                <img :src="pinyinGameImage" alt="在线轻试玩" class="w-full rounded-[18px] object-cover shadow-[0_14px_26px_rgba(20,68,130,0.2)]" />
+                <img :src="heroGame.cover" :alt="heroGame.title || '在线轻试玩'" class="w-full rounded-[18px] object-cover shadow-[0_14px_26px_rgba(20,68,130,0.2)]" />
               </div>
             </section>
 

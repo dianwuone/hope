@@ -1,8 +1,9 @@
 <script setup>
 import { computed, ref } from 'vue'
-import { products } from '@/data'
 import bannerProducts from '@/assets/images/shucai/banners/banner-products.jpg'
+import { useSiteStore } from '@/stores/site'
 
+const siteStore = useSiteStore()
 const activeScene = ref('全部场景')
 
 const sceneItems = [
@@ -59,7 +60,7 @@ const productMeta = {
 }
 
 const enhancedProducts = computed(() =>
-  products.map((product) => ({
+  siteStore.productsData.map((product) => ({
     ...product,
     ...productMeta[product.slug],
   }))
@@ -84,11 +85,13 @@ const tryBenefits = [
   '专题福利与活动',
 ]
 
-const downloadProducts = enhancedProducts.value.map((product) => ({
-  name: product.name,
-  icon: product.icon,
-  tone: product.accent,
-}))
+const downloadProducts = computed(() =>
+  enhancedProducts.value.map((product) => ({
+    name: product.name,
+    icon: product.icon,
+    tone: product.accent,
+  })),
+)
 
 </script>
 

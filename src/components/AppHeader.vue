@@ -48,7 +48,7 @@ onUnmounted(() => window.removeEventListener('scroll', handleScroll))
             class="truncate font-semibold"
             :class="isAboutPage ? 'text-lg tracking-[0.08em] text-[#3F2E23]' : 'text-sm tracking-[0.2em] text-brand-charcoal'"
           >
-            QUENTIN WINDOW
+            {{ siteMeta.name || 'QUENTIN WINDOW' }}
           </div>
           <div class="truncate text-xs" :class="isAboutPage ? 'text-[#9A7C62]' : 'text-brand-muted'">
             {{ siteMeta.tagline || siteMeta.description || '用户产品与热爱，让生活更美好' }}
