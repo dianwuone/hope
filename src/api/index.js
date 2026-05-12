@@ -23,9 +23,17 @@ function buildUrl(path, params = {}) {
 }
 
 async function requestJson(path, { method = 'GET', params, data } = {}) {
+  const token = globalThis.localStorage?.getItem('hope-user-token') || ''
+  const headers = {}
+  if (data) {
+    headers['Content-Type'] = 'application/json'
+  }
+  if (token) {
+    headers.Authorization = `Bearer ${token}`
+  }
   const response = await fetch(buildUrl(path, params), {
     method,
-    headers: data ? { 'Content-Type': 'application/json' } : undefined,
+    headers: Object.keys(headers).length ? headers : undefined,
     body: data ? JSON.stringify(data) : undefined,
   })
 
@@ -117,6 +125,53 @@ export const articleApi = {
       () => requestJson(`/articles/${encodeURIComponent(slug)}`),
       () => null,
     ),
+  getEngagement: (slug) =>
+    requestWithFallback(
+      () => requestJson(`/articles/${encodeURIComponent(slug)}/engagement`),
+      () => ({ likeCount: 0, favoriteCount: 0, commentCount: 0 }),
+    ),
+  interact: (slug, interactionType) =>
+    requestWithFallback(
+      () =>
+        requestJson(`/articles/${encodeURIComponent(slug)}/interactions`, {
+          method: 'POST',
+          data: { interactionType },
+        }),
+      () => ({
+        ok: true,
+        interactionType,
+        applied: true,
+        articleSlug: slug,
+        likeCount: 0,
+        favoriteCount: 0,
+        commentCount: 0,
+      }),
+    ),
+  listComments: (slug) =>
+    requestWithFallback(
+      () => requestJson(`/articles/${encodeURIComponent(slug)}/comments`),
+      () => ({ items: [], total: 0 }),
+    ),
+  createComment: (slug, data = {}) =>
+    requestWithFallback(
+      () =>
+        requestJson(`/articles/${encodeURIComponent(slug)}/comments`, {
+          method: 'POST',
+          data: {
+            nickname: data.nickname || '访客',
+            content: data.content || '',
+          },
+        }),
+      () => ({
+        id: Date.now(),
+        articleId: 0,
+        nickname: data.nickname || '访客',
+        content: data.content || '',
+        status: 'published',
+        createdAt: new Date().toISOString(),
+        updatedAt: new Date().toISOString(),
+      }),
+    ),
 }
 
 export const offerApi = {
@@ -138,10 +193,13 @@ export const wishlistApi = {
   remove: (id) => requestWithFallback(() => Promise.resolve({ ok: true, id }), () => ({ ok: true, id })),
   submitWish: async (data) => {
     const visitorId = globalThis.localStorage?.getItem('hope-visitor-id') || `guest-${Date.now()}`
+    const rawUser = globalThis.localStorage?.getItem('hope-user-profile')
+    const user = rawUser ? JSON.parse(rawUser) : null
     globalThis.localStorage?.setItem('hope-visitor-id', visitorId)
     return requestJson('/wishlist', {
       method: 'POST',
       data: {
+        userId: user?.id || null,
         visitorId,
         projectSlug: data.projectSlug || '',
         projectName: data.projectName || '',
@@ -172,6 +230,7 @@ export const communityApi = {
     requestJson('/community-leads', {
       method: 'POST',
       data: {
+        userId: data.userId || null,
         leadType: data.leadType || 'community',
         intentReason: data.intentReason || data.intent || 'latest_updates',
         name: data.name || '',
@@ -187,6 +246,7 @@ export const betaApi = {
     requestJson('/beta-applications', {
       method: 'POST',
       data: {
+        userId: data.userId || null,
         projectSlug: data.projectSlug || data.project_id || '',
         sourcePage: data.sourcePage || data.source_page || 'lab',
         roleType: data.roleType || data.role_type || 'explorer',
@@ -231,4 +291,26 @@ export const labApi = {
       () => requestJson(`/projects/${encodeURIComponent(slug)}`),
       () => null,
     ),
+}
+
+export const userApi = {
+  register: (data) =>
+    requestJson('/users/register', {
+      method: 'POST',
+      data: {
+        username: data.username || '',
+        email: data.email || '',
+        password: data.password || '',
+        nickname: data.nickname || '',
+      },
+    }),
+  login: (data) =>
+    requestJson('/users/login', {
+      method: 'POST',
+      data: {
+        account: data.account || '',
+        password: data.password || '',
+      },
+    }),
+  me: () => requestJson('/users/me'),
 }

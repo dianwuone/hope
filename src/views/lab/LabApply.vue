@@ -1,14 +1,18 @@
 <script setup>
 import { computed, reactive, ref } from 'vue'
+import { storeToRefs } from 'pinia'
 import { useRoute, useRouter } from 'vue-router'
 import BreadcrumbNav from '@/components/BreadcrumbNav.vue'
 import FaqList from '@/components/site/FaqList.vue'
 import { getLabBySlug } from '@/data'
 import { betaApi } from '@/api'
 import { contactInputType, validateContactValue } from '@/utils/contact'
+import { useUserStore } from '@/stores/user'
 
 const route = useRoute()
 const router = useRouter()
+const userStore = useUserStore()
+const { profile, isLoggedIn } = storeToRefs(userStore)
 const lab = computed(() => getLabBySlug(route.params.slug) || getLabBySlug('tools'))
 
 const breadcrumbItems = computed(() => [
@@ -47,6 +51,7 @@ const submit = async () => {
   submitting.value = true
   try {
     await betaApi.apply({
+      userId: profile.value?.id || null,
       project_id: lab.value.slug,
       source_page: 'lab',
       role_type: form.role,
@@ -100,6 +105,7 @@ const faq = [
             <div>
               <h2 class="text-3xl font-semibold text-[#17233D]">填写报名信息</h2>
               <p class="mt-3 text-base leading-8 text-[#61718B]">该页为内测承接页，后续可直接接入 `beta_applications`。</p>
+              <p v-if="isLoggedIn" class="mt-2 text-sm text-[#5B7A68]">当前已登录，申请记录会自动关联到你的账号。</p>
             </div>
 
             <div class="grid gap-6 md:grid-cols-2">

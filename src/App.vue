@@ -2,11 +2,14 @@
 import DefaultLayout from '@/layouts/DefaultLayout.vue'
 import { onMounted } from 'vue'
 import { useSiteStore } from '@/stores/site'
+import { useUserStore } from '@/stores/user'
 
 const siteStore = useSiteStore()
+const userStore = useUserStore()
 
 onMounted(() => {
   siteStore.loadBootstrap()
+  userStore.refreshMe()
 })
 </script>
 

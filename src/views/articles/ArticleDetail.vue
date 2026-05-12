@@ -1,11 +1,38 @@
 <script setup>
-import { computed } from 'vue'
+import { computed, reactive, ref, watch } from 'vue'
 import { useRoute } from 'vue-router'
+import { storeToRefs } from 'pinia'
 import BreadcrumbNav from '@/components/BreadcrumbNav.vue'
+import { articleApi } from '@/api'
 import { useSiteStore } from '@/stores/site'
+import { useUserStore } from '@/stores/user'
 
 const route = useRoute()
 const siteStore = useSiteStore()
+const userStore = useUserStore()
+const { isLoggedIn, profile } = storeToRefs(userStore)
+const feedbackMessage = ref('')
+const commentSubmitting = ref(false)
+const loadingComments = ref(false)
+const actionLoading = reactive({
+  like: false,
+  favorite: false,
+  share: false,
+})
+const commentForm = reactive({
+  nickname: '',
+  content: '',
+})
+const commentList = ref([])
+const engagement = reactive({
+  likeCount: 0,
+  favoriteCount: 0,
+  commentCount: 0,
+})
+const interactionApplied = reactive({
+  like: false,
+  favorite: false,
+})
 const emptyColumn = {
   slug: '',
   name: '',
@@ -86,11 +113,116 @@ const functionalCard = computed(() => {
   }
 })
 
+const currentSlug = computed(() => `${route.params.slug || ''}`)
+const commentCount = computed(() => engagement.commentCount || article.value.commentCount || 0)
 const engagementStats = computed(() => [
-  { label: '点赞', value: article.value.likes ?? 0, icon: '♡' },
-  { label: '收藏', value: article.value.favorites ?? 0, icon: '☆' },
-  { label: '评论', value: Math.max(12, Math.round((article.value.viewCountNumber ?? 0) / 90)), icon: '✎' },
+  { key: 'like', label: '点赞', value: engagement.likeCount || article.value.likes || 0, icon: '♡' },
+  { key: 'favorite', label: '收藏', value: engagement.favoriteCount || article.value.favorites || 0, icon: '☆' },
+  { key: 'comment', label: '评论', value: commentCount.value, icon: '✎' },
 ])
+
+function setFeedback(message) {
+  feedbackMessage.value = message
+}
+
+function syncEngagement(payload = {}) {
+  engagement.likeCount = Number(payload.likeCount ?? article.value.likes ?? 0)
+  engagement.favoriteCount = Number(payload.favoriteCount ?? article.value.favorites ?? 0)
+  engagement.commentCount = Number(payload.commentCount ?? commentList.value.length ?? 0)
+}
+
+async function loadEngagement() {
+  if (!currentSlug.value) return
+  try {
+    const result = await articleApi.getEngagement(currentSlug.value)
+    syncEngagement(result)
+  } catch (error) {
+    syncEngagement()
+  }
+}
+
+async function loadComments() {
+  if (!currentSlug.value) return
+  loadingComments.value = true
+  try {
+    const result = await articleApi.listComments(currentSlug.value)
+    commentList.value = Array.isArray(result?.items) ? result.items : []
+    engagement.commentCount = Number(result?.total ?? commentList.value.length)
+  } catch (error) {
+    commentList.value = []
+  } finally {
+    loadingComments.value = false
+  }
+}
+
+async function handleInteraction(type) {
+  if (type === 'comment' || !currentSlug.value || actionLoading[type]) return
+  actionLoading[type] = true
+  try {
+    const result = await articleApi.interact(currentSlug.value, type)
+    syncEngagement(result)
+    interactionApplied[type] = !!result?.active
+    if (isLoggedIn.value) {
+      setFeedback(result?.active ? `${type === 'like' ? '点赞' : '收藏'}已加入你的账号记录。` : `${type === 'like' ? '点赞' : '收藏'}已取消。`)
+    } else {
+      setFeedback(result?.applied ? `${type === 'like' ? '点赞' : '收藏'}成功，感谢支持。` : '同一 IP 已操作过，本次不再重复累计。')
+    }
+  } catch (error) {
+    setFeedback(error instanceof Error ? error.message : '操作失败，请稍后重试。')
+  } finally {
+    actionLoading[type] = false
+  }
+}
+
+async function handleShare() {
+  if (actionLoading.share) return
+  actionLoading.share = true
+  try {
+    await navigator.clipboard.writeText(window.location.href)
+    setFeedback('文章链接已复制，快去分享给朋友吧。')
+  } catch (error) {
+    setFeedback('复制链接失败，请手动复制地址栏链接。')
+  } finally {
+    actionLoading.share = false
+  }
+}
+
+async function submitComment() {
+  const content = commentForm.content.trim()
+  if (!content || !currentSlug.value || commentSubmitting.value) {
+    if (!content) setFeedback('先写点内容再提交评论吧。')
+    return
+  }
+  commentSubmitting.value = true
+  try {
+    const result = await articleApi.createComment(currentSlug.value, {
+      ...commentForm,
+      nickname: isLoggedIn.value ? (profile.value?.nickname || profile.value?.username || '用户') : commentForm.nickname,
+    })
+    commentList.value = [result, ...commentList.value]
+    engagement.commentCount = commentList.value.length
+    commentForm.nickname = commentForm.nickname.trim()
+    commentForm.content = ''
+    setFeedback('评论已发布，感谢你的反馈。')
+  } catch (error) {
+    setFeedback(error instanceof Error ? error.message : '评论提交失败，请稍后重试。')
+  } finally {
+    commentSubmitting.value = false
+  }
+}
+
+watch(
+  currentSlug,
+  () => {
+    feedbackMessage.value = ''
+    interactionApplied.like = false
+    interactionApplied.favorite = false
+    syncEngagement()
+    loadEngagement()
+    loadComments()
+  },
+  { immediate: true },
+)
 </script>
 
 <template>
@@ -215,9 +347,12 @@ const engagementStats = computed(() => [
               <div class="flex flex-wrap gap-3">
                 <button
                   v-for="item in engagementStats"
-                  :key="item.label"
+                  :key="item.key"
                   type="button"
-                  class="inline-flex items-center gap-2 rounded-full border border-[#E9D9C8] bg-[#FAF7F2] px-4 py-3 text-sm font-semibold text-brand-charcoal transition-colors hover:bg-white"
+                  :disabled="item.key !== 'comment' && actionLoading[item.key]"
+                  class="inline-flex items-center gap-2 rounded-full border border-[#E9D9C8] bg-[#FAF7F2] px-4 py-3 text-sm font-semibold text-brand-charcoal transition-colors hover:bg-white disabled:cursor-not-allowed disabled:opacity-70"
+                  :class="item.key !== 'comment' && interactionApplied[item.key] ? 'border-[#D97B37] bg-white text-[#D97B37]' : ''"
+                  @click="handleInteraction(item.key)"
                 >
                   <span aria-hidden="true">{{ item.icon }}</span>
                   <span>{{ item.label }}</span>
@@ -226,6 +361,8 @@ const engagementStats = computed(() => [
                 <button
                   type="button"
                   class="inline-flex items-center gap-2 rounded-full bg-[#455D4E] px-4 py-3 text-sm font-semibold text-white transition-colors hover:bg-[#394f42]"
+                  :disabled="actionLoading.share"
+                  @click="handleShare"
                 >
                   <span aria-hidden="true">↗</span>
                   <span>分享文章</span>
@@ -235,7 +372,8 @@ const engagementStats = computed(() => [
 
             <div class="mt-5 grid gap-4 md:grid-cols-[minmax(0,1fr)_auto] md:items-center">
               <div class="rounded-[18px] border border-dashed border-[#E9D9C8] bg-[#FFF9F4] px-4 py-4 text-sm leading-7 text-brand-muted">
-                评论区预留：后续可以接入站内评论、精选留言，或者放运营问答与读者观点摘录。
+                {{ feedbackMessage || '点赞、收藏按同 IP 单篇单次生效；评论支持匿名发布。' }}
+                <template v-if="isLoggedIn"> 当前已登录，互动会绑定到你的账号。</template>
               </div>
               <router-link
                 to="/community"
@@ -243,6 +381,66 @@ const engagementStats = computed(() => [
               >
                 去社区参与讨论
               </router-link>
+            </div>
+
+            <div class="mt-5 grid gap-4 lg:grid-cols-[minmax(0,1fr)_minmax(0,1fr)]">
+              <div class="rounded-[20px] border border-[#F2E7DC] bg-[#FFFCF8] p-4">
+                <div class="text-sm font-semibold text-brand-charcoal">写评论</div>
+                <div class="mt-3 grid gap-3">
+                  <input
+                    v-model="commentForm.nickname"
+                    type="text"
+                    maxlength="50"
+                    placeholder="你的称呼（可选）"
+                    :disabled="isLoggedIn"
+                    class="h-11 rounded-[14px] border border-[#E9D9C8] bg-white px-4 text-sm text-brand-charcoal outline-none placeholder:text-[#B7A593]"
+                  />
+                  <textarea
+                    v-model="commentForm.content"
+                    rows="4"
+                    maxlength="500"
+                    placeholder="写下你的看法、问题或补充..."
+                    class="rounded-[14px] border border-[#E9D9C8] bg-white px-4 py-3 text-sm leading-7 text-brand-charcoal outline-none placeholder:text-[#B7A593]"
+                  />
+                  <div class="flex items-center justify-between gap-3">
+                    <span class="text-xs text-brand-muted">公开展示前请避免填写敏感信息</span>
+                    <button
+                      type="button"
+                      class="inline-flex items-center justify-center rounded-full bg-[#E07A3F] px-5 py-3 text-sm font-semibold text-white transition-colors hover:bg-[#cf6c34] disabled:cursor-not-allowed disabled:opacity-70"
+                      :disabled="commentSubmitting"
+                      @click="submitComment"
+                    >
+                      {{ commentSubmitting ? '提交中...' : '发布评论' }}
+                    </button>
+                  </div>
+                </div>
+              </div>
+
+              <div class="rounded-[20px] border border-[#F2E7DC] bg-white p-4">
+                <div class="flex items-center justify-between gap-3">
+                  <div class="text-sm font-semibold text-brand-charcoal">最新评论</div>
+                  <span class="text-xs text-brand-muted">{{ commentCount }} 条</span>
+                </div>
+                <div v-if="loadingComments" class="mt-4 text-sm text-brand-muted">
+                  评论加载中...
+                </div>
+                <div v-else-if="commentList.length" class="mt-4 space-y-3">
+                  <div
+                    v-for="item in commentList"
+                    :key="item.id"
+                    class="rounded-[16px] border border-[#F2E7DC] bg-[#FFFCF8] p-4"
+                  >
+                    <div class="flex items-center justify-between gap-3">
+                      <div class="text-sm font-semibold text-brand-charcoal">{{ item.nickname || '访客' }}</div>
+                      <div class="text-xs text-brand-muted">{{ `${item.createdAt || ''}`.replace('T', ' ').slice(0, 16) }}</div>
+                    </div>
+                    <p class="mt-2 text-sm leading-7 text-brand-text">{{ item.content }}</p>
+                  </div>
+                </div>
+                <div v-else class="mt-4 rounded-[16px] border border-dashed border-[#E9D9C8] bg-[#FFF9F4] px-4 py-5 text-sm text-brand-muted">
+                  还没有评论，来留下第一条反馈吧。
+                </div>
+              </div>
             </div>
           </div>
 
@@ -295,9 +493,12 @@ const engagementStats = computed(() => [
             <div class="mt-4 grid grid-cols-3 gap-3">
               <button
                 v-for="item in engagementStats"
-                :key="item.label"
+                :key="item.key"
                 type="button"
-                class="rounded-[18px] border border-[#F2E7DC] bg-[#FAF7F2] px-3 py-4 text-center transition-colors hover:bg-white"
+                :disabled="item.key !== 'comment' && actionLoading[item.key]"
+                class="rounded-[18px] border border-[#F2E7DC] bg-[#FAF7F2] px-3 py-4 text-center transition-colors hover:bg-white disabled:cursor-not-allowed disabled:opacity-70"
+                :class="item.key !== 'comment' && interactionApplied[item.key] ? 'border-[#D97B37] bg-white' : ''"
+                @click="handleInteraction(item.key)"
               >
                 <div class="text-lg text-brand-charcoal">{{ item.icon }}</div>
                 <div class="mt-2 text-sm font-semibold text-brand-charcoal">{{ item.value }}</div>
@@ -308,6 +509,7 @@ const engagementStats = computed(() => [
               <button
                 type="button"
                 class="inline-flex items-center justify-center rounded-full border border-[#E9D9C8] bg-white px-4 py-3 text-sm font-semibold text-brand-charcoal transition-colors hover:bg-[#FFF7EF]"
+                @click="handleShare"
               >
                 分享给朋友
               </button>

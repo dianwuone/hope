@@ -7,13 +7,16 @@ import { communityPage, homePage } from '@/data'
 import { communityApi } from '@/api'
 import { contactInputType, validateContactValue } from '@/utils/contact'
 import { useSiteStore } from '@/stores/site'
+import { useUserStore } from '@/stores/user'
 
 const siteStore = useSiteStore()
+const userStore = useUserStore()
 const {
   contactEmailData: contactEmail,
   communityWechatData: communityWechat,
   error: siteError,
 } = storeToRefs(siteStore)
+const { profile, isLoggedIn } = storeToRefs(userStore)
 const communityPageData = computed(() => siteStore.pageData('community', communityPage))
 const communityQrCode = computed(() => siteStore.siteConfigValue('community_qr_code', homePage.community.qr))
 
@@ -41,7 +44,7 @@ const validateForm = () => {
 
 const submit = async () => {
   if (!validateForm()) return
-  await communityApi.submitLead({ ...form })
+  await communityApi.submitLead({ ...form, userId: profile.value?.id || null })
   submitted.value = true
 }
 
@@ -87,6 +90,7 @@ const intents = [
       <div class="container-content grid gap-6 xl:grid-cols-[minmax(0,1fr)_360px]">
         <div class="surface-panel p-8">
           <h2 class="text-2xl font-semibold text-brand-charcoal">留言表单</h2>
+          <p v-if="isLoggedIn" class="mt-3 text-sm text-brand-muted">当前已登录，提交的线索会关联到你的用户账号。</p>
           <div v-if="submitted" class="mt-6 rounded-[18px] bg-[#F8FBFF] p-6 text-center text-brand-text">已收到你的联系信息，我们会尽快回复。</div>
           <form v-else class="mt-6 space-y-4" @submit.prevent="submit">
             <div class="grid gap-4 md:grid-cols-2">

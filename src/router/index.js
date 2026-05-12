@@ -164,6 +164,18 @@ const routes = [
     meta: { title: '订阅更新', breadcrumb: ['首页', '订阅更新'] },
   },
   {
+    path: '/auth/login',
+    name: 'UserLogin',
+    component: () => import('@/views/auth/UserLoginPage.vue'),
+    meta: { title: '用户登录', breadcrumb: ['首页', '登录'] },
+  },
+  {
+    path: '/auth/register',
+    name: 'UserRegister',
+    component: () => import('@/views/auth/UserRegisterPage.vue'),
+    meta: { title: '用户注册', breadcrumb: ['首页', '注册'] },
+  },
+  {
     path: '/open-source',
     name: 'OpenSource',
     component: () => import('@/views/OpenSourcePage.vue'),

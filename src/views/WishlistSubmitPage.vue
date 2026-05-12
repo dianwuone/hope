@@ -1,8 +1,10 @@
 <script setup>
 import { computed, reactive, ref } from 'vue'
+import { storeToRefs } from 'pinia'
 import BreadcrumbNav from '@/components/BreadcrumbNav.vue'
 import { wishlistApi } from '@/api'
 import { contactInputType, validateContactValue } from '@/utils/contact'
+import { useUserStore } from '@/stores/user'
 
 const breadcrumbItems = [
   { label: '首页', to: '/' },
@@ -52,7 +54,7 @@ const submitForm = async () => {
   if (!validateForm()) return
   isSubmitting.value = true
   try {
-    await wishlistApi.submitWish({ ...form })
+    await wishlistApi.submitWish({ ...form, userId: profile.value?.id || null })
     submitted.value = true
   } finally {
     isSubmitting.value = false
@@ -110,7 +112,7 @@ const submitForm = async () => {
               <div>
                 <h2 class="text-3xl font-semibold text-[#17233D]">填写你的期待</h2>
                 <p class="mt-3 text-base leading-8 text-[#61718B]">
-                  这是一个轻量表单提交页，后续可直接接入 `wishlist_items` 或独立心愿征集接口。
+                  当前已直接接入后端心愿单接口。{{ isLoggedIn ? '你的心愿会关联到当前登录账号。' : '未登录时会按访客方式记录。' }}
                 </p>
               </div>
 
@@ -205,3 +207,5 @@ const submitForm = async () => {
     </section>
   </div>
 </template>
+const userStore = useUserStore()
+const { isLoggedIn, profile } = storeToRefs(userStore)

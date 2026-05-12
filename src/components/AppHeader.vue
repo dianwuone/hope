@@ -1,11 +1,14 @@
 <script setup>
 import { computed, ref, onMounted, onUnmounted } from 'vue'
 import { storeToRefs } from 'pinia'
-import { useRoute } from 'vue-router'
+import { useRoute, useRouter } from 'vue-router'
 import { useSiteStore } from '@/stores/site'
+import { useUserStore } from '@/stores/user'
 
 const route = useRoute()
+const router = useRouter()
 const siteStore = useSiteStore()
+const userStore = useUserStore()
 const isScrolled = ref(false)
 const isMobileMenuOpen = ref(false)
 const isAboutPage = computed(() => route.name === 'About')
@@ -13,6 +16,7 @@ const {
   mainNavData: mainNav,
   siteMetaData: siteMeta,
 } = storeToRefs(siteStore)
+const { isLoggedIn, displayName, profile } = storeToRefs(userStore)
 
 const handleScroll = () => {
   isScrolled.value = window.scrollY > 16
@@ -20,6 +24,11 @@ const handleScroll = () => {
 
 onMounted(() => window.addEventListener('scroll', handleScroll))
 onUnmounted(() => window.removeEventListener('scroll', handleScroll))
+
+function logout() {
+  userStore.logout()
+  router.push('/')
+}
 </script>
 
 <template>
@@ -102,6 +111,31 @@ onUnmounted(() => window.removeEventListener('scroll', handleScroll))
         >
           快来尝鲜
         </router-link>
+        <div v-if="isLoggedIn" class="hidden items-center gap-2 md:flex">
+          <router-link
+            to="/wishlist"
+            class="rounded-full border px-3 py-2 text-sm"
+            :class="isAboutPage ? 'border-[#E9D7C2] text-[#5A4638] hover:bg-[#FFF0DE]' : 'border-brand-grey text-brand-text hover:bg-brand-warm'"
+          >
+            {{ displayName }}
+          </router-link>
+          <button
+            type="button"
+            class="rounded-full px-3 py-2 text-sm"
+            :class="isAboutPage ? 'text-[#6F5847] hover:bg-[#FFF0DE]' : 'text-brand-text hover:bg-brand-warm'"
+            @click="logout"
+          >
+            退出
+          </button>
+        </div>
+        <router-link
+          v-else
+          to="/auth/login"
+          class="hidden rounded-full px-3 py-2 text-sm md:inline-flex"
+          :class="isAboutPage ? 'text-[#6F5847] hover:bg-[#FFF0DE]' : 'text-brand-text hover:bg-brand-warm'"
+        >
+          登录 / 注册
+        </router-link>
 
         <button
           class="xl:hidden rounded-full p-2"
@@ -145,6 +179,22 @@ onUnmounted(() => window.removeEventListener('scroll', handleScroll))
           >
             成为体验官
           </router-link>
+          <router-link
+            v-if="!isLoggedIn"
+            to="/auth/login"
+            class="block rounded-2xl px-4 py-3 text-sm transition-colors sm:col-span-2"
+            :class="isAboutPage ? 'hover:bg-[#FFF0DE] hover:text-[#C67741]' : 'hover:bg-brand-warm'"
+            @click="isMobileMenuOpen = false"
+          >
+            登录 / 注册
+          </router-link>
+          <div
+            v-else
+            class="rounded-2xl px-4 py-3 text-sm sm:col-span-2"
+            :class="isAboutPage ? 'bg-[#FFF0DE] text-[#5A4638]' : 'bg-brand-warm text-brand-charcoal'"
+          >
+            当前用户：{{ profile?.nickname || profile?.username }}
+          </div>
         </div>
       </div>
     </transition>
