@@ -1,5 +1,6 @@
 <script setup>
 import { computed, ref, onMounted, onUnmounted } from 'vue'
+import { storeToRefs } from 'pinia'
 import { useRoute } from 'vue-router'
 import { useSiteStore } from '@/stores/site'
 
@@ -8,8 +9,10 @@ const siteStore = useSiteStore()
 const isScrolled = ref(false)
 const isMobileMenuOpen = ref(false)
 const isAboutPage = computed(() => route.name === 'About')
-const mainNav = siteStore.mainNavData
-const siteMeta = siteStore.siteMetaData
+const {
+  mainNavData: mainNav,
+  siteMetaData: siteMeta,
+} = storeToRefs(siteStore)
 
 const handleScroll = () => {
   isScrolled.value = window.scrollY > 16

@@ -1,13 +1,16 @@
 <script setup>
 import { computed } from 'vue'
+import { storeToRefs } from 'pinia'
 import { useSiteStore } from '@/stores/site'
 
 const siteStore = useSiteStore()
-const footerSections = siteStore.footerSectionsData
-const siteMeta = siteStore.siteMetaData
-const socialLinks = siteStore.socialLinksData
-const contactEmail = siteStore.contactEmailData
-const communityWechat = siteStore.communityWechatData
+const {
+  footerSectionsData: footerSections,
+  siteMetaData: siteMeta,
+  socialLinksData: socialLinks,
+  contactEmailData: contactEmail,
+  communityWechatData: communityWechat,
+} = storeToRefs(siteStore)
 const beian = computed(() => ({
   label: siteMeta.value?.beian?.label || '',
   href: siteMeta.value?.beian?.href || '',

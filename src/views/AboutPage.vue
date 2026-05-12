@@ -1,10 +1,11 @@
 <script setup>
 import { computed } from 'vue'
+import { storeToRefs } from 'pinia'
 import { aboutPage, homePage } from '@/data'
 import { useSiteStore } from '@/stores/site'
 
 const siteStore = useSiteStore()
-const communityWechat = siteStore.communityWechatData
+const { communityWechatData: communityWechat } = storeToRefs(siteStore)
 const aboutPageData = computed(() => siteStore.pageData('about', aboutPage))
 const communityQrCode = computed(() => siteStore.siteConfigValue('community_qr_code', homePage.community.qr))
 

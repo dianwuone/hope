@@ -1,5 +1,6 @@
 <script setup>
 import { computed, reactive, ref } from 'vue'
+import { storeToRefs } from 'pinia'
 import PageHero from '@/components/site/PageHero.vue'
 import FaqList from '@/components/site/FaqList.vue'
 import { communityPage, homePage } from '@/data'
@@ -8,9 +9,11 @@ import { contactInputType, validateContactValue } from '@/utils/contact'
 import { useSiteStore } from '@/stores/site'
 
 const siteStore = useSiteStore()
-const contactEmail = siteStore.contactEmailData
-const communityWechat = siteStore.communityWechatData
-const siteError = computed(() => siteStore.error)
+const {
+  contactEmailData: contactEmail,
+  communityWechatData: communityWechat,
+  error: siteError,
+} = storeToRefs(siteStore)
 const communityPageData = computed(() => siteStore.pageData('community', communityPage))
 const communityQrCode = computed(() => siteStore.siteConfigValue('community_qr_code', homePage.community.qr))
 
