@@ -1,1 +1,0 @@
-import{_ as s}from"./LegalContentLayout-CBHJ2FUY.js";import{s as t,k as o,g as r,i as c}from"./index-BicaxHAR.js";const l={__name:"TermsPage",setup(p){const e=t(),a=r(()=>e.pageData("legal_terms",{sections:[]}));return(_,n)=>(c(),o(s,{page:a.value},null,8,["page"]))}};export{l as default};
