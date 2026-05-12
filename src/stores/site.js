@@ -3,47 +3,167 @@ import { ref, computed } from 'vue'
 import { siteApi } from '@/api'
 import { buildContentCollections, resolveAssetData } from '@/utils/content'
 
-const emptySiteMeta = {
-  name: '',
-  titleSuffix: '',
-  tagline: '',
-  description: '',
-  copyright: '',
-  beian: {
-    label: '',
-    href: '',
-  },
+function isRecord(value) {
+  return !!value && typeof value === 'object' && !Array.isArray(value)
 }
 
-const defaultBootstrap = {
-  siteMeta: emptySiteMeta,
-  mainNav: [],
-  footerSections: [],
-  socialLinks: [],
-  articleCategories: [],
-  articleHotTopics: [],
-  contactEmail: '',
-  communityWechat: '',
-  siteConfigs: {},
-  pages: {},
-  content: {
-    columns: [],
-    tags: [],
-    articles: [],
-    projects: [],
-    offers: [],
-    ads: [],
-  },
-  pageConfigs: [],
+function createEmptySiteMeta() {
+  return {
+    name: '',
+    titleSuffix: '',
+    tagline: '',
+    description: '',
+    copyright: '',
+    beian: {
+      label: '',
+      href: '',
+    },
+  }
+}
+
+function createDefaultBootstrap() {
+  return {
+    siteMeta: createEmptySiteMeta(),
+    mainNav: [],
+    footerSections: [],
+    socialLinks: [],
+    articleCategories: [],
+    articleHotTopics: [],
+    contactEmail: '',
+    communityWechat: '',
+    siteConfigs: {},
+    pages: {},
+    content: {
+      columns: [],
+      tags: [],
+      articles: [],
+      projects: [],
+      offers: [],
+      ads: [],
+    },
+    pageConfigs: [],
+  }
+}
+
+function normalizeText(value) {
+  return typeof value === 'string' ? value.trim() : ''
+}
+
+function normalizeStringList(value) {
+  if (!Array.isArray(value)) return []
+  return value
+    .map((item) => normalizeText(item))
+    .filter(Boolean)
+}
+
+function normalizeSiteMeta(value) {
+  const siteMeta = resolveAssetData(value)
+  const base = createEmptySiteMeta()
+
+  if (!isRecord(siteMeta)) {
+    return base
+  }
+
+  return {
+    ...base,
+    ...siteMeta,
+    beian: {
+      ...base.beian,
+      ...(isRecord(siteMeta.beian) ? siteMeta.beian : {}),
+    },
+  }
+}
+
+function normalizeNavItems(value) {
+  if (!Array.isArray(value)) return []
+
+  return value
+    .map((item) => resolveAssetData(item))
+    .map((item) => {
+      if (!isRecord(item)) return null
+
+      const name = normalizeText(item.name || item.title)
+      const path = normalizeText(item.path || item.to || item.href)
+      if (!name || !path) return null
+
+      return {
+        ...item,
+        name,
+        path,
+      }
+    })
+    .filter(Boolean)
+}
+
+function normalizeFooterSections(value) {
+  if (!Array.isArray(value)) return []
+
+  return value
+    .map((section) => resolveAssetData(section))
+    .map((section, index) => {
+      if (!isRecord(section)) return null
+
+      const title = normalizeText(section.title) || `section-${index + 1}`
+      const links = normalizeNavItems(section.links)
+      if (!links.length) return null
+
+      return {
+        ...section,
+        title,
+        links,
+      }
+    })
+    .filter(Boolean)
+}
+
+function normalizeSocialLinks(value) {
+  if (!Array.isArray(value)) return []
+
+  return value
+    .map((item) => resolveAssetData(item))
+    .map((item) => {
+      if (!isRecord(item)) return null
+
+      const name = normalizeText(item.name || item.label)
+      const href = normalizeText(item.href || item.url)
+      if (!name) return null
+
+      return {
+        ...item,
+        name,
+        href,
+      }
+    })
+    .filter(Boolean)
+}
+
+function normalizeBootstrapPayload(result) {
+  const payload = createDefaultBootstrap()
+  const site = isRecord(result?.site) ? result.site : {}
+
+  payload.siteMeta = normalizeSiteMeta(site.siteMeta)
+  payload.mainNav = normalizeNavItems(site.mainNav)
+  payload.footerSections = normalizeFooterSections(site.footerSections)
+  payload.socialLinks = normalizeSocialLinks(site.socialLinks)
+  payload.articleCategories = normalizeStringList(resolveAssetData(site.articleCategories))
+  payload.articleHotTopics = normalizeStringList(resolveAssetData(site.articleHotTopics))
+  payload.contactEmail = normalizeText(site.contactEmail)
+  payload.communityWechat = normalizeText(site.communityWechat)
+  payload.siteConfigs = isRecord(site.siteConfigs) ? resolveAssetData(site.siteConfigs) : {}
+  payload.pages = isRecord(result?.pages) ? resolveAssetData(result.pages) : {}
+  payload.content = isRecord(result?.content) ? resolveAssetData(result.content) : payload.content
+  payload.pageConfigs = Array.isArray(result?.pageConfigs) ? resolveAssetData(result.pageConfigs) : []
+
+  return payload
 }
 
 export const useSiteStore = defineStore('site', () => {
-  const bootstrap = ref(defaultBootstrap)
+  const bootstrap = ref(createDefaultBootstrap())
   const isLoading = ref(false)
   const error = ref('')
   const contentCollections = computed(() => buildContentCollections(bootstrap.value.content || {}))
 
-  const siteMetaData = computed(() => bootstrap.value.siteMeta || emptySiteMeta)
+  const siteMetaData = computed(() => normalizeSiteMeta(bootstrap.value.siteMeta))
   const mainNavData = computed(() => bootstrap.value.mainNav || [])
   const footerSectionsData = computed(() => bootstrap.value.footerSections || [])
   const socialLinksData = computed(() => bootstrap.value.socialLinks || [])
@@ -91,23 +211,10 @@ export const useSiteStore = defineStore('site', () => {
       if (!result?.site) {
         throw new Error('站点配置接口未返回有效数据')
       }
-      bootstrap.value = {
-        siteMeta: resolveAssetData(result?.site?.siteMeta ?? emptySiteMeta),
-        mainNav: resolveAssetData(result?.site?.mainNav ?? []),
-        footerSections: resolveAssetData(result?.site?.footerSections ?? []),
-        socialLinks: resolveAssetData(result?.site?.socialLinks ?? []),
-        articleCategories: resolveAssetData(result?.site?.articleCategories ?? []),
-        articleHotTopics: resolveAssetData(result?.site?.articleHotTopics ?? []),
-        contactEmail: result?.site?.contactEmail || '',
-        communityWechat: result?.site?.communityWechat || '',
-        siteConfigs: resolveAssetData(result?.site?.siteConfigs || {}),
-        pages: resolveAssetData(result?.pages || {}),
-        content: resolveAssetData(result?.content || {}),
-        pageConfigs: resolveAssetData(result?.pageConfigs || []),
-      }
+      bootstrap.value = normalizeBootstrapPayload(result)
     } catch (err) {
       error.value = err instanceof Error ? err.message : '加载站点配置失败'
-      bootstrap.value = { ...defaultBootstrap, siteConfigs: {}, pages: {}, content: {}, pageConfigs: [] }
+      bootstrap.value = createDefaultBootstrap()
     } finally {
       isLoading.value = false
     }

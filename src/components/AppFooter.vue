@@ -8,6 +8,10 @@ const siteMeta = siteStore.siteMetaData
 const socialLinks = siteStore.socialLinksData
 const contactEmail = siteStore.contactEmailData
 const communityWechat = siteStore.communityWechatData
+const beian = computed(() => ({
+  label: siteMeta.value?.beian?.label || '',
+  href: siteMeta.value?.beian?.href || '',
+}))
 const visibleSocialLinks = computed(() =>
   socialLinks.value.filter((link) => link?.href && link.href !== '#' && !link.href.startsWith('mailto:')),
 )
@@ -18,7 +22,7 @@ const visibleSocialLinks = computed(() =>
     <div class="container-content py-16">
       <div class="grid gap-10 lg:grid-cols-[1.4fr_repeat(4,minmax(0,1fr))]">
           <div>
-            <div class="mb-4 text-lg font-bold tracking-[0.2em] text-white">{{ siteMeta.name }}</div>
+            <div class="mb-4 text-lg font-bold tracking-[0.2em] text-white">{{ siteMeta.name || 'QUENTIN WINDOW' }}</div>
             <p class="max-w-sm text-sm leading-relaxed text-white/50">
               {{ siteMeta.description || '一个独立开发者的产品与内容窗口。探索 AI、生产力、育儿与教育的更多可能。' }}
             </p>
@@ -48,14 +52,15 @@ const visibleSocialLinks = computed(() =>
 
       <div class="mt-12 flex flex-col gap-4 border-t border-white/10 pt-8 sm:flex-row sm:items-center sm:justify-between">
         <p class="text-xs text-white/30">
-          &copy; {{ new Date().getFullYear() }} {{ siteMeta.copyright }}
+          &copy; {{ new Date().getFullYear() }} {{ siteMeta.copyright || 'QUENTIN WINDOW. All rights reserved.' }}
           <a
-            :href="siteMeta.beian.href"
+            v-if="beian.label && beian.href"
+            :href="beian.href"
             target="_blank"
             rel="noreferrer"
             class="ml-2 hover:text-white/60"
           >
-            {{ siteMeta.beian.label }}
+            {{ beian.label }}
           </a>
         </p>
         <div class="flex flex-wrap gap-4">
