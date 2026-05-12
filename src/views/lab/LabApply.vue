@@ -6,12 +6,14 @@ import BreadcrumbNav from '@/components/BreadcrumbNav.vue'
 import FaqList from '@/components/site/FaqList.vue'
 import { getLabBySlug } from '@/data'
 import { betaApi } from '@/api'
+import { useRequireLogin } from '@/composables/auth'
 import { contactInputType, validateContactValue } from '@/utils/contact'
 import { useUserStore } from '@/stores/user'
 
 const route = useRoute()
 const router = useRouter()
 const userStore = useUserStore()
+const { ensureLogin } = useRequireLogin()
 const { profile, isLoggedIn } = storeToRefs(userStore)
 const lab = computed(() => getLabBySlug(route.params.slug) || getLabBySlug('tools'))
 
@@ -47,6 +49,7 @@ const validateForm = () => {
 }
 
 const submit = async () => {
+  if (!ensureLogin('请先登录后再提交内测申请')) return
   if (!validateForm()) return
   submitting.value = true
   try {

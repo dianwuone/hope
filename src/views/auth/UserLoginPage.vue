@@ -1,8 +1,9 @@
 <script setup>
 import { reactive, ref } from 'vue'
-import { RouterLink, useRouter } from 'vue-router'
+import { RouterLink, useRoute, useRouter } from 'vue-router'
 import { useUserStore } from '@/stores/user'
 
+const route = useRoute()
 const router = useRouter()
 const userStore = useUserStore()
 const errorMessage = ref('')
@@ -15,7 +16,7 @@ async function submit() {
   errorMessage.value = ''
   try {
     await userStore.login(form)
-    router.push('/wishlist')
+    router.push(`${route.query.redirect || '/wishlist'}`)
   } catch (error) {
     errorMessage.value = error instanceof Error ? error.message : '登录失败，请稍后重试。'
   }

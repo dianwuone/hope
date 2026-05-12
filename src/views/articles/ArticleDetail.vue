@@ -4,12 +4,14 @@ import { useRoute } from 'vue-router'
 import { storeToRefs } from 'pinia'
 import BreadcrumbNav from '@/components/BreadcrumbNav.vue'
 import { articleApi } from '@/api'
+import { useRequireLogin } from '@/composables/auth'
 import { useSiteStore } from '@/stores/site'
 import { useUserStore } from '@/stores/user'
 
 const route = useRoute()
 const siteStore = useSiteStore()
 const userStore = useUserStore()
+const { ensureLogin } = useRequireLogin()
 const { isLoggedIn, profile } = storeToRefs(userStore)
 const feedbackMessage = ref('')
 const commentSubmitting = ref(false)
@@ -188,6 +190,7 @@ async function handleShare() {
 }
 
 async function submitComment() {
+  if (!ensureLogin('请先登录后再发表评论')) return
   const content = commentForm.content.trim()
   if (!content || !currentSlug.value || commentSubmitting.value) {
     if (!content) setFeedback('先写点内容再提交评论吧。')
@@ -372,7 +375,7 @@ watch(
 
             <div class="mt-5 grid gap-4 md:grid-cols-[minmax(0,1fr)_auto] md:items-center">
               <div class="rounded-[18px] border border-dashed border-[#E9D9C8] bg-[#FFF9F4] px-4 py-4 text-sm leading-7 text-brand-muted">
-                {{ feedbackMessage || '点赞、收藏按同 IP 单篇单次生效；评论支持匿名发布。' }}
+                {{ feedbackMessage || '点赞、收藏支持登录用户绑定账号；评论提交前需要先登录。' }}
                 <template v-if="isLoggedIn"> 当前已登录，互动会绑定到你的账号。</template>
               </div>
               <router-link

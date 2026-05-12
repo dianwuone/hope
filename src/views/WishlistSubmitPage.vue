@@ -3,6 +3,7 @@ import { computed, reactive, ref } from 'vue'
 import { storeToRefs } from 'pinia'
 import BreadcrumbNav from '@/components/BreadcrumbNav.vue'
 import { wishlistApi } from '@/api'
+import { useRequireLogin } from '@/composables/auth'
 import { contactInputType, validateContactValue } from '@/utils/contact'
 import { useUserStore } from '@/stores/user'
 
@@ -20,6 +21,9 @@ const form = reactive({
   contactValue: '',
   note: '',
 })
+const userStore = useUserStore()
+const { isLoggedIn, profile } = storeToRefs(userStore)
+const { ensureLogin } = useRequireLogin()
 
 const isSubmitting = ref(false)
 const submitted = ref(false)
@@ -51,6 +55,7 @@ const goalOptions = [
 ]
 
 const submitForm = async () => {
+  if (!ensureLogin('请先登录后再提交心愿')) return
   if (!validateForm()) return
   isSubmitting.value = true
   try {
@@ -207,5 +212,3 @@ const submitForm = async () => {
     </section>
   </div>
 </template>
-const userStore = useUserStore()
-const { isLoggedIn, profile } = storeToRefs(userStore)

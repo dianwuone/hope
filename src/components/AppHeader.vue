@@ -104,13 +104,6 @@ function logout() {
               d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
           </svg>
         </router-link>
-        <router-link
-          to="/try"
-          class="hidden md:inline-flex"
-          :class="isAboutPage ? 'rounded-[10px] bg-[#C97545] px-5 py-2.5 text-sm font-semibold text-white transition-colors hover:bg-[#B76739]' : 'btn-primary'"
-        >
-          快来尝鲜
-        </router-link>
         <div v-if="isLoggedIn" class="hidden items-center gap-2 md:flex">
           <router-link
             to="/wishlist"
@@ -128,14 +121,22 @@ function logout() {
             退出
           </button>
         </div>
-        <router-link
-          v-else
-          to="/auth/login"
-          class="hidden rounded-full px-3 py-2 text-sm md:inline-flex"
-          :class="isAboutPage ? 'text-[#6F5847] hover:bg-[#FFF0DE]' : 'text-brand-text hover:bg-brand-warm'"
-        >
-          登录 / 注册
-        </router-link>
+        <div v-else class="hidden items-center gap-1 md:flex">
+          <router-link
+            to="/auth/login"
+            class="rounded-full px-3 py-2 text-sm"
+            :class="isAboutPage ? 'text-[#6F5847] hover:bg-[#FFF0DE]' : 'text-brand-text hover:bg-brand-warm'"
+          >
+            登录
+          </router-link>
+          <router-link
+            to="/auth/register"
+            class="rounded-full px-3 py-2 text-sm"
+            :class="isAboutPage ? 'text-[#6F5847] hover:bg-[#FFF0DE]' : 'text-brand-text hover:bg-brand-warm'"
+          >
+            注册
+          </router-link>
+        </div>
 
         <button
           class="xl:hidden rounded-full p-2"
@@ -171,23 +172,24 @@ function logout() {
           >
             {{ item.name }}
           </router-link>
-          <router-link
-            to="/try"
-            class="mt-1 justify-center sm:col-span-2"
-            :class="isAboutPage ? 'inline-flex rounded-[12px] bg-[#C97545] px-5 py-3 text-sm font-semibold text-white' : 'btn-primary'"
-            @click="isMobileMenuOpen = false"
-          >
-            成为体验官
-          </router-link>
-          <router-link
-            v-if="!isLoggedIn"
-            to="/auth/login"
-            class="block rounded-2xl px-4 py-3 text-sm transition-colors sm:col-span-2"
-            :class="isAboutPage ? 'hover:bg-[#FFF0DE] hover:text-[#C67741]' : 'hover:bg-brand-warm'"
-            @click="isMobileMenuOpen = false"
-          >
-            登录 / 注册
-          </router-link>
+          <template v-if="!isLoggedIn">
+            <router-link
+              to="/auth/login"
+              class="block rounded-2xl px-4 py-3 text-sm transition-colors"
+              :class="isAboutPage ? 'hover:bg-[#FFF0DE] hover:text-[#C67741]' : 'hover:bg-brand-warm'"
+              @click="isMobileMenuOpen = false"
+            >
+              登录
+            </router-link>
+            <router-link
+              to="/auth/register"
+              class="block rounded-2xl px-4 py-3 text-sm transition-colors"
+              :class="isAboutPage ? 'hover:bg-[#FFF0DE] hover:text-[#C67741]' : 'hover:bg-brand-warm'"
+              @click="isMobileMenuOpen = false"
+            >
+              注册
+            </router-link>
+          </template>
           <div
             v-else
             class="rounded-2xl px-4 py-3 text-sm sm:col-span-2"

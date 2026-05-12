@@ -3,12 +3,16 @@ import { computed, reactive, ref } from 'vue'
 import { useRouter, useRoute } from 'vue-router'
 import BreadcrumbNav from '@/components/BreadcrumbNav.vue'
 import { wishlistApi } from '@/api'
+import { useRequireLogin } from '@/composables/auth'
 import { contactInputType, validateContactValue } from '@/utils/contact'
 import { useSiteStore } from '@/stores/site'
+import { useUserStore } from '@/stores/user'
 
 const route = useRoute()
 const router = useRouter()
 const siteStore = useSiteStore()
+const userStore = useUserStore()
+const { ensureLogin } = useRequireLogin()
 const emptyOffer = {
   slug: '',
   title: '',
@@ -47,10 +51,12 @@ const validateForm = () => {
 }
 
 const submitOrder = async () => {
+  if (!ensureLogin('请先登录后再提交购买信息')) return
   if (!validateForm()) return
   submitting.value = true
   try {
     await wishlistApi.submitWish({
+      userId: userStore.profile?.id || null,
       projectName: offer.value.title,
       sourcePage: 'try',
       contactType: form.contactType,

@@ -5,12 +5,14 @@ import PageHero from '@/components/site/PageHero.vue'
 import FaqList from '@/components/site/FaqList.vue'
 import { communityPage, homePage } from '@/data'
 import { communityApi } from '@/api'
+import { useRequireLogin } from '@/composables/auth'
 import { contactInputType, validateContactValue } from '@/utils/contact'
 import { useSiteStore } from '@/stores/site'
 import { useUserStore } from '@/stores/user'
 
 const siteStore = useSiteStore()
 const userStore = useUserStore()
+const { ensureLogin } = useRequireLogin()
 const {
   contactEmailData: contactEmail,
   communityWechatData: communityWechat,
@@ -43,6 +45,7 @@ const validateForm = () => {
 }
 
 const submit = async () => {
+  if (!ensureLogin('请先登录后再提交留言')) return
   if (!validateForm()) return
   await communityApi.submitLead({ ...form, userId: profile.value?.id || null })
   submitted.value = true
