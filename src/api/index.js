@@ -38,8 +38,18 @@ async function requestJson(path, { method = 'GET', params, data } = {}) {
   })
 
   if (!response.ok) {
-    const message = await response.text().catch(() => '')
-    throw new Error(message || `Request failed: ${response.status}`)
+    const raw = await response.text().catch(() => '')
+    let detail = raw
+    try {
+      const parsed = raw ? JSON.parse(raw) : null
+      detail = parsed?.detail ?? parsed ?? raw
+    } catch {}
+    const error = new Error(
+      typeof detail === 'string' ? detail : detail?.message || `Request failed: ${response.status}`,
+    )
+    error.status = response.status
+    error.detail = detail
+    throw error
   }
 
   return response.json()
@@ -294,6 +304,10 @@ export const labApi = {
 }
 
 export const userApi = {
+  getCaptcha: (scope = 'frontend') =>
+    requestJson('/security/captcha', {
+      params: { scope },
+    }),
   register: (data) =>
     requestJson('/users/register', {
       method: 'POST',
@@ -302,6 +316,8 @@ export const userApi = {
         email: data.email || '',
         password: data.password || '',
         nickname: data.nickname || '',
+        captchaKey: data.captchaKey || '',
+        captchaCode: data.captchaCode || '',
       },
     }),
   login: (data) =>
@@ -310,6 +326,8 @@ export const userApi = {
       data: {
         account: data.account || '',
         password: data.password || '',
+        captchaKey: data.captchaKey || '',
+        captchaCode: data.captchaCode || '',
       },
     }),
   me: () => requestJson('/users/me'),
