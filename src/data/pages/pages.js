@@ -16,18 +16,18 @@ import avatarQuentin from '@/assets/images/shucai/avatars/avatar-quentin.jpg'
 
 export const homePage = {
   hero: {
-    badge: 'AI x 产品 x 游戏',
-    title: '用 AI 提升工作与生活，用产品与游戏解决真实问题',
-    subtitle: '我是 Quentin，一名独立开发者与产品探索者。在这里，我将 AI 能力融入产品与游戏，打造可持续迭代的工具与体验，陪伴每一个认真生活的人。',
+    badge: '个人记录与生活灵感',
+    title: '记录育儿心得、职场感悟与个人成长的日常思考',
+    subtitle: '这里是启鸣随笔，一个以个人记录为主的网站。我会分享陪伴孩子成长时的体会，也会整理工作中的方法、情绪与阶段反思，留下一些真实而温和的生活切片。',
     actions: [
-      { label: '探索产品与游戏', to: '/products', variant: 'primary' },
-      { label: '了解我的故事', to: '/about', variant: 'secondary' },
+      { label: '阅读最新文章', to: '/articles', variant: 'primary' },
+      { label: '关于这个网站', to: '/about', variant: 'secondary' },
     ],
     stats: [
-      { value: '4', label: '个核心入口' },
-      { value: '2', label: '大内容 IP' },
-      { value: '10K+', label: '社区成员' },
-      { value: '持续更新中', label: '迭代状态' },
+      { value: '育儿心得', label: '持续记录' },
+      { value: '职场感悟', label: '阶段整理' },
+      { value: '个人成长', label: '长期更新' },
+      { value: '个人网站', label: '真实表达' },
     ],
     slides: [
       { background: bannerPersonal, eyebrow: 'AI 助力提效' },
@@ -35,22 +35,22 @@ export const homePage = {
       { background: bannerArcade, eyebrow: '拼音游戏体验' },
     ],
   },
-  exploreTags: ['AI 提效', 'App 开发', '育儿助手', '拼音游戏', '最新体验'],
+  exploreTags: ['育儿陪伴', '职场复盘', '成长笔记', '亲子启蒙', '个人应用'],
   products: products,
   tryOffer: tryOffers[0],
   featuredArticles: articles.slice(0, 4),
   interactiveCards: [
-    { title: '下载动态墙', desc: '实时展示产品热度与增长状态。', to: '/download-wall' },
-    { title: '在线轻试玩', desc: '无需下载，浏览器即可体验核心功能。', to: '/play' },
-    { title: '在线人数', desc: '用轻量化互动模块增强现场感。', to: '/community' },
+    { title: '下载动态墙', desc: '查看个人应用与内容相关资源的展示入口。', to: '/download-wall' },
+    { title: '在线轻试玩', desc: '保留网页内可直接体验的轻量互动功能。', to: '/play' },
+    { title: '联系与订阅', desc: '通过订阅与联系入口，接收更新或交流想法。', to: '/community' },
   ],
   labs,
   community: {
-    title: '加入我的私域社区',
-    subtitle: '获取最新动态、产品内测资格、限时福利与深度交流。',
+    title: '联系我与订阅更新',
+    subtitle: '如果你也关心育儿、成长和日常方法，欢迎通过邮件或微信保持联系。',
     background: communityBg,
     qr: qrPlaceholder,
-    benefits: ['获取最新动态', '产品内测', '限时福利', '深度交流'],
+    benefits: ['内容更新提醒', '育儿交流', '成长分享', '日常联系'],
   },
 }
 

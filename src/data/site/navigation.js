@@ -1,9 +1,9 @@
 export const siteMeta = {
-  name: 'QUENTIN WINDOW',
-  titleSuffix: 'QUENTIN WINDOW',
-  tagline: '独立开发者的产品与内容窗口',
-  description: '用 AI 提效工作与生活，用产品和游戏解决真实问题。',
-  copyright: 'QUENTIN WINDOW. All rights reserved.',
+  name: '启鸣随笔',
+  titleSuffix: '启鸣随笔',
+  tagline: '个人育儿、职场与成长记录',
+  description: '记录育儿心得、职场感悟与个人成长的点滴思考。',
+  copyright: '启鸣随笔. All rights reserved.',
   beian: {
     label: '蜀ICP备19016117号-1',
     href: 'https://beian.miit.gov.cn/',

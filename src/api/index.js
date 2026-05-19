@@ -1,3 +1,5 @@
+import { resolveAssetData } from '@/utils/content'
+
 const DEFAULT_API_BASE = import.meta.env.DEV ? 'http://127.0.0.1:4100/api' : '/api'
 const API_BASE = (import.meta.env.VITE_API_BASE || DEFAULT_API_BASE).replace(/\/$/, '')
 const ENABLE_API_FALLBACK = import.meta.env.VITE_ENABLE_API_FALLBACK === 'true'
@@ -271,23 +273,11 @@ export const betaApi = {
 }
 
 export const searchApi = {
-  search: async (query, filters = {}) => {
-    const q = query || ''
-    const [articleResult, productResult, labResult, offerResult] = await Promise.all([
-      articleApi.list({ q, ...filters }),
-      productApi.list(),
-      projectApi.list({ projectType: 'lab' }),
-      offerApi.list(),
-    ])
-
-    return {
-      articles: articleResult.items,
-      products: productResult.items.filter((item) => item.name?.includes(q) || item.summary?.includes(q)),
-      labs: labResult.items.filter((item) => item.name?.includes(q) || item.description?.includes(q)),
-      offers: offerResult.items.filter((item) => item.title?.includes(q)),
-      openSource: [],
-    }
-  },
+  search: (query, filters = {}) =>
+    requestWithFallback(
+      async () => resolveAssetData(await requestJson('/search', { params: { q: query || '', ...filters } })),
+      () => resolveAssetData({ query: query || '', items: [], total: 0, counts: { 全部: 0, 文章: 0, 产品: 0, 游戏: 0, 实验室: 0, 快来尝鲜: 0 } }),
+    ),
 }
 
 export const labApi = {
@@ -330,5 +320,61 @@ export const userApi = {
         captchaCode: data.captchaCode || '',
       },
     }),
+  sendResetPasswordCode: (data) =>
+    requestJson('/users/reset-password/code', {
+      method: 'POST',
+      data: {
+        account: data.account || '',
+        email: data.email || '',
+        captchaKey: data.captchaKey || '',
+        captchaCode: data.captchaCode || '',
+      },
+    }),
+  resetPassword: (data) =>
+    requestJson('/users/reset-password', {
+      method: 'POST',
+      data: {
+        account: data.account || '',
+        email: data.email || '',
+        emailCode: data.emailCode || '',
+        newPassword: data.newPassword || '',
+      },
+    }),
   me: () => requestJson('/users/me'),
+  getProfileSummary: () => requestJson('/users/me/summary'),
+  updateProfile: (data) =>
+    requestJson('/users/me', {
+      method: 'PUT',
+      data: {
+        nickname: data.nickname || '',
+        email: data.email || '',
+        avatar: data.avatar || '',
+        bio: data.bio || '',
+        signature: data.signature || '',
+      },
+    }),
+  changePassword: (data) =>
+    requestJson('/users/me/password', {
+      method: 'POST',
+      data: {
+        currentPassword: data.currentPassword || '',
+        newPassword: data.newPassword || '',
+      },
+    }),
+  addReadingHistory: (data) =>
+    requestJson('/users/me/reading-history', {
+      method: 'POST',
+      data: {
+        articleSlug: data.articleSlug || '',
+        articleTitle: data.articleTitle || '',
+        articleSummary: data.articleSummary || '',
+        coverImage: data.coverImage || '',
+        authorName: data.authorName || '',
+        categoryName: data.categoryName || '',
+      },
+    }),
+  clearReadingHistory: () =>
+    requestJson('/users/me/reading-history', {
+      method: 'DELETE',
+    }),
 }

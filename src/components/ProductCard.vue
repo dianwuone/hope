@@ -1,4 +1,6 @@
 <script setup>
+import SmartImage from '@/components/SmartImage.vue'
+
 defineProps({
   product: {
     type: Object,
@@ -30,11 +32,13 @@ const statusLabels = {
   <router-link :to="`/products/${product.slug}`" class="card group flex h-full flex-col overflow-hidden !p-0">
     <div class="relative aspect-[4/3] overflow-hidden bg-brand-warm">
       <div class="absolute inset-0 bg-gradient-to-br from-accent-soft to-lab-light"></div>
-      <img
+      <SmartImage
         v-if="product.cover"
         :src="product.cover"
         :alt="product.name"
-        class="relative z-10 h-full w-full object-contain p-6 transition-transform duration-500 group-hover:scale-105"
+        :fallback-label="product.name"
+        img-class="relative z-10 h-full w-full object-contain p-6 transition-transform duration-500 group-hover:scale-105"
+        fallback-class="relative z-10 h-full w-full p-6"
       />
     </div>
     <div class="flex flex-1 flex-col p-6">

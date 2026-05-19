@@ -1,4 +1,6 @@
 <script setup>
+import SmartImage from '@/components/SmartImage.vue'
+
 defineProps({
   article: {
     type: Object,
@@ -18,11 +20,13 @@ const columnColors = {
     class="card group block overflow-hidden !p-0"
   >
     <div class="aspect-[16/10] overflow-hidden bg-brand-warm">
-      <img
+      <SmartImage
         v-if="article.cover"
         :src="article.cover"
         :alt="article.title"
-        class="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
+        :fallback-label="article.title"
+        img-class="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
+        fallback-class="h-full w-full"
       />
       <div v-else class="flex h-full w-full items-center justify-center text-brand-charcoal/20">
         <svg class="w-12 h-12" fill="none" stroke="currentColor" viewBox="0 0 24 24">

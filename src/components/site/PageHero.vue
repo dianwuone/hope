@@ -1,4 +1,6 @@
 <script setup>
+import SmartImage from '@/components/SmartImage.vue'
+
 defineProps({
   eyebrow: String,
   title: { type: String, required: true },
@@ -27,7 +29,13 @@ defineProps({
         </div>
         <div v-if="image" class="relative">
           <div class="absolute -left-6 bottom-8 h-20 w-20 rounded-full bg-gold/10 blur-2xl"></div>
-          <img :src="image" :alt="imageAlt || title" class="w-full rounded-panel shadow-hero object-cover" />
+          <SmartImage
+            :src="image"
+            :alt="imageAlt || title"
+            :fallback-label="title"
+            img-class="w-full rounded-panel shadow-hero object-cover"
+            fallback-class="w-full min-h-[260px] rounded-panel shadow-hero"
+          />
         </div>
       </div>
     </div>

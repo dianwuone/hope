@@ -1,5 +1,6 @@
 <script setup>
 import { computed } from 'vue'
+import SmartImage from '@/components/SmartImage.vue'
 import { labs, products } from '@/data'
 import bannerLab from '@/assets/images/shucai/banners/banner-lab.jpg'
 import bannerArcade from '@/assets/images/shucai/banners/banner-arcade.jpg'
@@ -161,7 +162,13 @@ const quote = '实验，是为了让未来更值得期待。'
           <div class="absolute inset-0 bg-[radial-gradient(circle_at_18%_16%,rgba(119,182,255,0.12),transparent_22%),radial-gradient(circle_at_74%_64%,rgba(197,235,255,0.16),transparent_24%)]"></div>
           <div class="absolute inset-y-0 right-0 w-[46%]">
             <div class="absolute inset-0" :class="lab.imageGlow"></div>
-            <img :src="lab.cover" :alt="lab.name" class="absolute bottom-0 right-0 h-full w-full object-cover object-center opacity-92 saturate-[1.05]" />
+            <SmartImage
+              :src="lab.cover"
+              :alt="lab.name"
+              :fallback-label="lab.name"
+              img-class="absolute bottom-0 right-0 h-full w-full object-cover object-center opacity-92 saturate-[1.05]"
+              fallback-class="absolute bottom-0 right-0 h-full w-full"
+            />
             <div class="absolute inset-0 bg-[linear-gradient(90deg,rgba(248,251,255,0.99)_0%,rgba(248,251,255,0.9)_28%,rgba(248,251,255,0.18)_100%)]"></div>
           </div>
 
@@ -217,7 +224,13 @@ const quote = '实验，是为了让未来更值得期待。'
             class="group overflow-hidden rounded-[20px] border border-[#E3ECF8] bg-[linear-gradient(180deg,#FFFFFF_0%,#F9FCFF_100%)] shadow-[0_14px_32px_rgba(66,95,145,0.07)] transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_20px_42px_rgba(66,95,145,0.12)]"
           >
             <div class="relative">
-              <img :src="item.image" :alt="item.title" class="aspect-[16/11] w-full object-cover transition-transform duration-500 group-hover:scale-[1.03]" />
+              <SmartImage
+                :src="item.image"
+                :alt="item.title"
+                :fallback-label="item.title"
+                img-class="aspect-[16/11] w-full object-cover transition-transform duration-500 group-hover:scale-[1.03]"
+                fallback-class="aspect-[16/11] w-full"
+              />
               <span class="absolute left-4 top-4 rounded-full bg-[#4F88F5] px-2.5 py-1 text-[11px] font-semibold text-white shadow-[0_8px_18px_rgba(79,136,245,0.22)]">
                 {{ item.badge }}
               </span>

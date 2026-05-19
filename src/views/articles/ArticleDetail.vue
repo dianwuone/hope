@@ -3,14 +3,16 @@ import { computed, reactive, ref, watch } from 'vue'
 import { useRoute } from 'vue-router'
 import { storeToRefs } from 'pinia'
 import BreadcrumbNav from '@/components/BreadcrumbNav.vue'
-import { articleApi } from '@/api'
+import { articleApi, userApi } from '@/api'
 import { useRequireLogin } from '@/composables/auth'
+import { useReadingStore } from '@/stores/reading'
 import { useSiteStore } from '@/stores/site'
 import { useUserStore } from '@/stores/user'
 
 const route = useRoute()
 const siteStore = useSiteStore()
 const userStore = useUserStore()
+const readingStore = useReadingStore()
 const { ensureLogin } = useRequireLogin()
 const { isLoggedIn, profile } = storeToRefs(userStore)
 const feedbackMessage = ref('')
@@ -216,13 +218,26 @@ async function submitComment() {
 
 watch(
   currentSlug,
-  () => {
+  async () => {
     feedbackMessage.value = ''
     interactionApplied.like = false
     interactionApplied.favorite = false
     syncEngagement()
     loadEngagement()
     loadComments()
+    readingStore.recordArticle(article.value)
+    if (isLoggedIn.value && article.value?.slug) {
+      try {
+        await userApi.addReadingHistory({
+          articleSlug: article.value.slug,
+          articleTitle: article.value.title,
+          articleSummary: article.value.summary,
+          coverImage: article.value.cover || article.value.coverImage || '',
+          authorName: article.value.author || article.value.authorName || '',
+          categoryName: article.value.category || '',
+        })
+      } catch {}
+    }
   },
   { immediate: true },
 )

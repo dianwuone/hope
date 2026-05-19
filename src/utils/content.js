@@ -16,6 +16,7 @@ function isObject(value) {
 function isAssetLike(value) {
   return typeof value === 'string' && (
     value.includes('/src/assets/')
+    || value.includes('src/assets/')
     || value.startsWith('@/assets/')
     || value.startsWith('../assets/')
     || value.startsWith('./assets/')
@@ -33,11 +34,12 @@ export function resolveAssetPath(value) {
 
   const normalized = trimmed
     .replace(/\\/g, '/')
+    .replace(/^src\//, '/src/')
     .replace(/^@\//, '/src/')
     .replace(/^\.\.\//, '/src/')
     .replace(/^\.\//, '/src/')
 
-  return assetUrlMap.get(normalized) || trimmed
+  return assetUrlMap.get(normalized) || assetUrlMap.get(`/${normalized.replace(/^\/+/, '')}`) || trimmed
 }
 
 export function resolveAssetData(value) {

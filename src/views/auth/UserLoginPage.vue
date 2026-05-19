@@ -89,6 +89,10 @@ onMounted(() => {
           还没有账户？
           <RouterLink to="/auth/register" class="font-semibold text-[#C67642]">去注册</RouterLink>
         </p>
+        <p class="mt-2 text-sm text-brand-muted">
+          忘记密码？
+          <RouterLink to="/auth/forgot-password" class="font-semibold text-[#C67642]">找回密码</RouterLink>
+        </p>
       </div>
     </div>
   </section>

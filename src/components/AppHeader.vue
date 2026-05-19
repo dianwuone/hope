@@ -106,7 +106,7 @@ function logout() {
         </router-link>
         <div v-if="isLoggedIn" class="hidden items-center gap-2 md:flex">
           <router-link
-            to="/wishlist"
+            to="/user/profile"
             class="rounded-full border px-3 py-2 text-sm"
             :class="isAboutPage ? 'border-[#E9D7C2] text-[#5A4638] hover:bg-[#FFF0DE]' : 'border-brand-grey text-brand-text hover:bg-brand-warm'"
           >
@@ -195,7 +195,10 @@ function logout() {
             class="rounded-2xl px-4 py-3 text-sm sm:col-span-2"
             :class="isAboutPage ? 'bg-[#FFF0DE] text-[#5A4638]' : 'bg-brand-warm text-brand-charcoal'"
           >
-            当前用户：{{ profile?.nickname || profile?.username }}
+            <div>当前用户：{{ profile?.nickname || profile?.username }}</div>
+            <router-link to="/user/profile" class="mt-2 inline-flex text-xs font-semibold underline underline-offset-4">
+              进入个人中心
+            </router-link>
           </div>
         </div>
       </div>

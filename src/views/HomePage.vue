@@ -273,7 +273,7 @@ onUnmounted(() => {
 
     <section class="section-shell">
       <div class="container-content">
-        <SectionTitle eyebrow="Products" title="核心产品矩阵" subtitle="用产品解决问题，让生活与工作更高效" align="center" />
+        <SectionTitle eyebrow="个人应用" title="个人App展示" subtitle="保留双 IP 的应用入口，但首页表达更聚焦个人记录与生活使用场景。" align="center" />
         <div class="mt-10 grid gap-5 md:grid-cols-2 xl:grid-cols-4">
           <router-link
             v-for="product in homeProductMatrix"
@@ -361,7 +361,7 @@ onUnmounted(() => {
 
     <section class="section-shell bg-white">
       <div class="container-content">
-        <SectionTitle eyebrow="双内容 IP" title="灵感与成长的内容阵地" subtitle="用两条内容线承接产品之外的表达，一边记录思考，一边陪伴成长。" align="center" />
+        <SectionTitle eyebrow="双内容 IP" title="育儿与职场的双线记录" subtitle="一边记录陪伴孩子成长的心得，一边整理职场中的思考与方法。" align="center" />
         <div class="mt-10 grid gap-6 xl:grid-cols-2">
           <section
             v-for="column in homeContentColumns"
@@ -424,7 +424,7 @@ onUnmounted(() => {
 
     <section class="section-shell">
       <div class="container-content">
-        <SectionTitle eyebrow="Interactive" title="互动体验区" subtitle="有趣的互动，让探索更有参与感。" align="center" />
+        <SectionTitle eyebrow="互动体验" title="轻量功能入口" subtitle="首页保留应用与互动能力，方便继续进入网站的其他功能页。" align="center" />
         <div class="mt-10 grid gap-6 xl:grid-cols-2">
           <router-link
             v-for="card in homeInteractiveCards.slice(0, 2)"
@@ -444,7 +444,7 @@ onUnmounted(() => {
                 </div>
                 <div class="mt-auto pt-6">
                   <span class="inline-flex items-center rounded-full px-5 py-3 text-sm font-semibold shadow-[0_12px_24px_rgba(230,126,67,0.22)] transition-colors" :class="card.buttonClass">
-                    {{ card.title === '下载动态墙' ? '查看实时动态' : '立即开玩' }}
+                    {{ card.title === '下载动态墙' ? '查看内容入口' : card.title === '联系与订阅' ? '去看看' : '立即体验' }}
                     <span class="ml-2" aria-hidden="true">→</span>
                   </span>
                 </div>
@@ -506,7 +506,7 @@ onUnmounted(() => {
 
     <section class="section-shell bg-white">
       <div class="container-content">
-        <SectionTitle eyebrow="Lab" title="实验室" subtitle="探索未来的更多可能" align="center" />
+        <SectionTitle eyebrow="App 展示" title="个人应用展示" subtitle="保留 App 与网页功能入口，作为个人网站的能力展示区。" align="center" />
         <div class="mt-10 grid gap-6 xl:grid-cols-[1fr_1fr_0.9fr]">
           <router-link
             v-for="lab in homeLabCards"
@@ -541,7 +541,7 @@ onUnmounted(() => {
 
           <section class="rounded-[30px] border border-[#EEE1CF] bg-gradient-to-br from-[#FFF8EE] via-[#FFFDF9] to-[#FFFEFC] p-6 shadow-[0_16px_38px_rgba(92,73,54,0.08)]">
             <div class="flex items-center gap-4">
-              <h3 class="text-[1.8rem] font-serif font-semibold text-[#C97C4B]">正在开发中</h3>
+              <h3 class="text-[1.8rem] font-serif font-semibold text-[#C97C4B]">持续整理中</h3>
               <div class="h-px flex-1 bg-[linear-gradient(90deg,rgba(201,124,75,0.22),rgba(201,124,75,0))]"></div>
             </div>
             <div class="mt-6 space-y-4">
@@ -559,7 +559,7 @@ onUnmounted(() => {
                 </span>
               </div>
             </div>
-            <p class="mt-6 text-sm font-medium text-brand-muted">更多项目，敬请期待...</p>
+            <p class="mt-6 text-sm font-medium text-brand-muted">更多内容，会慢慢补充。</p>
           </section>
         </div>
       </div>
@@ -574,12 +574,12 @@ onUnmounted(() => {
 
             <div class="relative px-5 py-6 md:px-7 md:py-7 lg:px-8">
               <div class="text-center">
-                <div class="text-sm font-semibold tracking-[0.18em] text-[#C98A48]">社区与联系</div>
+                <div class="text-sm font-semibold tracking-[0.18em] text-[#C98A48]">联系与订阅</div>
                 <h2 class="mt-3 font-serif text-3xl leading-tight text-brand-charcoal md:text-4xl">
-                  加入社区，一起创造更好的产品与体验
+                  订阅更新，或通过微信与我交流
                 </h2>
                 <p class="mx-auto mt-3 max-w-3xl text-sm leading-7 text-brand-text md:text-base">
-                  通过邮件订阅获取最新动态，也可以扫码进入微信私域，第一时间参与内测、共创讨论和更新反馈。
+                  这里不做企业式宣传，只保留个人记录、内容更新和必要的联系入口。
                 </p>
               </div>
 
@@ -587,22 +587,22 @@ onUnmounted(() => {
                 <div class="flex items-start gap-3 rounded-[20px] border border-white/80 bg-white/60 p-4 backdrop-blur">
                   <div class="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-[#D98B2D] text-base text-white">✉</div>
                   <div>
-                    <h3 class="text-base font-semibold text-brand-charcoal">获取最新动态</h3>
-                    <p class="mt-1 text-sm leading-6 text-brand-text">第一时间订阅产品更新与阶段总结。</p>
+                    <h3 class="text-base font-semibold text-brand-charcoal">获取最新更新</h3>
+                    <p class="mt-1 text-sm leading-6 text-brand-text">订阅后可收到文章、记录与站点变化。</p>
                   </div>
                 </div>
                 <div class="flex items-start gap-3 rounded-[20px] border border-white/80 bg-white/60 p-4 backdrop-blur">
                   <div class="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-[#D98B2D] text-base text-white">◔</div>
                   <div>
-                    <h3 class="text-base font-semibold text-brand-charcoal">优先体验资格</h3>
-                    <p class="mt-1 text-sm leading-6 text-brand-text">参与内测招募，提前体验新功能。</p>
+                    <h3 class="text-base font-semibold text-brand-charcoal">个人应用入口</h3>
+                    <p class="mt-1 text-sm leading-6 text-brand-text">继续保留 App 与互动功能的访问入口。</p>
                   </div>
                 </div>
                 <div class="flex items-start gap-3 rounded-[20px] border border-white/80 bg-white/60 p-4 backdrop-blur">
                   <div class="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-[#D98B2D] text-base text-white">☏</div>
                   <div>
-                    <h3 class="text-base font-semibold text-brand-charcoal">与我直接交流</h3>
-                    <p class="mt-1 text-sm leading-6 text-brand-text">在社群里参与讨论、反馈和共创。</p>
+                    <h3 class="text-base font-semibold text-brand-charcoal">直接留言交流</h3>
+                    <p class="mt-1 text-sm leading-6 text-brand-text">可以通过微信或邮箱与我简单交流。</p>
                   </div>
                 </div>
               </div>
@@ -614,7 +614,7 @@ onUnmounted(() => {
                       <div class="text-sm font-semibold tracking-[0.16em] text-[#C98A48]">方式 1</div>
                       <h3 class="mt-2 text-xl font-serif font-semibold text-brand-charcoal">邮件订阅</h3>
                       <p class="mt-2 max-w-xl text-sm leading-6 text-brand-text">
-                        接收产品更新、内测通知与内容精选，适合安静关注但不想错过动态的朋友。
+                        接收育儿、职场与成长记录更新，适合安静关注的朋友。
                       </p>
                     </div>
                     <router-link to="/subscribe" class="hidden rounded-full border border-[#E9D5BF] bg-[#FFF7EF] px-4 py-2 text-sm font-semibold text-[#B7763B] transition-colors hover:bg-white md:inline-flex">
@@ -635,7 +635,7 @@ onUnmounted(() => {
 
                   <div class="mt-3 flex items-center gap-2 text-sm text-brand-muted">
                     <span class="text-[#C98A48]">⌁</span>
-                    <span>我们尊重你的隐私，不会频繁打扰，重要更新才发送。</span>
+                    <span>我们尊重你的隐私，只在有内容更新时发送。</span>
                   </div>
                 </div>
 
@@ -643,24 +643,24 @@ onUnmounted(() => {
                   <div class="grid gap-4 md:grid-cols-[1fr_auto] md:items-center">
                     <div>
                       <div class="text-sm font-semibold tracking-[0.16em] text-white/80">方式 2</div>
-                      <h3 class="mt-2 text-xl font-serif font-semibold">扫码加入微信</h3>
+                      <h3 class="mt-2 text-xl font-serif font-semibold">扫码联系我</h3>
                       <p class="mt-2 text-sm leading-6 text-white/85">
-                        更适合希望直接交流、参与讨论和获得即时反馈的朋友。
+                        如果你想交流育儿、职场或个人成长话题，可以直接联系我。
                       </p>
                       <div class="mt-4 flex flex-wrap gap-3 text-sm text-white/80">
-                        <span>最新产品动态</span>
-                        <span>内测资格优先</span>
-                        <span>专属群内交流</span>
+                        <span>内容更新</span>
+                        <span>育儿心得</span>
+                        <span>职场感悟</span>
                       </div>
                     </div>
                     <div class="mx-auto rounded-[20px] bg-white p-3 text-center text-brand-charcoal shadow-[0_14px_30px_rgba(104,57,18,0.18)]">
                       <img :src="homePage.community.qr" alt="社区二维码" class="h-28 w-28 rounded-xl object-cover md:h-32 md:w-32" />
-                      <div class="mt-2 text-xs font-medium md:text-sm">扫码加入微信</div>
+                      <div class="mt-2 text-xs font-medium md:text-sm">扫码联系我</div>
                     </div>
                   </div>
                   <div class="mt-4">
                     <router-link to="/community" class="inline-flex items-center rounded-full border border-white/20 bg-white/10 px-5 py-2.5 text-sm font-semibold text-white transition-colors hover:bg-white/16">
-                      了解社群详情
+                      了解联系方式
                       <span class="ml-2" aria-hidden="true">→</span>
                     </router-link>
                   </div>

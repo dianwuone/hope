@@ -152,6 +152,12 @@ const routes = [
     meta: { title: '提交心愿', breadcrumb: ['首页', '心愿单', '提交心愿'] },
   },
   {
+    path: '/user/profile',
+    name: 'UserProfile',
+    component: () => import('@/views/user/UserProfilePage.vue'),
+    meta: { title: '个人中心', breadcrumb: ['首页', '个人中心'] },
+  },
+  {
     path: '/community',
     name: 'Community',
     component: () => import('@/views/CommunityPage.vue'),
@@ -174,6 +180,12 @@ const routes = [
     name: 'UserRegister',
     component: () => import('@/views/auth/UserRegisterPage.vue'),
     meta: { title: '用户注册', breadcrumb: ['首页', '注册'] },
+  },
+  {
+    path: '/auth/forgot-password',
+    name: 'UserForgotPassword',
+    component: () => import('@/views/auth/UserForgotPasswordPage.vue'),
+    meta: { title: '找回密码', breadcrumb: ['首页', '找回密码'] },
   },
   {
     path: '/open-source',
@@ -222,8 +234,8 @@ const router = createRouter({
 
 router.beforeEach((to) => {
   document.title = to.meta.title
-    ? `${to.meta.title} — QUENTIN WINDOW`
-    : 'QUENTIN WINDOW'
+    ? `${to.meta.title} — 启鸣随笔`
+    : '启鸣随笔'
 })
 
 export default router
