@@ -53,17 +53,17 @@ function logout() {
           class="flex h-10 w-10 items-center justify-center overflow-hidden rounded-xl border shadow-sm"
           :class="isAboutPage ? 'border-[#D4A878] bg-[#FFF5E8] text-[#B17A49]' : 'border-transparent bg-accent-soft text-accent-blue-dark'"
         >
-          <span class="font-serif text-lg font-bold">Q</span>
+          <span class="font-serif text-lg font-bold">启</span>
         </div>
         <div class="min-w-0">
           <div
             class="truncate font-semibold"
             :class="isAboutPage ? 'text-lg tracking-[0.08em] text-[#3F2E23]' : 'text-sm tracking-[0.2em] text-brand-charcoal'"
           >
-            {{ siteMeta.name || 'QUENTIN WINDOW' }}
+            {{ siteMeta.name || '启鸣随笔' }}
           </div>
           <div class="truncate text-xs" :class="isAboutPage ? 'text-[#9A7C62]' : 'text-brand-muted'">
-            {{ siteMeta.tagline || siteMeta.description || '用户产品与热爱，让生活更美好' }}
+            {{ siteMeta.tagline || siteMeta.description || '记录育儿、职场与个人成长' }}
           </div>
         </div>
       </router-link>

@@ -25,9 +25,9 @@ const visibleSocialLinks = computed(() =>
     <div class="container-content py-16">
       <div class="grid gap-10 lg:grid-cols-[1.4fr_repeat(4,minmax(0,1fr))]">
           <div>
-            <div class="mb-4 text-lg font-bold tracking-[0.2em] text-white">{{ siteMeta.name || 'QUENTIN WINDOW' }}</div>
+            <div class="mb-4 text-lg font-bold tracking-[0.2em] text-white">{{ siteMeta.name || '启鸣随笔' }}</div>
             <p class="max-w-sm text-sm leading-relaxed text-white/50">
-              {{ siteMeta.description || '一个独立开发者的产品与内容窗口。探索 AI、生产力、育儿与教育的更多可能。' }}
+              {{ siteMeta.description || '一个用于记录育儿心得、职场感悟与个人成长的个人网站。' }}
             </p>
             <div class="mt-4 space-y-1 text-sm text-white/45">
               <p v-if="communityWechat">微信：{{ communityWechat }}</p>
@@ -55,7 +55,7 @@ const visibleSocialLinks = computed(() =>
 
       <div class="mt-12 flex flex-col gap-4 border-t border-white/10 pt-8 sm:flex-row sm:items-center sm:justify-between">
         <p class="text-xs text-white/30">
-          &copy; {{ new Date().getFullYear() }} {{ siteMeta.copyright || 'QUENTIN WINDOW. All rights reserved.' }}
+          &copy; {{ new Date().getFullYear() }} {{ siteMeta.copyright || '启鸣随笔' }}
           <a
             v-if="beian.label && beian.href"
             :href="beian.href"
