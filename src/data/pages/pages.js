@@ -30,9 +30,9 @@ export const homePage = {
       { value: '个人网站', label: '真实表达' },
     ],
     slides: [
-      { background: bannerPersonal, eyebrow: 'AI 助力提效' },
+      { background: bannerPersonal, eyebrow: '工作与生活整理' },
       { background: bannerParenting, eyebrow: '育儿成长记录' },
-      { background: bannerArcade, eyebrow: '拼音游戏体验' },
+      { background: bannerArcade, eyebrow: '亲子互动陪伴' },
     ],
   },
   exploreTags: ['育儿陪伴', '职场复盘', '成长笔记', '亲子启蒙', '个人应用'],
@@ -40,8 +40,8 @@ export const homePage = {
   tryOffer: tryOffers[0],
   featuredArticles: articles.slice(0, 4),
   interactiveCards: [
-    { title: '下载动态墙', desc: '查看个人应用与内容相关资源的展示入口。', to: '/download-wall' },
-    { title: '在线轻试玩', desc: '保留网页内可直接体验的轻量互动功能。', to: '/play' },
+    { title: '资源整理页', desc: '查看个人应用与内容相关资源的集中入口。', to: '/download-wall' },
+    { title: '在线体验页', desc: '保留网页内可直接体验的轻量互动功能。', to: '/play' },
     { title: '联系与订阅', desc: '通过订阅与联系入口，接收更新或交流想法。', to: '/community' },
   ],
   labs,
@@ -55,20 +55,20 @@ export const homePage = {
 }
 
 export const articleCenterPage = {
-  title: '文章中心',
-  subtitle: '汇聚全部内容，从 AI 提效到育儿启蒙，从独立开发到亲子成长。',
+  title: '文章归档',
+  subtitle: '汇聚全部记录，从育儿心得到职场感悟，再到日常成长笔记。',
   banner: bannerArticles,
 }
 
 export const gamesPage = {
-  title: '游戏中心',
-  subtitle: '把学习与互动放进更轻松的体验里，让探索更愿意持续。',
+  title: '亲子互动',
+  subtitle: '把学习与陪伴放进更轻松的互动里，让孩子更愿意参与。',
   banner: bannerGames,
 }
 
 export const downloadsPage = {
-  title: '下载中心',
-  subtitle: '统一查看可用产品、体验状态、下载方式和设备说明。',
+  title: '资源整理页',
+  subtitle: '集中整理可查看的内容、个人应用和相关资源入口。',
   banner: bannerDownloads,
   requirements: [
     '首批版本优先支持 Web 体验与报名收集',
@@ -78,13 +78,13 @@ export const downloadsPage = {
 }
 
 export const communityPage = {
-  title: '加入我的私域社区',
-  subtitle: '和我一起，持续探索 AI 提效与产品创造。',
+  title: '联系我',
+  subtitle: '如果你也关心育儿、职场与个人成长，欢迎和我交流。',
   banner: bannerConnect,
-  benefits: ['获取最新动态', '产品内测资格', '限时福利', '深度交流'],
+  benefits: ['获取最新更新', '交流育儿心得', '分享成长体会', '保持联系'],
   faq: [
-    { q: '社区里会分享什么？', a: '包括产品动态、实验进展、内容更新和阶段性福利。' },
-    { q: '是否收费？', a: '当前以免费关注和早期名单收集为主，后续如有付费服务会明确说明。' },
+    { q: '这里会分享什么？', a: '主要是网站内容更新、育儿记录、职场感悟和一些日常整理。' },
+    { q: '联系需要付费吗？', a: '不用，这里以个人交流和内容订阅为主。' },
   ],
 }
 

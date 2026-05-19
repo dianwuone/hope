@@ -6,27 +6,27 @@ import avatarQiming from '@/assets/images/shucai/avatars/avatar-qiming.jpg'
 export const columns = {
   kunting: {
     slug: 'kunting',
-    name: '昆廷笔记',
-    title: '用 AI 提效，用产品创造价值',
-    subtitle: '记录独立开发、AI 工作流、内容生产与个人成长。',
-    eyebrow: '昆廷笔记 · AI 提效与独立开发',
-    intro: '分享独立开发、AI 工作流、产品方法与长期成长，把实践过程和有效经验沉淀成可复用的内容。',
+    name: '职场手记',
+    title: '记录工作方法、效率实践与阶段成长',
+    subtitle: '围绕职场节奏、AI 提效、内容整理与个人成长做持续记录。',
+    eyebrow: '职场手记 · 工作方法与成长复盘',
+    intro: '记录工作中的方法整理、效率实践、项目复盘与长期成长，把真实经历慢慢沉淀下来。',
     banner: bannerKunting,
     avatar: avatarQuentin,
     author: '昆廷',
-    tags: ['AI 提效', '独立开发', '产品思考', '生活记录'],
+    tags: ['职场复盘', 'AI 提效', '方法整理', '生活记录'],
     directions: [
       {
         title: 'AI 提效',
         desc: '围绕信息整理、写作辅助与工作流优化，分享真正可复用的方法。',
       },
       {
-        title: '独立开发',
-        desc: '记录从想法到上线的过程，把产品验证、节奏管理与踩坑经验讲透。',
+        title: '工作复盘',
+        desc: '记录项目推进、节奏管理与踩坑经验，把日常工作中的观察整理清楚。',
       },
       {
-        title: '产品思考',
-        desc: '从需求、价值与体验出发，拆解小产品如何做得更快、更稳、更有用。',
+        title: '成长思考',
+        desc: '围绕表达、判断、习惯与选择，整理那些会影响长期成长的小体会。',
       },
     ],
     accent: {
@@ -48,10 +48,10 @@ export const columns = {
   },
   qiming: {
     slug: 'qiming',
-    name: '启鸣宝宝',
+    name: '育儿随记',
     title: '用爱与方法，陪孩子走好每一步成长路',
     subtitle: '聚焦启蒙教育、亲子陪伴、幼小衔接与家庭成长。',
-    eyebrow: '启鸣宝宝 · 陪伴孩子看见成长',
+    eyebrow: '育儿随记 · 陪孩子慢慢长大',
     intro: '分享育儿经验、启蒙方法、成长记录与亲子游戏，和你一起发现孩子成长中的更多可能。',
     banner: bannerQiming,
     avatar: avatarQiming,

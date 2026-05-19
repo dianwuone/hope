@@ -27,31 +27,31 @@ export const footerSections = [
     links: [
       { name: '职场手记', path: '/columns/kunting' },
       { name: '育儿随记', path: '/columns/qiming' },
-      { name: '文章归档', path: '/articles' },
+      { name: '全部文章', path: '/articles' },
     ],
   },
   {
-    title: '个人应用',
+    title: '我的工具',
     links: [
-      { name: '应用展示', path: '/products' },
-      { name: '个人助手', path: '/products/personal-assistant' },
-      { name: '育儿助手', path: '/products/parenting-assistant' },
-      { name: 'AI 工具小帮手', path: '/products/ai-tools' },
+      { name: '我的应用', path: '/products' },
+      { name: '生活小助手', path: '/products/personal-assistant' },
+      { name: '育儿小助手', path: '/products/parenting-assistant' },
+      { name: 'AI 效率工具', path: '/products/ai-tools' },
     ],
   },
   {
-    title: '陪伴互动',
+    title: '亲子陪伴',
     links: [
-      { name: '亲子互动页', path: '/games' },
-      { name: '拼音大冒险', path: '/games/pinyin-adventure' },
+      { name: '互动小天地', path: '/games' },
+      { name: '拼音启蒙游戏', path: '/games/pinyin-adventure' },
     ],
   },
   {
-    title: '其他入口',
+    title: '更多页面',
     links: [
-      { name: '在线轻试玩', path: '/play' },
-      { name: '下载动态墙', path: '/download-wall' },
-      { name: '我的小实验', path: '/lab' },
+      { name: '在线体验', path: '/play' },
+      { name: '资源下载页', path: '/download-wall' },
+      { name: '随手小实验', path: '/lab' },
     ],
   },
 ]

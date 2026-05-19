@@ -11,7 +11,7 @@ const routes = [
     path: '/about',
     name: 'About',
     component: () => import('@/views/AboutPage.vue'),
-    meta: { title: '关于', breadcrumb: ['首页', '关于'] },
+    meta: { title: '关于我', breadcrumb: ['首页', '关于我'] },
   },
   {
     path: '/search',
@@ -41,19 +41,19 @@ const routes = [
     path: '/columns/kunting',
     name: 'ColumnKunting',
     component: () => import('@/views/columns/KuntingPage.vue'),
-    meta: { title: '昆廷笔记', breadcrumb: ['首页', '昆廷笔记'] },
+    meta: { title: '职场手记', breadcrumb: ['首页', '职场手记'] },
   },
   {
     path: '/columns/qiming',
     name: 'ColumnQiming',
     component: () => import('@/views/columns/QimingPage.vue'),
-    meta: { title: '启鸣宝宝', breadcrumb: ['首页', '启鸣宝宝'] },
+    meta: { title: '育儿随记', breadcrumb: ['首页', '育儿随记'] },
   },
   {
     path: '/articles',
     name: 'Articles',
     component: () => import('@/views/articles/ArticleCenter.vue'),
-    meta: { title: '文章中心', breadcrumb: ['首页', '文章中心'] },
+    meta: { title: '文章归档', breadcrumb: ['首页', '文章归档'] },
   },
   {
     path: '/articles/tags/:slug',
@@ -71,7 +71,7 @@ const routes = [
     path: '/products',
     name: 'Products',
     component: () => import('@/views/products/ProductCenter.vue'),
-    meta: { title: '产品中心', breadcrumb: ['首页', '产品中心'] },
+    meta: { title: '个人应用', breadcrumb: ['首页', '个人应用'] },
   },
   {
     path: '/products/:slug',
@@ -83,7 +83,7 @@ const routes = [
     path: '/games',
     name: 'Games',
     component: () => import('@/views/games/GameCenter.vue'),
-    meta: { title: '游戏中心', breadcrumb: ['首页', '游戏中心'] },
+    meta: { title: '亲子互动', breadcrumb: ['首页', '亲子互动'] },
   },
   {
     path: '/games/pinyin-adventure',
@@ -113,7 +113,7 @@ const routes = [
     path: '/lab',
     name: 'Lab',
     component: () => import('@/views/lab/LabPage.vue'),
-    meta: { title: '实验室', breadcrumb: ['首页', '实验室'] },
+    meta: { title: '我的小实验', breadcrumb: ['首页', '我的小实验'] },
   },
   {
     path: '/lab/:slug',
@@ -131,13 +131,13 @@ const routes = [
     path: '/download-wall',
     name: 'DownloadWall',
     component: () => import('@/views/DownloadWall.vue'),
-    meta: { title: '下载动态墙', breadcrumb: ['首页', '下载动态墙'] },
+    meta: { title: '资源整理页', breadcrumb: ['首页', '资源整理页'] },
   },
   {
     path: '/play',
     name: 'Play',
     component: () => import('@/views/PlayPage.vue'),
-    meta: { title: '在线轻试玩', breadcrumb: ['首页', '在线轻试玩'] },
+    meta: { title: '在线体验页', breadcrumb: ['首页', '在线体验页'] },
   },
   {
     path: '/wishlist',
@@ -161,7 +161,7 @@ const routes = [
     path: '/community',
     name: 'Community',
     component: () => import('@/views/CommunityPage.vue'),
-    meta: { title: '加入社区', breadcrumb: ['首页', '加入社区'] },
+    meta: { title: '联系我', breadcrumb: ['首页', '联系我'] },
   },
   {
     path: '/subscribe',

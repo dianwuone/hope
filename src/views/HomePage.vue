@@ -18,8 +18,8 @@ const homeProductMatrix = computed(() => [
     frameClass: 'bg-[radial-gradient(circle_at_20%_20%,rgba(255,255,255,0.82),rgba(255,255,255,0.35)_58%,rgba(255,255,255,0)_100%)]',
     bulletClass: 'text-[#6E9C8B]',
     platformMarks: ['iOS', 'Android'],
-    cta: '了解更多',
-    summaryLine: '你的智能生活管理软件',
+    cta: '随手看看',
+    summaryLine: '日常生活里的个人小工具',
   },
   {
     ...homePage.products[1],
@@ -29,8 +29,8 @@ const homeProductMatrix = computed(() => [
     frameClass: 'bg-[radial-gradient(circle_at_18%_22%,rgba(255,255,255,0.8),rgba(255,244,237,0.48)_55%,rgba(255,255,255,0)_100%)]',
     bulletClass: 'text-[#D17D62]',
     platformMarks: ['iOS', 'Android'],
-    cta: '了解更多',
-    summaryLine: '科学育儿，陪伴成长',
+    cta: '随手看看',
+    summaryLine: '记录陪伴孩子成长时想到的小方法',
   },
   {
     ...homePage.products[2],
@@ -40,8 +40,8 @@ const homeProductMatrix = computed(() => [
     frameClass: 'bg-[radial-gradient(circle_at_22%_18%,rgba(255,255,255,0.82),rgba(241,248,252,0.45)_56%,rgba(255,255,255,0)_100%)]',
     bulletClass: 'text-[#7391A1]',
     platformMarks: ['Web', 'AI'],
-    cta: '了解更多',
-    summaryLine: '你的 AI 效率工具箱',
+    cta: '随手看看',
+    summaryLine: '用于整理工作与表达的效率工具',
   },
   {
     slug: 'pinyin-adventure',
@@ -59,8 +59,8 @@ const homeProductMatrix = computed(() => [
     frameClass: 'bg-[radial-gradient(circle_at_22%_18%,rgba(255,255,255,0.75),rgba(255,246,219,0.4)_55%,rgba(255,255,255,0)_100%)]',
     bulletClass: 'text-[#D79435]',
     platformMarks: ['Web'],
-    cta: '开始体验',
-    summaryLine: '快乐启蒙，边玩边学',
+    cta: '去体验',
+    summaryLine: '给孩子准备的轻松启蒙互动',
   },
 ])
 const homeContentColumns = computed(() => [
@@ -96,7 +96,7 @@ const homeInteractiveCards = computed(() => [
     borderClass: 'border-[#F1E2CF]',
     buttonClass: 'bg-[#E67E43] text-white hover:bg-[#d96f34]',
     iconWrapClass: 'bg-white/80 text-[#E67E43]',
-    metricLabel: '今日热度',
+    metricLabel: '今日整理',
     metricValue: '1,248',
     metricClass: 'bg-[#355A58] text-white',
     decoration: 'bubbles',
@@ -107,7 +107,7 @@ const homeInteractiveCards = computed(() => [
     borderClass: 'border-[#F0E3D3]',
     buttonClass: 'bg-[#E67E43] text-white hover:bg-[#d96f34]',
     iconWrapClass: 'bg-white/80 text-[#E67E43]',
-    metricLabel: '得分',
+    metricLabel: '体验进度',
     metricValue: '0236',
     metricClass: 'bg-transparent text-brand-charcoal',
     decoration: 'dino',
@@ -118,8 +118,8 @@ const homeInteractiveCards = computed(() => [
     borderClass: 'border-[#DCE8ED]',
     buttonClass: 'bg-[#5F8BA0] text-white hover:bg-[#4f778b]',
     iconWrapClass: 'bg-white/80 text-[#5F8BA0]',
-    metricLabel: '在线人数',
-    metricValue: '128',
+    metricLabel: '联系入口',
+    metricValue: 'OPEN',
     metricClass: 'bg-[#EFF6F9] text-[#5F8BA0]',
     decoration: 'reserve',
   },
@@ -130,7 +130,7 @@ const homeLabCards = computed(() => [
     accent: 'from-[#F5F2EB] via-[#FBF8F2] to-[#FFFEFC]',
     borderClass: 'border-[#E7DDD0]',
     buttonClass: 'bg-[#4F847F] text-white hover:bg-[#44736f]',
-    buttonLabel: '进入实验室',
+    buttonLabel: '看看记录',
     imageMaskClass: 'from-[#FBF8F2] via-[#FBF8F2]/40 to-transparent',
     imageGlowClass: 'bg-[radial-gradient(circle_at_28%_52%,rgba(255,248,238,0.95),rgba(255,248,238,0.32)_42%,rgba(255,248,238,0)_72%)]',
   },
@@ -139,15 +139,15 @@ const homeLabCards = computed(() => [
     accent: 'from-[#F8F0E6] via-[#FCF7F0] to-[#FFFEFC]',
     borderClass: 'border-[#E8DCCC]',
     buttonClass: 'bg-[#C97C4B] text-white hover:bg-[#b86d3f]',
-    buttonLabel: '获取更多',
+    buttonLabel: '继续阅读',
     imageMaskClass: 'from-[#FCF7F0] via-[#FCF7F0]/42 to-transparent',
     imageGlowClass: 'bg-[radial-gradient(circle_at_30%_50%,rgba(255,247,238,0.92),rgba(255,247,238,0.28)_42%,rgba(255,247,238,0)_72%)]',
   },
 ])
 const homeLabHighlights = computed(() => [
-  'AI 学习问答',
-  '数字成长图谱',
-  '可视化启蒙球',
+  '育儿日常补充记录',
+  '工作方法继续整理',
+  '亲子互动想法收集',
 ])
 
 onMounted(() => {
@@ -234,7 +234,7 @@ onUnmounted(() => {
                 class="absolute bottom-[8%] left-[24%] z-20 w-[42%] rotate-[5deg] object-cover opacity-92 mix-blend-multiply drop-shadow-[0_18px_28px_rgba(85,66,44,0.16)]"
               />
               <div class="absolute bottom-[7%] left-[18%] z-30 rounded-[24px] bg-[#D97757] px-5 py-3 text-sm font-semibold text-white shadow-lg">
-                解决真实问题
+                留下真实记录
               </div>
             </div>
           </div>
@@ -273,7 +273,7 @@ onUnmounted(() => {
 
     <section class="section-shell">
       <div class="container-content">
-        <SectionTitle eyebrow="个人应用" title="个人App展示" subtitle="保留双 IP 的应用入口，但首页表达更聚焦个人记录与生活使用场景。" align="center" />
+        <SectionTitle eyebrow="我的工具" title="个人工具与小应用" subtitle="这里放一些日常会用到、也愿意继续整理的个人工具与页面入口。" align="center" />
         <div class="mt-10 grid gap-5 md:grid-cols-2 xl:grid-cols-4">
           <router-link
             v-for="product in homeProductMatrix"
@@ -424,7 +424,7 @@ onUnmounted(() => {
 
     <section class="section-shell">
       <div class="container-content">
-        <SectionTitle eyebrow="互动体验" title="轻量功能入口" subtitle="首页保留应用与互动能力，方便继续进入网站的其他功能页。" align="center" />
+        <SectionTitle eyebrow="更多页面" title="轻量互动与补充页面" subtitle="保留一些轻量页面，方便继续查看资源、体验互动或联系我。" align="center" />
         <div class="mt-10 grid gap-6 xl:grid-cols-2">
           <router-link
             v-for="card in homeInteractiveCards.slice(0, 2)"
@@ -444,7 +444,7 @@ onUnmounted(() => {
                 </div>
                 <div class="mt-auto pt-6">
                   <span class="inline-flex items-center rounded-full px-5 py-3 text-sm font-semibold shadow-[0_12px_24px_rgba(230,126,67,0.22)] transition-colors" :class="card.buttonClass">
-                    {{ card.title === '下载动态墙' ? '查看内容入口' : card.title === '联系与订阅' ? '去看看' : '立即体验' }}
+                    {{ card.title === '资源整理页' ? '查看入口' : card.title === '联系与订阅' ? '去看看' : '立即体验' }}
                     <span class="ml-2" aria-hidden="true">→</span>
                   </span>
                 </div>
@@ -506,7 +506,7 @@ onUnmounted(() => {
 
     <section class="section-shell bg-white">
       <div class="container-content">
-        <SectionTitle eyebrow="App 展示" title="个人应用展示" subtitle="保留 App 与网页功能入口，作为个人网站的能力展示区。" align="center" />
+        <SectionTitle eyebrow="补充内容" title="一些还在慢慢整理的页面" subtitle="这里保留一些延伸阅读与小页面，作为个人网站的补充内容。" align="center" />
         <div class="mt-10 grid gap-6 xl:grid-cols-[1fr_1fr_0.9fr]">
           <router-link
             v-for="lab in homeLabCards"
@@ -594,8 +594,8 @@ onUnmounted(() => {
                 <div class="flex items-start gap-3 rounded-[20px] border border-white/80 bg-white/60 p-4 backdrop-blur">
                   <div class="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-[#D98B2D] text-base text-white">◔</div>
                   <div>
-                    <h3 class="text-base font-semibold text-brand-charcoal">个人应用入口</h3>
-                    <p class="mt-1 text-sm leading-6 text-brand-text">继续保留 App 与互动功能的访问入口。</p>
+                    <h3 class="text-base font-semibold text-brand-charcoal">补充页面入口</h3>
+                    <p class="mt-1 text-sm leading-6 text-brand-text">保留一些个人工具、互动页和补充内容入口。</p>
                   </div>
                 </div>
                 <div class="flex items-start gap-3 rounded-[20px] border border-white/80 bg-white/60 p-4 backdrop-blur">
