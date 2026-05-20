@@ -1,0 +1,1 @@
+import{_ as o}from"./ColumnLandingPage-wmP_82Fb.js";import{q as r,h as e}from"./index-D2W5T1PV.js";import"./products-CZOjIMbb.js";import"./articles-N01W-c9I.js";const p={__name:"QimingPage",setup(m){return(t,a)=>(e(),r(o,{"column-key":"qiming"}))}};export{p as default};
