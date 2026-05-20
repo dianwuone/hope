@@ -16,7 +16,6 @@ export const mainNav = [
   { name: '育儿随记', path: '/columns/qiming' },
   { name: '文章归档', path: '/articles' },
   { name: '个人应用', path: '/products' },
-  { name: '亲子互动', path: '/games' },
   { name: '我的小实验', path: '/lab' },
   { name: '关于我', path: '/about' },
 ]
@@ -40,18 +39,11 @@ export const footerSections = [
     ],
   },
   {
-    title: '亲子陪伴',
-    links: [
-      { name: '互动小天地', path: '/games' },
-      { name: '拼音启蒙游戏', path: '/games/pinyin-adventure' },
-    ],
-  },
-  {
     title: '更多页面',
     links: [
-      { name: '在线体验', path: '/play' },
       { name: '资源下载页', path: '/download-wall' },
       { name: '随手小实验', path: '/lab' },
+      { name: '联系我', path: '/community' },
     ],
   },
 ]

@@ -18,7 +18,6 @@ const beian = computed(() => ({
 const visibleSocialLinks = computed(() =>
   socialLinks.value.filter((link) => link?.href && link.href !== '#' && !link.href.startsWith('mailto:')),
 )
-const isHomePage = computed(() => window.location.hash === '#/' || window.location.pathname === '/')
 </script>
 
 <template>
