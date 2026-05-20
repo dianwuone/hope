@@ -5,7 +5,6 @@ import { useSiteStore } from '@/stores/site'
 
 const siteStore = useSiteStore()
 const {
-  footerSectionsData: footerSections,
   siteMetaData: siteMeta,
   socialLinksData: socialLinks,
   contactEmailData: contactEmail,
@@ -23,7 +22,7 @@ const visibleSocialLinks = computed(() =>
 <template>
   <footer class="mt-section bg-brand-charcoal text-white/80">
     <div class="container-content py-16">
-      <div class="grid gap-10 lg:grid-cols-[1.4fr_repeat(4,minmax(0,1fr))]">
+      <div>
           <div>
             <div class="mb-4 text-lg font-bold tracking-[0.2em] text-white">{{ siteMeta.name || '启鸣随笔' }}</div>
             <p class="max-w-sm text-sm leading-relaxed text-white/50">
@@ -37,18 +36,7 @@ const visibleSocialLinks = computed(() =>
               <span class="btn-white cursor-default">订阅信息展示</span>
             </div>
           </div>
-
-          <div v-for="section in footerSections" :key="section.title">
-            <h4 class="mb-4 text-sm font-medium text-white">{{ section.title }}</h4>
-            <ul class="space-y-2.5">
-              <li v-for="link in section.links" :key="link.path">
-                <span class="text-sm text-white/50">
-                  {{ link.name }}
-                </span>
-              </li>
-            </ul>
-          </div>
-        </div>
+      </div>
 
       <div class="mt-12 flex flex-col gap-4 border-t border-white/10 pt-8 sm:flex-row sm:items-center sm:justify-between">
         <p class="text-xs text-white/30">
