@@ -2,7 +2,6 @@
 import { computed, onMounted, onUnmounted, ref } from 'vue'
 import SectionTitle from '@/components/site/SectionTitle.vue'
 import { articles, columns, homePage } from '@/data'
-import appPinyinGame from '@/assets/images/shucai/products/app-pinyin-game.jpg'
 
 const activeHeroIndex = ref(0)
 let heroTimer
@@ -12,7 +11,6 @@ const formatDate = (value) => value?.replaceAll('-', '/') || ''
 const homeProductMatrix = computed(() => [
   {
     ...homePage.products[0],
-    route: `/products/${homePage.products[0].slug}`,
     accent: 'from-[#CFE8DF] via-[#E4F2EB] to-[#F7FBF8]',
     buttonClass: 'border-[#90B8AA] text-[#46685E] hover:bg-white/80',
     frameClass: 'bg-[radial-gradient(circle_at_20%_20%,rgba(255,255,255,0.82),rgba(255,255,255,0.35)_58%,rgba(255,255,255,0)_100%)]',
@@ -23,7 +21,6 @@ const homeProductMatrix = computed(() => [
   },
   {
     ...homePage.products[1],
-    route: `/products/${homePage.products[1].slug}`,
     accent: 'from-[#F8DDD2] via-[#FCEADF] to-[#FFF8F2]',
     buttonClass: 'border-[#D6A08B] text-[#B06C55] hover:bg-white/80',
     frameClass: 'bg-[radial-gradient(circle_at_18%_22%,rgba(255,255,255,0.8),rgba(255,244,237,0.48)_55%,rgba(255,255,255,0)_100%)]',
@@ -34,7 +31,6 @@ const homeProductMatrix = computed(() => [
   },
   {
     ...homePage.products[2],
-    route: `/products/${homePage.products[2].slug}`,
     accent: 'from-[#CADDEA] via-[#DDEAF2] to-[#F4F8FB]',
     buttonClass: 'border-[#94AFC0] text-[#5A7685] hover:bg-white/80',
     frameClass: 'bg-[radial-gradient(circle_at_22%_18%,rgba(255,255,255,0.82),rgba(241,248,252,0.45)_56%,rgba(255,255,255,0)_100%)]',
@@ -43,30 +39,10 @@ const homeProductMatrix = computed(() => [
     cta: '随手看看',
     summaryLine: '用于整理工作与表达的效率工具',
   },
-  {
-    slug: 'pinyin-adventure',
-    name: '拼音大冒险',
-    shortDesc: '快乐启蒙，边玩边学',
-    route: '/games/pinyin-adventure',
-    cover: appPinyinGame,
-    features: [
-      { title: '拼音学习' },
-      { title: '趣味闯关' },
-      { title: '闯关冒险' },
-    ],
-    accent: 'from-[#F7E3A8] via-[#FCECBF] to-[#FFF8DE]',
-    buttonClass: 'border-[#E0B058] text-[#BE7B1C] hover:bg-white/80',
-    frameClass: 'bg-[radial-gradient(circle_at_22%_18%,rgba(255,255,255,0.75),rgba(255,246,219,0.4)_55%,rgba(255,255,255,0)_100%)]',
-    bulletClass: 'text-[#D79435]',
-    platformMarks: ['Web'],
-    cta: '去体验',
-    summaryLine: '给孩子准备的轻松启蒙互动',
-  },
 ])
 const homeContentColumns = computed(() => [
   {
     ...columns.kunting,
-    route: '/columns/kunting',
     accent: 'from-[#EAF3F2] via-[#F7FBFA] to-[#FEFEFD]',
     borderClass: 'border-[#D7E7E5]',
     linkClass: 'text-[#5B8479]',
@@ -78,7 +54,6 @@ const homeContentColumns = computed(() => [
   },
   {
     ...columns.qiming,
-    route: '/columns/qiming',
     accent: 'from-[#FFF0E8] via-[#FFF8F4] to-[#FFFEFD]',
     borderClass: 'border-[#F1DDD3]',
     linkClass: 'text-[#D07E61]',
@@ -189,14 +164,13 @@ onUnmounted(() => {
               </p>
 
               <div class="mt-8 flex flex-wrap gap-4">
-                <router-link
+                <span
                   v-for="action in homePage.hero.actions"
-                  :key="action.to"
-                  :to="action.to"
-                  :class="action.variant === 'primary' ? 'btn-primary shadow-md shadow-gold/20' : 'btn-outline bg-white/72'"
+                  :key="action.label"
+                  :class="action.variant === 'primary' ? 'btn-primary shadow-md shadow-gold/20 cursor-default' : 'btn-outline bg-white/72 cursor-default'"
                 >
                   {{ action.label }}
-                </router-link>
+                </span>
               </div>
 
               <div class="mt-9 flex flex-wrap gap-x-6 gap-y-3 text-sm text-brand-text">
@@ -273,12 +247,11 @@ onUnmounted(() => {
 
     <section class="section-shell">
       <div class="container-content">
-        <SectionTitle eyebrow="我的工具" title="个人工具与小应用" subtitle="这里放一些日常会用到、也愿意继续整理的个人工具与页面入口。" align="center" />
-        <div class="mt-10 grid gap-5 md:grid-cols-2 xl:grid-cols-4">
-          <router-link
+        <SectionTitle eyebrow="我的工具" title="个人工具与小应用" subtitle="这里放一些日常会用到、也愿意继续整理的个人工具展示，首页仅作静态介绍。" align="center" />
+        <div class="mt-10 grid gap-5 md:grid-cols-2 xl:grid-cols-3">
+          <div
             v-for="product in homeProductMatrix"
             :key="product.slug"
-            :to="product.route"
             class="group relative overflow-hidden rounded-[28px] border border-white/70 bg-white/70 p-5 shadow-[0_18px_44px_rgba(94,77,59,0.08)] backdrop-blur transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_24px_52px_rgba(94,77,59,0.14)]"
             :class="`bg-gradient-to-br ${product.accent}`"
           >
@@ -302,11 +275,10 @@ onUnmounted(() => {
                 </ul>
                 <div class="mt-auto pt-8">
                   <span
-                    class="inline-flex items-center rounded-full border bg-white/60 px-4 py-2 text-sm font-medium transition-colors"
+                    class="inline-flex cursor-default items-center rounded-full border bg-white/60 px-4 py-2 text-sm font-medium transition-colors"
                     :class="product.buttonClass"
                   >
-                    {{ product.cta }}
-                    <span class="ml-2" aria-hidden="true">→</span>
+                    静态展示
                   </span>
                   <div class="mt-5 flex flex-wrap gap-2 text-[11px] font-semibold uppercase tracking-[0.18em] text-brand-muted">
                     <span
@@ -328,31 +300,6 @@ onUnmounted(() => {
                   class="relative z-10 max-h-[310px] w-full max-w-[180px] rounded-[26px] object-contain drop-shadow-[0_20px_34px_rgba(45,38,28,0.22)] transition-transform duration-500 group-hover:-translate-y-1 group-hover:scale-[1.03]"
                 />
               </div>
-            </div>
-          </router-link>
-        </div>
-      </div>
-    </section>
-
-    <section class="section-shell pt-0">
-      <div class="container-content">
-        <div class="overflow-hidden rounded-panel bg-gradient-to-br from-accent-blue-dark via-accent-blue to-lab p-8 text-white shadow-hero md:p-10">
-          <div class="grid gap-8 lg:grid-cols-[1.4fr_0.8fr] lg:items-center">
-            <div>
-              <div class="eyebrow !border-white/10 !bg-white/10 !text-gold-light">限时招募</div>
-              <h2 class="mt-4 font-serif text-3xl md:text-4xl">{{ homePage.tryOffer.title }}</h2>
-              <p class="mt-4 max-w-2xl text-white/80">{{ homePage.tryOffer.subtitle }}</p>
-              <div class="mt-6 flex flex-wrap gap-3 text-sm text-white/70">
-                <span v-for="item in homePage.tryOffer.benefits" :key="item">{{ item }}</span>
-              </div>
-            </div>
-            <div class="space-y-4 rounded-card bg-white/10 p-6 backdrop-blur">
-              <div class="text-sm text-white/70">当前价格</div>
-              <div class="flex items-end gap-3">
-                <span class="text-4xl font-semibold">{{ homePage.tryOffer.price }}</span>
-                <span class="text-sm text-white/45 line-through">{{ homePage.tryOffer.originalPrice }}</span>
-              </div>
-              <router-link to="/try" class="btn-white w-full justify-center">立即加入</router-link>
             </div>
           </div>
         </div>
@@ -377,17 +324,13 @@ onUnmounted(() => {
                   <p class="mt-1 truncate text-sm text-brand-text">{{ column.subtitle }}</p>
                 </div>
               </div>
-              <router-link :to="column.route" class="shrink-0 text-sm font-semibold transition-colors" :class="column.linkClass">
-                进入专栏
-                <span class="ml-1" aria-hidden="true">→</span>
-              </router-link>
+              <span class="shrink-0 text-sm font-semibold" :class="column.linkClass">内容展示</span>
             </div>
 
             <div class="mt-4 space-y-3">
-              <router-link
+              <div
                 v-for="article in column.items"
                 :key="article.slug"
-                :to="`/articles/${article.slug}`"
                 class="group grid gap-4 overflow-hidden rounded-[22px] border border-white/70 bg-white/80 p-3 shadow-[0_10px_26px_rgba(92,73,54,0.06)] transition-all duration-300 hover:-translate-y-0.5 hover:shadow-[0_14px_32px_rgba(92,73,54,0.1)] sm:grid-cols-[148px_1fr]"
               >
                 <div class="overflow-hidden rounded-[18px] bg-brand-warm">
@@ -415,7 +358,7 @@ onUnmounted(() => {
                     </span>
                   </div>
                 </div>
-              </router-link>
+              </div>
             </div>
           </section>
         </div>
@@ -424,28 +367,26 @@ onUnmounted(() => {
 
     <section class="section-shell">
       <div class="container-content">
-        <SectionTitle eyebrow="更多页面" title="轻量互动与补充页面" subtitle="保留一些轻量页面，方便继续查看资源、体验互动或联系我。" align="center" />
+        <SectionTitle eyebrow="补充说明" title="个人内容展示补充" subtitle="首页仅展示个人记录相关的补充说明，不提供跳转或试玩入口。" align="center" />
         <div class="mt-10 grid gap-6 xl:grid-cols-2">
-          <router-link
-            v-for="card in homeInteractiveCards.slice(0, 2)"
+          <div
+            v-for="card in homeInteractiveCards"
             :key="card.title"
-            :to="card.to"
             class="group relative overflow-hidden rounded-[30px] border bg-gradient-to-br p-6 shadow-[0_16px_38px_rgba(92,73,54,0.08)] transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_22px_44px_rgba(92,73,54,0.12)] md:p-7"
             :class="[card.accent, card.borderClass]"
           >
             <div class="relative z-10 flex min-h-[230px] flex-col justify-between gap-6 sm:min-h-[250px] sm:flex-row sm:items-stretch">
               <div class="flex max-w-[240px] flex-1 flex-col">
                 <div class="flex h-12 w-12 items-center justify-center rounded-2xl shadow-sm" :class="card.iconWrapClass">
-                  <span class="text-xl font-semibold">{{ card.title === '下载动态墙' ? '◫' : '∿' }}</span>
+                  <span class="text-xl font-semibold">{{ card.title === '资源整理页' ? '◫' : card.title === '联系与订阅' ? '☏' : '□' }}</span>
                 </div>
                 <div class="mt-5">
                   <h3 class="text-[2rem] font-serif font-semibold leading-tight text-brand-charcoal">{{ card.title }}</h3>
                   <p class="mt-3 text-sm leading-7 text-brand-text">{{ card.desc }}</p>
                 </div>
                 <div class="mt-auto pt-6">
-                  <span class="inline-flex items-center rounded-full px-5 py-3 text-sm font-semibold shadow-[0_12px_24px_rgba(230,126,67,0.22)] transition-colors" :class="card.buttonClass">
-                    {{ card.title === '资源整理页' ? '查看入口' : card.title === '联系与订阅' ? '去看看' : '立即体验' }}
-                    <span class="ml-2" aria-hidden="true">→</span>
+                  <span class="inline-flex cursor-default items-center rounded-full px-5 py-3 text-sm font-semibold shadow-[0_12px_24px_rgba(230,126,67,0.22)] transition-colors" :class="card.buttonClass">
+                    首页展示中
                   </span>
                 </div>
               </div>
@@ -471,13 +412,13 @@ onUnmounted(() => {
 
                 <template v-else-if="card.decoration === 'dino'">
                   <div class="absolute left-6 right-6 top-7 flex items-center justify-between text-[#C7D9E5]">
-                    <span class="text-4xl leading-none">∿∿</span>
-                    <span class="text-5xl leading-none">∿∿</span>
+                    <span class="text-4xl leading-none">··</span>
+                    <span class="text-5xl leading-none">··</span>
                   </div>
                   <div class="absolute inset-x-0 bottom-6 h-px bg-[#D8CFC0]"></div>
-                  <div class="absolute bottom-[24px] left-[16%] font-mono text-[2.6rem] font-bold uppercase tracking-tight text-[#3E4A44]">RUN</div>
-                  <div class="absolute bottom-[29px] left-[58%] font-mono text-xl font-semibold uppercase tracking-[0.18em] text-[#7E8E67]">||</div>
-                  <div class="absolute bottom-[29px] left-[76%] font-mono text-lg font-semibold uppercase tracking-[0.18em] text-[#93A67A]">|||</div>
+                  <div class="absolute bottom-[24px] left-[16%] font-mono text-[2rem] font-bold tracking-tight text-[#3E4A44]">NOTE</div>
+                  <div class="absolute bottom-[29px] left-[58%] font-mono text-xl font-semibold tracking-[0.18em] text-[#7E8E67]">||</div>
+                  <div class="absolute bottom-[29px] left-[76%] font-mono text-lg font-semibold tracking-[0.18em] text-[#93A67A]">|||</div>
                   <div class="absolute right-5 top-5 text-right">
                     <div class="text-xs font-semibold uppercase tracking-[0.24em] text-brand-muted">{{ card.metricLabel }}</div>
                     <div class="mt-1 text-3xl font-semibold tracking-[0.14em] text-brand-charcoal">{{ card.metricValue }}</div>
@@ -499,7 +440,7 @@ onUnmounted(() => {
                 </div>
               </div>
             </div>
-          </router-link>
+          </div>
         </div>
       </div>
     </section>
@@ -508,10 +449,9 @@ onUnmounted(() => {
       <div class="container-content">
         <SectionTitle eyebrow="补充内容" title="一些还在慢慢整理的页面" subtitle="这里保留一些延伸阅读与小页面，作为个人网站的补充内容。" align="center" />
         <div class="mt-10 grid gap-6 xl:grid-cols-[1fr_1fr_0.9fr]">
-          <router-link
+          <div
             v-for="lab in homeLabCards"
             :key="lab.slug"
-            :to="`/lab/${lab.slug}`"
             class="group overflow-hidden rounded-[30px] border bg-gradient-to-br p-4 shadow-[0_16px_38px_rgba(92,73,54,0.08)] transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_22px_44px_rgba(92,73,54,0.12)] md:p-5"
             :class="[lab.accent, lab.borderClass]"
           >
@@ -520,9 +460,8 @@ onUnmounted(() => {
                 <h3 class="text-[2rem] font-serif font-semibold leading-tight text-brand-charcoal">{{ lab.title }}</h3>
                 <p class="mt-3 text-sm leading-7 text-brand-text">{{ lab.description }}</p>
                 <div class="mt-auto pt-6">
-                  <span class="inline-flex items-center rounded-full px-5 py-3 text-sm font-semibold shadow-[0_12px_24px_rgba(88,74,52,0.16)] transition-colors" :class="lab.buttonClass">
-                    {{ lab.buttonLabel }}
-                    <span class="ml-2" aria-hidden="true">→</span>
+                  <span class="inline-flex cursor-default items-center rounded-full px-5 py-3 text-sm font-semibold shadow-[0_12px_24px_rgba(88,74,52,0.16)] transition-colors" :class="lab.buttonClass">
+                    静态说明
                   </span>
                 </div>
               </div>
@@ -537,7 +476,7 @@ onUnmounted(() => {
                 />
               </div>
             </div>
-          </router-link>
+          </div>
 
           <section class="rounded-[30px] border border-[#EEE1CF] bg-gradient-to-br from-[#FFF8EE] via-[#FFFDF9] to-[#FFFEFC] p-6 shadow-[0_16px_38px_rgba(92,73,54,0.08)]">
             <div class="flex items-center gap-4">
@@ -617,9 +556,9 @@ onUnmounted(() => {
                         接收育儿、职场与成长记录更新，适合安静关注的朋友。
                       </p>
                     </div>
-                    <router-link to="/subscribe" class="hidden rounded-full border border-[#E9D5BF] bg-[#FFF7EF] px-4 py-2 text-sm font-semibold text-[#B7763B] transition-colors hover:bg-white md:inline-flex">
-                      查看订阅页
-                    </router-link>
+                    <span class="hidden rounded-full border border-[#E9D5BF] bg-[#FFF7EF] px-4 py-2 text-sm font-semibold text-[#B7763B] md:inline-flex">
+                      展示信息
+                    </span>
                   </div>
 
                   <div class="mt-4 flex flex-col gap-3 md:flex-row">
@@ -628,9 +567,9 @@ onUnmounted(() => {
                       placeholder="输入你的邮箱地址"
                       class="h-12 flex-1 rounded-[16px] border border-[#E9D5BF] bg-white px-4 text-sm text-brand-charcoal shadow-[inset_0_1px_0_rgba(255,255,255,0.6)] outline-none transition-colors placeholder:text-[#B8A99A] focus:border-[#D98B2D]"
                     />
-                    <router-link to="/subscribe" class="inline-flex h-12 items-center justify-center rounded-[16px] bg-[#D96F34] px-7 text-sm font-semibold text-white shadow-[0_14px_28px_rgba(217,111,52,0.24)] transition-colors hover:bg-[#c7612a]">
-                      立即订阅
-                    </router-link>
+                    <span class="inline-flex h-12 items-center justify-center rounded-[16px] bg-[#D96F34] px-7 text-sm font-semibold text-white shadow-[0_14px_28px_rgba(217,111,52,0.24)]">
+                      订阅展示
+                    </span>
                   </div>
 
                   <div class="mt-3 flex items-center gap-2 text-sm text-brand-muted">
@@ -659,10 +598,9 @@ onUnmounted(() => {
                     </div>
                   </div>
                   <div class="mt-4">
-                    <router-link to="/community" class="inline-flex items-center rounded-full border border-white/20 bg-white/10 px-5 py-2.5 text-sm font-semibold text-white transition-colors hover:bg-white/16">
-                      了解联系方式
-                      <span class="ml-2" aria-hidden="true">→</span>
-                    </router-link>
+                    <span class="inline-flex items-center rounded-full border border-white/20 bg-white/10 px-5 py-2.5 text-sm font-semibold text-white">
+                      联系方式展示
+                    </span>
                   </div>
                 </div>
               </div>

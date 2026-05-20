@@ -18,6 +18,7 @@ const beian = computed(() => ({
 const visibleSocialLinks = computed(() =>
   socialLinks.value.filter((link) => link?.href && link.href !== '#' && !link.href.startsWith('mailto:')),
 )
+const isHomePage = computed(() => window.location.hash === '#/' || window.location.pathname === '/')
 </script>
 
 <template>
@@ -34,7 +35,7 @@ const visibleSocialLinks = computed(() =>
               <p v-if="contactEmail">邮箱：{{ contactEmail }}</p>
             </div>
             <div class="mt-6">
-              <router-link to="/subscribe" class="btn-white">订阅更新</router-link>
+              <span class="btn-white cursor-default">订阅信息展示</span>
             </div>
           </div>
 
@@ -42,12 +43,9 @@ const visibleSocialLinks = computed(() =>
             <h4 class="mb-4 text-sm font-medium text-white">{{ section.title }}</h4>
             <ul class="space-y-2.5">
               <li v-for="link in section.links" :key="link.path">
-                <router-link
-                  :to="link.path"
-                  class="text-sm text-white/50 transition-colors hover:text-white"
-                >
+                <span class="text-sm text-white/50">
                   {{ link.name }}
-                </router-link>
+                </span>
               </li>
             </ul>
           </div>
@@ -67,19 +65,16 @@ const visibleSocialLinks = computed(() =>
           </a>
         </p>
         <div class="flex flex-wrap gap-4">
-          <router-link to="/privacy-policy" class="text-xs text-white/40 hover:text-white/70">隐私政策</router-link>
-          <router-link to="/terms" class="text-xs text-white/40 hover:text-white/70">服务条款</router-link>
-          <router-link to="/sitemap" class="text-xs text-white/40 hover:text-white/70">网站地图</router-link>
-          <a
+          <span class="text-xs text-white/40">隐私政策</span>
+          <span class="text-xs text-white/40">服务条款</span>
+          <span class="text-xs text-white/40">网站地图</span>
+          <span
             v-for="link in visibleSocialLinks"
             :key="link.name"
-            :href="link.href"
-            target="_blank"
-            rel="noreferrer"
-            class="text-white/30 transition-colors hover:text-white/60"
+            class="text-white/30"
           >
             {{ link.name }}
-          </a>
+          </span>
         </div>
       </div>
     </div>

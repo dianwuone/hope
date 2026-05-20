@@ -12,6 +12,7 @@ const userStore = useUserStore()
 const isScrolled = ref(false)
 const isMobileMenuOpen = ref(false)
 const isAboutPage = computed(() => route.name === 'About')
+const isHomePage = computed(() => route.name === 'Home')
 const {
   mainNavData: mainNav,
   siteMetaData: siteMeta,
@@ -48,7 +49,7 @@ function logout() {
       class="container-content flex items-center justify-between gap-6"
       :class="isAboutPage ? 'py-3.5' : 'py-4'"
     >
-      <router-link to="/" class="flex items-center gap-3">
+      <div class="flex items-center gap-3">
         <div
           class="flex h-10 w-10 items-center justify-center overflow-hidden rounded-xl border shadow-sm"
           :class="isAboutPage ? 'border-[#D4A878] bg-[#FFF5E8] text-[#B17A49]' : 'border-transparent bg-accent-soft text-accent-blue-dark'"
@@ -66,22 +67,26 @@ function logout() {
             {{ siteMeta.tagline || siteMeta.description || '记录育儿、职场与个人成长' }}
           </div>
         </div>
-      </router-link>
-
-      <div class="hidden xl:flex items-center gap-1">
-        <router-link
-          v-for="item in mainNav"
-          :key="item.path"
-          :to="item.path"
-          class="rounded-full px-3 py-2 text-sm transition-colors"
-          :class="isAboutPage ? 'text-[#5A4638] hover:bg-[#FFF0DE] hover:text-[#C67741]' : 'text-brand-text hover:bg-accent-soft hover:text-accent-blue'"
-          :active-class="isAboutPage ? '!bg-[#FFF0DE] !text-[#C67741] !font-semibold' : '!bg-accent-soft !text-accent-blue !font-semibold'"
-        >
-          {{ item.name }}
-        </router-link>
       </div>
 
-      <div class="flex items-center gap-3">
+      <div class="hidden xl:flex items-center gap-1">
+        <component
+          v-for="item in mainNav"
+          :key="item.path"
+          :is="isHomePage ? 'span' : 'router-link'"
+          :to="isHomePage ? undefined : item.path"
+          class="rounded-full px-3 py-2 text-sm transition-colors"
+          :class="[
+            isAboutPage ? 'text-[#5A4638] hover:bg-[#FFF0DE] hover:text-[#C67741]' : 'text-brand-text hover:bg-accent-soft hover:text-accent-blue',
+            isHomePage ? 'cursor-default' : '',
+          ]"
+          :active-class="isHomePage ? undefined : (isAboutPage ? '!bg-[#FFF0DE] !text-[#C67741] !font-semibold' : '!bg-accent-soft !text-accent-blue !font-semibold')"
+        >
+          {{ item.name }}
+        </component>
+      </div>
+
+      <div v-if="!isHomePage" class="flex items-center gap-3">
         <router-link
           to="/search"
           class="rounded-full p-2"
@@ -156,7 +161,7 @@ function logout() {
 
     <transition name="menu">
       <div
-        v-if="isMobileMenuOpen"
+        v-if="isMobileMenuOpen && !isHomePage"
         class="border-t xl:hidden"
         :class="isAboutPage ? 'border-[#E9D7C2] bg-[#FFF9F0]' : 'border-brand-grey/60 bg-white'"
       >
