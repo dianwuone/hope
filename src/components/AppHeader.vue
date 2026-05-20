@@ -17,6 +17,9 @@ const {
   mainNavData: mainNav,
   siteMetaData: siteMeta,
 } = storeToRefs(siteStore)
+const filteredMainNav = computed(() =>
+  (mainNav.value || []).filter((item) => !['/games', '/play'].includes(item.path)),
+)
 const { isLoggedIn, displayName, profile } = storeToRefs(userStore)
 
 const handleScroll = () => {
@@ -71,7 +74,7 @@ function logout() {
 
       <div class="hidden xl:flex items-center gap-1">
         <component
-          v-for="item in mainNav"
+          v-for="item in filteredMainNav"
           :key="item.path"
           :is="isHomePage ? 'span' : 'router-link'"
           :to="isHomePage ? undefined : item.path"
@@ -167,7 +170,7 @@ function logout() {
       >
         <div class="container-content grid gap-2 py-4 sm:grid-cols-2">
           <router-link
-            v-for="item in mainNav"
+            v-for="item in filteredMainNav"
             :key="item.path"
             :to="item.path"
             class="block rounded-2xl px-4 py-3 text-sm transition-colors"

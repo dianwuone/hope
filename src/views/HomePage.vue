@@ -247,7 +247,7 @@ onUnmounted(() => {
 
     <section class="section-shell">
       <div class="container-content">
-        <SectionTitle eyebrow="我的工具" title="个人工具与小应用" subtitle="这里放一些日常会用到、也愿意继续整理的个人工具展示，首页仅作静态介绍。" align="center" />
+        <SectionTitle eyebrow="个人展示" title="个人记录中的几个内容方向" subtitle="这里用静态方式展示我平时持续整理的几类个人内容与生活主题。" align="center" />
         <div class="mt-10 grid gap-5 md:grid-cols-2 xl:grid-cols-3">
           <div
             v-for="product in homeProductMatrix"
@@ -278,7 +278,7 @@ onUnmounted(() => {
                     class="inline-flex cursor-default items-center rounded-full border bg-white/60 px-4 py-2 text-sm font-medium transition-colors"
                     :class="product.buttonClass"
                   >
-                    静态展示
+                    内容展示
                   </span>
                   <div class="mt-5 flex flex-wrap gap-2 text-[11px] font-semibold uppercase tracking-[0.18em] text-brand-muted">
                     <span
@@ -367,7 +367,7 @@ onUnmounted(() => {
 
     <section class="section-shell">
       <div class="container-content">
-        <SectionTitle eyebrow="补充说明" title="个人内容展示补充" subtitle="首页仅展示个人记录相关的补充说明，不提供跳转或试玩入口。" align="center" />
+        <SectionTitle eyebrow="补充说明" title="个人记录补充说明" subtitle="首页仅保留静态说明，用来展示这个个人网站主要记录和整理的内容方向。" align="center" />
         <div class="mt-10 grid gap-6 xl:grid-cols-2">
           <div
             v-for="card in homeInteractiveCards"
@@ -378,7 +378,7 @@ onUnmounted(() => {
             <div class="relative z-10 flex min-h-[230px] flex-col justify-between gap-6 sm:min-h-[250px] sm:flex-row sm:items-stretch">
               <div class="flex max-w-[240px] flex-1 flex-col">
                 <div class="flex h-12 w-12 items-center justify-center rounded-2xl shadow-sm" :class="card.iconWrapClass">
-                  <span class="text-xl font-semibold">{{ card.title === '资源整理页' ? '◫' : card.title === '联系与订阅' ? '☏' : '□' }}</span>
+                  <span class="text-xl font-semibold">{{ card.title === '资源整理页' ? '◫' : card.title === '联系与订阅' ? '☏' : '✦' }}</span>
                 </div>
                 <div class="mt-5">
                   <h3 class="text-[2rem] font-serif font-semibold leading-tight text-brand-charcoal">{{ card.title }}</h3>
@@ -386,7 +386,7 @@ onUnmounted(() => {
                 </div>
                 <div class="mt-auto pt-6">
                   <span class="inline-flex cursor-default items-center rounded-full px-5 py-3 text-sm font-semibold shadow-[0_12px_24px_rgba(230,126,67,0.22)] transition-colors" :class="card.buttonClass">
-                    首页展示中
+                    静态说明
                   </span>
                 </div>
               </div>
@@ -416,7 +416,7 @@ onUnmounted(() => {
                     <span class="text-5xl leading-none">··</span>
                   </div>
                   <div class="absolute inset-x-0 bottom-6 h-px bg-[#D8CFC0]"></div>
-                  <div class="absolute bottom-[24px] left-[16%] font-mono text-[2rem] font-bold tracking-tight text-[#3E4A44]">NOTE</div>
+                  <div class="absolute bottom-[24px] left-[16%] font-mono text-[2rem] font-bold tracking-tight text-[#3E4A44]">LIFE</div>
                   <div class="absolute bottom-[29px] left-[58%] font-mono text-xl font-semibold tracking-[0.18em] text-[#7E8E67]">||</div>
                   <div class="absolute bottom-[29px] left-[76%] font-mono text-lg font-semibold tracking-[0.18em] text-[#93A67A]">|||</div>
                   <div class="absolute right-5 top-5 text-right">
@@ -447,7 +447,7 @@ onUnmounted(() => {
 
     <section class="section-shell bg-white">
       <div class="container-content">
-        <SectionTitle eyebrow="补充内容" title="一些还在慢慢整理的页面" subtitle="这里保留一些延伸阅读与小页面，作为个人网站的补充内容。" align="center" />
+        <SectionTitle eyebrow="补充内容" title="一些还在慢慢整理的主题" subtitle="这里展示几个仍在持续整理中的个人记录主题，不涉及经营性引导。" align="center" />
         <div class="mt-10 grid gap-6 xl:grid-cols-[1fr_1fr_0.9fr]">
           <div
             v-for="lab in homeLabCards"
@@ -513,12 +513,12 @@ onUnmounted(() => {
 
             <div class="relative px-5 py-6 md:px-7 md:py-7 lg:px-8">
               <div class="text-center">
-                <div class="text-sm font-semibold tracking-[0.18em] text-[#C98A48]">联系与订阅</div>
+                <div class="text-sm font-semibold tracking-[0.18em] text-[#C98A48]">联系说明</div>
                 <h2 class="mt-3 font-serif text-3xl leading-tight text-brand-charcoal md:text-4xl">
-                  订阅更新，或通过微信与我交流
+                  如果你愿意，也可以和我简单交流
                 </h2>
                 <p class="mx-auto mt-3 max-w-3xl text-sm leading-7 text-brand-text md:text-base">
-                  这里不做企业式宣传，只保留个人记录、内容更新和必要的联系入口。
+                  这里不做产品推广或平台引导，仅保留个人记录说明与基础联系信息展示。
                 </p>
               </div>
 
@@ -526,15 +526,15 @@ onUnmounted(() => {
                 <div class="flex items-start gap-3 rounded-[20px] border border-white/80 bg-white/60 p-4 backdrop-blur">
                   <div class="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-[#D98B2D] text-base text-white">✉</div>
                   <div>
-                    <h3 class="text-base font-semibold text-brand-charcoal">获取最新更新</h3>
-                    <p class="mt-1 text-sm leading-6 text-brand-text">订阅后可收到文章、记录与站点变化。</p>
+                    <h3 class="text-base font-semibold text-brand-charcoal">记录持续更新</h3>
+                    <p class="mt-1 text-sm leading-6 text-brand-text">这个网站会继续补充育儿、职场和成长相关记录。</p>
                   </div>
                 </div>
                 <div class="flex items-start gap-3 rounded-[20px] border border-white/80 bg-white/60 p-4 backdrop-blur">
                   <div class="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-[#D98B2D] text-base text-white">◔</div>
                   <div>
-                    <h3 class="text-base font-semibold text-brand-charcoal">补充页面入口</h3>
-                    <p class="mt-1 text-sm leading-6 text-brand-text">保留一些个人工具、互动页和补充内容入口。</p>
+                    <h3 class="text-base font-semibold text-brand-charcoal">内容持续整理</h3>
+                    <p class="mt-1 text-sm leading-6 text-brand-text">一些专题内容会按个人记录节奏陆续补充完善。</p>
                   </div>
                 </div>
                 <div class="flex items-start gap-3 rounded-[20px] border border-white/80 bg-white/60 p-4 backdrop-blur">
@@ -551,13 +551,13 @@ onUnmounted(() => {
                   <div class="flex items-start justify-between gap-3">
                     <div>
                       <div class="text-sm font-semibold tracking-[0.16em] text-[#C98A48]">方式 1</div>
-                      <h3 class="mt-2 text-xl font-serif font-semibold text-brand-charcoal">邮件订阅</h3>
+                      <h3 class="mt-2 text-xl font-serif font-semibold text-brand-charcoal">邮箱展示</h3>
                       <p class="mt-2 max-w-xl text-sm leading-6 text-brand-text">
-                        接收育儿、职场与成长记录更新，适合安静关注的朋友。
+                        页面仅展示联系信息与说明，不作为经营性通知或营销入口使用。
                       </p>
                     </div>
                     <span class="hidden rounded-full border border-[#E9D5BF] bg-[#FFF7EF] px-4 py-2 text-sm font-semibold text-[#B7763B] md:inline-flex">
-                      展示信息
+                      信息展示
                     </span>
                   </div>
 
@@ -568,13 +568,13 @@ onUnmounted(() => {
                       class="h-12 flex-1 rounded-[16px] border border-[#E9D5BF] bg-white px-4 text-sm text-brand-charcoal shadow-[inset_0_1px_0_rgba(255,255,255,0.6)] outline-none transition-colors placeholder:text-[#B8A99A] focus:border-[#D98B2D]"
                     />
                     <span class="inline-flex h-12 items-center justify-center rounded-[16px] bg-[#D96F34] px-7 text-sm font-semibold text-white shadow-[0_14px_28px_rgba(217,111,52,0.24)]">
-                      订阅展示
+                      邮箱展示
                     </span>
                   </div>
 
                   <div class="mt-3 flex items-center gap-2 text-sm text-brand-muted">
                     <span class="text-[#C98A48]">⌁</span>
-                    <span>我们尊重你的隐私，只在有内容更新时发送。</span>
+                    <span>我们尊重你的隐私，页面仅作信息展示使用。</span>
                   </div>
                 </div>
 
