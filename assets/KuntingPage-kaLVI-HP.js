@@ -1,1 +1,0 @@
-import{_ as t}from"./ColumnLandingPage-wmP_82Fb.js";import{q as o,h as r}from"./index-D2W5T1PV.js";import"./products-CZOjIMbb.js";import"./articles-N01W-c9I.js";const s={__name:"KuntingPage",setup(e){return(n,a)=>(r(),o(t,{"column-key":"kunting"}))}};export{s as default};
