@@ -80,9 +80,9 @@ const filteredProducts = computed(() => {
 
 const tryBenefits = [
   '优先体验最新功能',
-  '专属用户社区',
+  '线索收集承接',
   '直接反馈通道',
-  '专题福利与活动',
+  '前置销售验证',
 ]
 
 const downloadProducts = computed(() =>
@@ -234,9 +234,9 @@ const downloadProducts = computed(() =>
 
             <div class="relative grid gap-6 md:grid-cols-[minmax(0,1fr)_188px] md:items-center">
               <div>
-                <h2 class="font-serif text-2xl font-semibold leading-tight text-[#17233D] md:text-3xl">抢先体验，参与产品共创</h2>
+                <h2 class="font-serif text-2xl font-semibold leading-tight text-[#17233D] md:text-3xl">抢先体验，了解这些 App 与产品方向</h2>
                 <p class="mt-2 max-w-[520px] text-sm leading-7 text-[#51627A]">
-                  我们正在不断打磨产品体验，邀请你成为早期用户，提供反馈建议，一起让产品变得更好。
+                  这里会继续承接我正在打磨的 App 展示、体验申请、线索收集与前置销售，方便你按兴趣进一步了解。
                 </p>
                 <div class="mt-5 flex flex-wrap gap-x-4 gap-y-3 text-sm text-[#6E7D96]">
                   <span v-for="benefit in tryBenefits" :key="benefit" class="inline-flex items-center gap-2">

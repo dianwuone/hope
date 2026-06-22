@@ -80,11 +80,11 @@ const recommendationMap = {
     accent: 'from-[#FFF1DF] to-[#FFF9F2]',
   },
   community: {
-    title: '加入社区',
-    desc: '获取启发、交流反馈，并优先收到最新动态。',
+    title: '保持联系',
+    desc: '继续了解内容更新、产品动态，也可以直接留言交流。',
     image: column.value?.avatar,
     to: '/community',
-    cta: '立即加入',
+    cta: '去联系',
     accent: 'from-[#FFF1E6] to-[#FFF9F5]',
   },
 }

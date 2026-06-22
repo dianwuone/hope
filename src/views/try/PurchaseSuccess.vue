@@ -29,7 +29,7 @@ const message = computed(() => {
 
         <div class="mt-8 flex flex-wrap justify-center gap-3">
           <router-link to="/downloads" class="btn-primary">查看交付中心</router-link>
-          <router-link to="/community" class="btn-outline">加入社区</router-link>
+          <router-link to="/community" class="btn-outline">联系我</router-link>
           <router-link to="/try" class="btn-outline">继续尝鲜</router-link>
         </div>
 

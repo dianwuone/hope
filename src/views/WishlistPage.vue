@@ -310,8 +310,8 @@ const iconMap = {
                 <div class="mt-2 text-sm text-[#7384A0]">告诉我们你的想法</div>
               </div>
               <div class="rounded-[20px] bg-white/82 px-5 py-4 shadow-[0_12px_26px_rgba(76,108,168,0.06)]">
-                <div class="text-lg font-semibold text-[#17233D]">加入社区</div>
-                <div class="mt-2 text-sm text-[#7384A0]">参与讨论与投票</div>
+                <div class="text-lg font-semibold text-[#17233D]">保持联系</div>
+                <div class="mt-2 text-sm text-[#7384A0]">留下线索，接收后续通知</div>
               </div>
               <div class="rounded-[20px] bg-white/82 px-5 py-4 shadow-[0_12px_26px_rgba(76,108,168,0.06)]">
                 <div class="text-lg font-semibold text-[#17233D]">优先体验</div>

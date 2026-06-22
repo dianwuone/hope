@@ -98,6 +98,40 @@
   .eyebrow {
     @apply inline-flex items-center rounded-full border border-accent-blue/15 bg-accent-soft px-3 py-1 text-xs font-semibold tracking-wide text-accent-blue-dark;
   }
+
+  .form-card {
+    @apply rounded-[26px] border border-[#E2EAF5] bg-[linear-gradient(180deg,#FFFFFF_0%,#FBFDFF_100%)]
+           shadow-[0_18px_40px_rgba(76,108,168,0.08)];
+  }
+
+  .info-card {
+    @apply rounded-[22px] border border-[#E6EDF8] bg-[linear-gradient(180deg,#FFFFFF_0%,#FAFCFF_100%)]
+           shadow-[0_12px_28px_rgba(76,108,168,0.06)];
+  }
+
+  .info-strip {
+    @apply rounded-[18px] border border-[#E7EEF8] bg-[#F7FAFF] text-[#61718B];
+  }
+
+  .success-card {
+    @apply rounded-[24px] border border-[#DCE7F8] bg-[linear-gradient(180deg,#F8FBFF_0%,#FFFFFF_100%)];
+  }
+
+  .field-label {
+    @apply text-sm font-semibold text-[#5A6E8C];
+  }
+
+  .field-control {
+    @apply h-12 w-full rounded-[14px] border border-[#DCE7F8] bg-white px-4 text-sm text-[#17233D]
+           outline-none transition-all duration-200 placeholder:text-[#A0AEC2]
+           focus:border-[#2F7AF3] focus:ring-4 focus:ring-blue-100;
+  }
+
+  .field-textarea {
+    @apply w-full rounded-[18px] border border-[#DCE7F8] bg-white px-4 py-4 text-sm leading-7 text-[#17233D]
+           outline-none transition-all duration-200 placeholder:text-[#A0AEC2]
+           focus:border-[#2F7AF3] focus:ring-4 focus:ring-blue-100;
+  }
 }
 
 @layer utilities {

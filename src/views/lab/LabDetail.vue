@@ -70,7 +70,7 @@ const faq = computed(() => [
           <h2 class="text-2xl font-semibold text-brand-charcoal">适合谁</h2>
           <div class="mt-5 space-y-3 text-sm leading-7 text-brand-text">
             <p>• 关注 AI 效率、工作流与模板复用的用户</p>
-            <p>• 想参与产品共创、提供真实反馈的体验者</p>
+            <p>• 想提前了解产品方向、并愿意提供真实反馈的体验者</p>
             <p>• 愿意持续关注项目进展和阶段更新的人</p>
           </div>
           <router-link :to="`/lab/${lab.slug}/apply`" class="btn-primary mt-6">申请内测</router-link>

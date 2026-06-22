@@ -83,32 +83,32 @@ const submitForm = async () => {
             </div>
             <p class="mt-6 text-2xl leading-10 text-[#5A6E8C]">
               告诉我们你期待的应用、游戏或实验项目，
-              我们会把真实需求纳入后续规划。
+              我会把真实需求纳入后续规划。
             </p>
 
-            <div class="mt-8 space-y-4 rounded-[24px] border border-[#E7EEF9] bg-[linear-gradient(180deg,#FFFFFF_0%,#FBFDFF_100%)] p-5 shadow-[0_16px_34px_rgba(76,108,168,0.07)]">
+            <div class="info-card mt-8 space-y-4 p-5">
               <div class="text-xl font-semibold text-[#17233D]">提交后你会获得</div>
               <div class="space-y-3 text-sm leading-7 text-[#61718B]">
-                <p>• 你的期待会进入我们的需求池与优先级评估</p>
+                <p>• 你的期待会进入需求池与优先级评估</p>
                 <p>• 如果项目启动或进入测试，会优先通知你</p>
-                <p>• 同类需求较多时，会在社区中发起进一步讨论</p>
+                <p>• 如果方向匹配，也可能进一步联系你了解更具体的需求</p>
               </div>
             </div>
           </aside>
 
-          <main class="rounded-[28px] border border-[#E7EEF9] bg-[linear-gradient(180deg,#FFFFFF_0%,#FBFDFF_100%)] p-6 shadow-[0_18px_40px_rgba(76,108,168,0.08)] md:p-8">
-            <div v-if="submitted" class="rounded-[24px] border border-[#DCE7F8] bg-[linear-gradient(180deg,#F8FBFF_0%,#FFFFFF_100%)] p-10 text-center">
+          <main class="form-card p-6 md:p-8">
+            <div v-if="submitted" class="success-card p-10 text-center">
               <div class="mx-auto flex h-20 w-20 items-center justify-center rounded-full bg-[#EEF4FF] text-4xl text-[#2F7AF3]">✓</div>
               <h2 class="mt-6 text-3xl font-semibold text-[#17233D]">已收到你的心愿</h2>
               <p class="mt-4 text-base leading-8 text-[#61718B]">
-                我们会把这条需求纳入后续规划与优先级评估。若项目进入测试或有更新，会优先通过你留下的联系方式通知。
+                我会把这条需求纳入后续规划与优先级评估。若项目进入测试或有更新，会优先通过你留下的联系方式通知。
               </p>
               <div class="mt-8 flex flex-wrap justify-center gap-4">
                 <router-link to="/wishlist" class="rounded-[12px] bg-[#2F7AF3] px-6 py-3 text-sm font-semibold text-white">
                   返回心愿单
                 </router-link>
                 <router-link to="/community" class="rounded-[12px] border border-[#DCE7F8] bg-white px-6 py-3 text-sm font-semibold text-[#38537A]">
-                  加入社区
+                  联系我
                 </router-link>
               </div>
             </div>
@@ -117,7 +117,7 @@ const submitForm = async () => {
               <div>
                 <h2 class="text-3xl font-semibold text-[#17233D]">填写你的期待</h2>
                 <p class="mt-3 text-base leading-8 text-[#61718B]">
-                  当前已直接接入后端心愿单接口。{{ isLoggedIn ? '你的心愿会关联到当前登录账号。' : '未登录时会按访客方式记录。' }}
+                  当前已直接接入后端心愿单接口。{{ isLoggedIn ? '你的心愿会关联到当前登录账号。' : '登录后可关联到你的个人账号。' }}
                 </p>
               </div>
 
@@ -129,7 +129,7 @@ const submitForm = async () => {
                     type="text"
                     placeholder="例如：AI 阅读助手 / 亲子桌游 / 实验工具"
                     @blur="errors.projectName = form.projectName.trim() ? '' : '请输入项目名称'"
-                    class="mt-3 h-12 w-full rounded-[14px] border border-[#DCE7F8] bg-white px-4 text-sm text-[#17233D] outline-none transition-colors placeholder:text-[#A0AEC2] focus:border-[#2F7AF3]"
+                    class="field-control mt-3"
                   />
                   <p v-if="errors.projectName" class="mt-2 text-xs text-red-500">{{ errors.projectName }}</p>
                 </label>
@@ -138,7 +138,7 @@ const submitForm = async () => {
                   <span class="text-sm font-semibold text-[#5A6E8C]">项目类型</span>
                   <select
                     v-model="form.category"
-                    class="mt-3 h-12 w-full rounded-[14px] border border-[#DCE7F8] bg-white px-4 text-sm text-[#17233D] outline-none transition-colors focus:border-[#2F7AF3]"
+                    class="field-control mt-3"
                   >
                     <option v-for="item in categoryOptions" :key="item.value" :value="item.value">{{ item.label }}</option>
                   </select>
@@ -150,7 +150,7 @@ const submitForm = async () => {
                   <span class="text-sm font-semibold text-[#5A6E8C]">你的期待</span>
                   <select
                     v-model="form.wishGoal"
-                    class="mt-3 h-12 w-full rounded-[14px] border border-[#DCE7F8] bg-white px-4 text-sm text-[#17233D] outline-none transition-colors focus:border-[#2F7AF3]"
+                    class="field-control mt-3"
                   >
                     <option v-for="item in goalOptions" :key="item.value" :value="item.value">{{ item.label }}</option>
                   </select>
@@ -160,7 +160,7 @@ const submitForm = async () => {
                   <span class="text-sm font-semibold text-[#5A6E8C]">联系方式类型</span>
                 <select
                   v-model="form.contactType"
-                  class="mt-3 h-12 w-full rounded-[14px] border border-[#DCE7F8] bg-white px-4 text-sm text-[#17233D] outline-none transition-colors focus:border-[#2F7AF3]"
+                  class="field-control mt-3"
                 >
                     <option value="wechat">微信</option>
                     <option value="email">邮箱</option>
@@ -175,7 +175,7 @@ const submitForm = async () => {
                   :type="contactFieldType"
                   placeholder="请输入微信号或邮箱"
                   @blur="errors.contactValue = validateContactValue(form.contactType, form.contactValue)"
-                  class="mt-3 h-12 w-full rounded-[14px] border border-[#DCE7F8] bg-white px-4 text-sm text-[#17233D] outline-none transition-colors placeholder:text-[#A0AEC2] focus:border-[#2F7AF3]"
+                  class="field-control mt-3"
                 />
                 <p v-if="errors.contactValue" class="mt-2 text-xs text-red-500">{{ errors.contactValue }}</p>
               </label>
@@ -186,12 +186,12 @@ const submitForm = async () => {
                   v-model="form.note"
                   rows="6"
                   placeholder="你希望它解决什么问题？你最期待哪些功能？"
-                  class="mt-3 w-full rounded-[18px] border border-[#DCE7F8] bg-white px-4 py-4 text-sm leading-7 text-[#17233D] outline-none transition-colors placeholder:text-[#A0AEC2] focus:border-[#2F7AF3]"
+                  class="field-textarea mt-3"
                 ></textarea>
               </label>
 
-              <div class="flex flex-wrap items-center justify-between gap-4 rounded-[18px] border border-[#EAF0F8] bg-[#F8FBFF] px-5 py-4 text-sm text-[#61718B]">
-                <span>提交后默认进入“心愿征集”池，当前为前端演示流程。</span>
+              <div class="info-strip flex flex-wrap items-center justify-between gap-4 px-5 py-4 text-sm">
+                <span>提交后默认进入“心愿征集”池，后续会按优先级持续整理。</span>
                 <div class="flex gap-3">
                   <router-link to="/wishlist" class="rounded-[12px] border border-[#DCE7F8] bg-white px-5 py-3 font-semibold text-[#38537A]">
                     返回心愿单
