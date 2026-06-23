@@ -1,5 +1,6 @@
 <script setup>
 import { computed, onMounted, onUnmounted, ref } from 'vue'
+import { RouterLink } from 'vue-router'
 import SectionTitle from '@/components/site/SectionTitle.vue'
 import { articles, columns, homePage } from '@/data'
 
@@ -164,13 +165,15 @@ onUnmounted(() => {
               </p>
 
               <div class="mt-8 flex flex-wrap gap-4">
-                <span
+                <component
                   v-for="action in homePage.hero.actions"
                   :key="action.label"
-                  :class="action.variant === 'primary' ? 'btn-primary shadow-md shadow-gold/20 cursor-default' : 'btn-outline bg-white/72 cursor-default'"
+                  :is="RouterLink"
+                  :to="action.to"
+                  :class="action.variant === 'primary' ? 'btn-primary shadow-md shadow-gold/20' : 'btn-outline bg-white/72'"
                 >
                   {{ action.label }}
-                </span>
+                </component>
               </div>
 
               <div class="mt-9 flex flex-wrap gap-x-6 gap-y-3 text-sm text-brand-text">
@@ -274,12 +277,13 @@ onUnmounted(() => {
                   </li>
                 </ul>
                 <div class="mt-auto pt-8">
-                  <span
-                    class="inline-flex cursor-default items-center rounded-full border bg-white/60 px-4 py-2 text-sm font-medium transition-colors"
+                  <RouterLink
+                    :to="`/products/${product.slug}`"
+                    class="inline-flex items-center rounded-full border bg-white/60 px-4 py-2 text-sm font-medium transition-colors"
                     :class="product.buttonClass"
                   >
-                    内容展示
-                  </span>
+                    {{ product.cta }}
+                  </RouterLink>
                   <div class="mt-5 flex flex-wrap gap-2 text-[11px] font-semibold uppercase tracking-[0.18em] text-brand-muted">
                     <span
                       v-for="mark in product.platformMarks"
@@ -324,7 +328,7 @@ onUnmounted(() => {
                   <p class="mt-1 truncate text-sm text-brand-text">{{ column.subtitle }}</p>
                 </div>
               </div>
-              <span class="shrink-0 text-sm font-semibold" :class="column.linkClass">内容展示</span>
+              <RouterLink :to="`/columns/${column.slug}`" class="shrink-0 text-sm font-semibold" :class="column.linkClass">进入专栏</RouterLink>
             </div>
 
             <div class="mt-4 space-y-3">
@@ -353,9 +357,9 @@ onUnmounted(() => {
                     <div class="text-sm text-brand-muted">
                       {{ formatDate(article.publishedAt) }}
                     </div>
-                    <span class="shrink-0 rounded-full px-3 py-1 text-xs font-semibold" :class="column.tagClass">
+                    <RouterLink :to="`/articles/${article.slug}`" class="shrink-0 rounded-full px-3 py-1 text-xs font-semibold" :class="column.tagClass">
                       {{ article.category }}
-                    </span>
+                    </RouterLink>
                   </div>
                 </div>
               </div>
@@ -385,9 +389,9 @@ onUnmounted(() => {
                   <p class="mt-3 text-sm leading-7 text-brand-text">{{ card.desc }}</p>
                 </div>
                 <div class="mt-auto pt-6">
-                  <span class="inline-flex cursor-default items-center rounded-full px-5 py-3 text-sm font-semibold shadow-[0_12px_24px_rgba(230,126,67,0.22)] transition-colors" :class="card.buttonClass">
-                    静态说明
-                  </span>
+                  <RouterLink :to="card.to" class="inline-flex items-center rounded-full px-5 py-3 text-sm font-semibold shadow-[0_12px_24px_rgba(230,126,67,0.22)] transition-colors" :class="card.buttonClass">
+                    进入页面
+                  </RouterLink>
                 </div>
               </div>
 
@@ -460,9 +464,9 @@ onUnmounted(() => {
                 <h3 class="text-[2rem] font-serif font-semibold leading-tight text-brand-charcoal">{{ lab.title }}</h3>
                 <p class="mt-3 text-sm leading-7 text-brand-text">{{ lab.description }}</p>
                 <div class="mt-auto pt-6">
-                  <span class="inline-flex cursor-default items-center rounded-full px-5 py-3 text-sm font-semibold shadow-[0_12px_24px_rgba(88,74,52,0.16)] transition-colors" :class="lab.buttonClass">
-                    静态说明
-                  </span>
+                  <RouterLink :to="`/lab/${lab.slug}`" class="inline-flex items-center rounded-full px-5 py-3 text-sm font-semibold shadow-[0_12px_24px_rgba(88,74,52,0.16)] transition-colors" :class="lab.buttonClass">
+                    {{ lab.buttonLabel }}
+                  </RouterLink>
                 </div>
               </div>
               <div class="relative min-h-[180px] overflow-hidden rounded-[24px]">

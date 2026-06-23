@@ -12,7 +12,6 @@ const userStore = useUserStore()
 const isScrolled = ref(false)
 const isMobileMenuOpen = ref(false)
 const isAboutPage = computed(() => route.name === 'About')
-const isHomePage = computed(() => route.name === 'Home')
 const {
   mainNavData: mainNav,
   siteMetaData: siteMeta,
@@ -73,23 +72,21 @@ function logout() {
       </div>
 
       <div class="hidden xl:flex items-center gap-1">
-        <component
+        <router-link
           v-for="item in filteredMainNav"
           :key="item.path"
-          :is="isHomePage ? 'span' : 'router-link'"
-          :to="isHomePage ? undefined : item.path"
+          :to="item.path"
           class="rounded-full px-3 py-2 text-sm transition-colors"
           :class="[
             isAboutPage ? 'text-[#5A4638] hover:bg-[#FFF0DE] hover:text-[#C67741]' : 'text-brand-text hover:bg-accent-soft hover:text-accent-blue',
-            isHomePage ? 'cursor-default' : '',
           ]"
-          :active-class="isHomePage ? undefined : (isAboutPage ? '!bg-[#FFF0DE] !text-[#C67741] !font-semibold' : '!bg-accent-soft !text-accent-blue !font-semibold')"
+          :active-class="isAboutPage ? '!bg-[#FFF0DE] !text-[#C67741] !font-semibold' : '!bg-accent-soft !text-accent-blue !font-semibold'"
         >
           {{ item.name }}
-        </component>
+        </router-link>
       </div>
 
-      <div v-if="!isHomePage" class="flex items-center gap-3">
+      <div class="flex items-center gap-3">
         <router-link
           to="/search"
           class="rounded-full p-2"
@@ -164,7 +161,7 @@ function logout() {
 
     <transition name="menu">
       <div
-        v-if="isMobileMenuOpen && !isHomePage"
+        v-if="isMobileMenuOpen"
         class="border-t xl:hidden"
         :class="isAboutPage ? 'border-[#E9D7C2] bg-[#FFF9F0]' : 'border-brand-grey/60 bg-white'"
       >
