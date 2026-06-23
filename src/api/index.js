@@ -1,8 +1,14 @@
 import { resolveAssetData } from '@/utils/content'
+import {
+  siteMeta as localSiteMeta,
+  mainNav as localMainNav,
+  footerSections as localFooterSections,
+  socialLinks as localSocialLinks,
+} from '@/data'
 
 const DEFAULT_API_BASE = import.meta.env.DEV ? 'http://127.0.0.1:4100/api' : '/api'
 const API_BASE = (import.meta.env.VITE_API_BASE || DEFAULT_API_BASE).replace(/\/$/, '')
-const ENABLE_API_FALLBACK = import.meta.env.VITE_ENABLE_API_FALLBACK === 'true'
+const ENABLE_API_FALLBACK = import.meta.env.VITE_ENABLE_API_FALLBACK !== 'false'
 
 function resolveApiBase() {
   if (/^https?:\/\//i.test(API_BASE) || API_BASE.startsWith('//')) {
@@ -78,10 +84,10 @@ function pickItems(result, fallbackItems = []) {
 function buildBootstrapFallback() {
   return {
     site: {
-      siteMeta: {},
-      mainNav: [],
-      footerSections: [],
-      socialLinks: [],
+      siteMeta: localSiteMeta,
+      mainNav: localMainNav,
+      footerSections: localFooterSections,
+      socialLinks: localSocialLinks,
       articleCategories: [],
       articleHotTopics: [],
     },
