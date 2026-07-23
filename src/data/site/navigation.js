@@ -1,9 +1,9 @@
 export const siteMeta = {
-  name: '启鸣随笔',
-  titleSuffix: '启鸣随笔',
+  name: '琨庭笔记',
+  titleSuffix: '琨庭笔记',
   tagline: '琨庭笔记',
   description: '琨庭笔记',
-  copyright: '启鸣随笔',
+  copyright: '琨庭笔记',
   beian: {
     label: '蜀ICP备19016117号-1',
     href: 'https://beian.miit.gov.cn/',

@@ -24,7 +24,7 @@ const visibleSocialLinks = computed(() =>
     <div class="container-content py-16">
       <div>
           <div>
-            <div class="mb-4 text-lg font-bold tracking-[0.2em] text-white">{{ siteMeta.name || '启鸣随笔' }}</div>
+            <div class="mb-4 text-lg font-bold tracking-[0.2em] text-white">{{ siteMeta.name || '琨庭笔记' }}</div>
             <p class="max-w-sm text-sm leading-relaxed text-white/50">
               {{ siteMeta.description || '一个用于记录育儿心得、职场感悟与个人成长的个人网站。' }}
             </p>
@@ -40,7 +40,7 @@ const visibleSocialLinks = computed(() =>
 
       <div class="mt-12 flex flex-col gap-4 border-t border-white/10 pt-8 sm:flex-row sm:items-center sm:justify-between">
         <p class="text-xs text-white/30">
-          &copy; {{ new Date().getFullYear() }} {{ siteMeta.copyright || '启鸣随笔' }}
+          &copy; {{ new Date().getFullYear() }} {{ siteMeta.copyright || '琨庭笔记' }}
           <a
             v-if="beian.label && beian.href"
             :href="beian.href"
