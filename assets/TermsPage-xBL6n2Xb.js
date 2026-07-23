@@ -1,1 +1,0 @@
-import{_ as t}from"./LegalContentLayout-Bh1qKeRM.js";import{m as s,v as o,g as r,h as c}from"./index-DQw2RQDN.js";const u={__name:"TermsPage",setup(p){const e=s(),a=r(()=>e.pageData("legal_terms",{sections:[]}));return(_,m)=>(c(),o(t,{page:a.value},null,8,["page"]))}};export{u as default};

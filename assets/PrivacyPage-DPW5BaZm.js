@@ -1,1 +1,0 @@
-import{_ as t}from"./LegalContentLayout-Bh1qKeRM.js";import{m as s,v as o,g as c,h as r}from"./index-DQw2RQDN.js";const l={__name:"PrivacyPage",setup(p){const e=s(),a=c(()=>e.pageData("legal_privacy",{sections:[]}));return(_,n)=>(r(),o(t,{page:a.value},null,8,["page"]))}};export{l as default};
