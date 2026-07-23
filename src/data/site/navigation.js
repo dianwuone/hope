@@ -1,8 +1,8 @@
 export const siteMeta = {
   name: '启鸣随笔',
   titleSuffix: '启鸣随笔',
-  tagline: '个人育儿、职场与成长记录',
-  description: '记录育儿心得、职场感悟与个人成长的点滴思考。',
+  tagline: '琨庭笔记',
+  description: '琨庭笔记',
   copyright: '启鸣随笔',
   beian: {
     label: '蜀ICP备19016117号-1',

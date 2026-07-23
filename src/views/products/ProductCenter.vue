@@ -28,7 +28,7 @@ const productMeta = {
     imageWrap: 'bg-[linear-gradient(180deg,rgba(234,243,255,0.9)_0%,rgba(245,249,255,0.3)_100%)]',
     platforms: ['iOS', 'Android', 'Web'],
     chips: ['任务管理', '目标追踪', '习惯养成', '复盘系统'],
-    description: '从计划到复盘，构建完整的个人效能闭环，让每一天都更有方向。',
+    description: '把计划、执行和复盘放到一起，帮你把日常节奏慢慢理顺。',
     primaryLabel: '进入产品',
   },
   'parenting-assistant': {
@@ -41,7 +41,7 @@ const productMeta = {
     imageWrap: 'bg-[linear-gradient(180deg,rgba(233,250,246,0.95)_0%,rgba(248,253,251,0.35)_100%)]',
     platforms: ['iOS', 'Android'],
     chips: ['成长记录', '日程提醒', '早教任务', '亲子时光'],
-    description: '为家长提供贴心的育儿工具，记录、提醒、学习，一站式陪伴成长。',
+    description: '帮家长把记录、提醒和陪伴整理得更清楚一些，减轻一点日常慌乱。',
     primaryLabel: '进入产品',
   },
   'ai-tools': {
@@ -54,7 +54,7 @@ const productMeta = {
     imageWrap: 'bg-[linear-gradient(180deg,rgba(241,238,255,0.95)_0%,rgba(250,249,255,0.35)_100%)]',
     platforms: ['Web', 'Chrome 插件'],
     chips: ['提示词库', '工具集合', '工作流', '模板中心'],
-    description: '收集、整理、复用你的 AI 工作流与提示词，释放 AI 的真正价值。',
+    description: '把常用提示词、模板和 AI 用法收在一起，用的时候更顺手一些。',
     primaryLabel: '进入产品',
   },
 }
@@ -79,10 +79,10 @@ const filteredProducts = computed(() => {
 })
 
 const tryBenefits = [
-  '优先体验最新功能',
-  '线索收集承接',
-  '直接反馈通道',
-  '前置销售验证',
+  '看看最近在做什么',
+  '保留交流入口',
+  '直接反馈想法',
+  '先小范围试试看',
 ]
 
 const downloadProducts = computed(() =>
@@ -102,28 +102,28 @@ const downloadProducts = computed(() =>
         <div class="text-xs font-medium text-[#6E7D96]">
           <router-link to="/" class="transition-colors hover:text-[#2379F6]">首页</router-link>
           <span class="mx-2">›</span>
-          <span>产品中心</span>
+          <span>项目整理</span>
         </div>
 
         <div class="relative mt-5 min-h-[178px] overflow-hidden rounded-[18px]">
           <div class="absolute inset-0 bg-[linear-gradient(90deg,rgba(246,250,255,0.98)_0%,rgba(246,250,255,0.94)_39%,rgba(246,250,255,0.58)_63%,rgba(246,250,255,0.12)_100%)]"></div>
           <img
             :src="bannerProducts"
-            alt="产品中心展示图"
+            alt="项目整理展示图"
             class="absolute right-[-18px] top-[-42px] h-[268px] w-[680px] max-w-none object-contain opacity-95 md:right-[-6px] lg:right-0"
           />
 
           <div class="relative z-10 max-w-[560px] px-1 py-4 md:px-0 md:py-6">
             <div class="flex flex-wrap items-center gap-4">
               <h1 class="font-serif text-4xl font-semibold leading-tight text-[#17233D] md:text-5xl">
-                产品中心
+                项目整理
               </h1>
               <span class="inline-flex items-center rounded-full border border-[#BFD9FF] bg-[#F1F7FF] px-3 py-1 text-sm font-semibold text-[#2379F6]">
-                3 款核心产品
+                3 个正在整理的方向
               </span>
             </div>
             <p class="mt-4 max-w-[520px] text-base leading-7 text-[#51627A]">
-              打造简单、好用、持续进化的工具与游戏，帮助你更高效地工作、更好地成长，更从容地陪伴家人。
+              这里集中放一些我正在慢慢整理的工具、记录和小项目，方便你按兴趣看看我最近在做什么。
             </p>
           </div>
         </div>
@@ -234,9 +234,9 @@ const downloadProducts = computed(() =>
 
             <div class="relative grid gap-6 md:grid-cols-[minmax(0,1fr)_188px] md:items-center">
               <div>
-                <h2 class="font-serif text-2xl font-semibold leading-tight text-[#17233D] md:text-3xl">抢先体验，了解这些 App 与产品方向</h2>
+                <h2 class="font-serif text-2xl font-semibold leading-tight text-[#17233D] md:text-3xl">看看我最近在整理的这些方向</h2>
                 <p class="mt-2 max-w-[520px] text-sm leading-7 text-[#51627A]">
-                  这里会继续承接我正在打磨的 App 展示、体验申请、线索收集与前置销售，方便你按兴趣进一步了解。
+                  这里会继续放一些我正在打磨的 App、工具和小尝试，也保留一个继续交流的入口，方便你按兴趣慢慢看。
                 </p>
                 <div class="mt-5 flex flex-wrap gap-x-4 gap-y-3 text-sm text-[#6E7D96]">
                   <span v-for="benefit in tryBenefits" :key="benefit" class="inline-flex items-center gap-2">
@@ -249,7 +249,7 @@ const downloadProducts = computed(() =>
                     to="/try"
                     class="inline-flex items-center rounded-[8px] bg-[linear-gradient(135deg,#2F7AF3_0%,#215FD8_100%)] px-6 py-3 text-sm font-semibold text-white shadow-[0_14px_24px_rgba(65,104,171,0.18)] transition-all hover:brightness-105"
                   >
-                    立即加入早期体验
+                    继续看看
                     <span class="ml-2" aria-hidden="true">→</span>
                   </router-link>
                 </div>
@@ -270,7 +270,7 @@ const downloadProducts = computed(() =>
               <div>
                 <h2 class="font-serif text-2xl font-semibold leading-tight text-[#17233D] md:text-3xl">下载动态墙</h2>
                 <p class="mt-2 text-sm leading-7 text-[#51627A]">
-                  实时汇聚每一次下载与支持，感谢你的信任与陪伴。
+                  用更轻的方式看看最近哪些内容和小项目更容易被注意到。
                 </p>
               </div>
               <router-link to="/download-wall" class="hidden text-sm font-semibold text-[#4E83E7] md:block">

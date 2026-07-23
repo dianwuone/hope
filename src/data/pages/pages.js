@@ -18,7 +18,7 @@ export const homePage = {
   hero: {
     badge: '个人记录与生活灵感',
     title: '记录育儿心得、职场感悟与个人成长的日常思考',
-    subtitle: '这里是启鸣随笔，一个以个人记录为主的网站。我会分享陪伴孩子成长时的体会，也会整理工作中的方法、情绪与阶段反思，留下一些真实而温和的生活切片。',
+    subtitle: '这里是启鸣随笔，主要记录我在育儿、工作与个人成长中的真实体会。没有复杂包装，更多是把一些有用的方法、阶段感受和生活切片慢慢整理出来。',
     actions: [
       { label: '阅读最新文章', to: '/articles', variant: 'primary' },
       { label: '关于这个网站', to: '/about', variant: 'secondary' },
@@ -40,9 +40,9 @@ export const homePage = {
   tryOffer: tryOffers[0],
   featuredArticles: articles.slice(0, 4),
   interactiveCards: [
-    { title: '资源整理页', desc: '查看个人应用与内容相关资源的集中入口。', to: '/download-wall' },
-    { title: '在线体验页', desc: '保留网页内可直接体验的轻量互动功能。', to: '/play' },
-    { title: '联系与订阅', desc: '通过订阅与联系入口，接收更新或交流想法。', to: '/community' },
+    { title: '资源整理页', desc: '集中看看我整理过的内容入口、应用信息和相关资源。', to: '/download-wall' },
+    { title: '在线体验页', desc: '直接在网页里体验一些轻量功能和互动内容。', to: '/play' },
+    { title: '联系与订阅', desc: '如果你想继续关注更新，或想和我交流，可以从这里进入。', to: '/community' },
   ],
   labs,
   community: {
@@ -79,23 +79,23 @@ export const downloadsPage = {
 
 export const communityPage = {
   title: '联系我，继续保持更新',
-  subtitle: '如果你想继续了解内容更新、App 动态或进一步交流，欢迎通过这里留下联系方式。',
+  subtitle: '如果你想继续看看我最近在写什么、做什么，或只是想简单聊一聊，都可以在这里留下联系方式。',
   banner: bannerConnect,
-  benefits: ['获取内容更新', '了解 App 动态', '留下联系线索', '继续保持联系'],
+  benefits: ['获取内容更新', '看看最近在做什么', '留下联系方式', '继续保持联系'],
   faq: [
-    { q: '这里主要是做什么的？', a: '这里主要用于承接内容更新提醒、产品动态沟通、留言咨询和后续联系。' },
-    { q: '联系需要付费吗？', a: '不用，这里以交流、订阅更新和留下联系方式为主。' },
+    { q: '这里主要是做什么的？', a: '这里主要用来收留言、同步更新近况，以及保留一个继续联系的入口。' },
+    { q: '联系需要付费吗？', a: '不用，这里只是提供交流、获取更新和留下联系方式的入口。' },
   ],
 }
 
 export const tryPage = {
   title: '快来尝鲜',
-  subtitle: '新想法的验证场，限定内容的首发站。文档、工具、体验资格、内测名额，先到先得。',
+  subtitle: '这里集中放一些正在验证中的内容、工具和体验名额，方便你更早了解，也方便我判断哪些方向值得继续做。',
   banner: bannerTry,
   hero: {
     badge: '文档/资料包',
     title: '独立开发实战手册',
-    description: '从零到一的完整开发经验，包含项目规划、技术选型、产品设计、上线运营全流程。',
+    description: '把独立开发从想法、规划、实现到上线的关键经验整理成一份更容易上手的实战资料。',
     price: '¥29',
     originalPrice: '早鸟体验价',
     ctaLabel: '立即购买',
@@ -180,7 +180,7 @@ export const tryPage = {
   ],
   validatingOffers: {
     title: '预付费验证中',
-    subtitle: '这些项目还在探索阶段，你的预付费支持是对想法的投票',
+    subtitle: '这些方向还在验证阶段，你的支持能帮助我判断是否继续投入打磨。',
     items: [
       {
         slug: '智能写作伴侣内测',
@@ -206,7 +206,7 @@ export const tryPage = {
   },
   limitedDrop: {
     title: '限时首发',
-    subtitle: '限量首发，先到先得，错过不再',
+    subtitle: '这一组内容会先小范围开放，方便尽快拿到真实反馈。',
     items: [
       {
         slug: '拼音大冒险完整版',
@@ -242,7 +242,7 @@ export const tryPage = {
   },
   trust: {
     title: '安心购买',
-    subtitle: '你的每一笔支持都值得被认真对待',
+    subtitle: '你的每一次支持，我都会认真交付和回应。',
     items: [
       {
         icon: 'lock',
@@ -269,7 +269,7 @@ export const tryPage = {
   ],
   cta: {
     title: '有任何问题？',
-    subtitle: '欢迎联系作者，我们会尽快回复',
+    subtitle: '如果你想进一步了解内容、交付方式或当前进度，可以直接联系我。',
     label: '联系作者',
     to: '/community',
   },
@@ -277,53 +277,53 @@ export const tryPage = {
 
 export const aboutPage = {
   title: '一个连接内容、App 与交流的网站',
-  subtitle: '这里既有内容记录，也承接我正在做的 App 展示、线索收集、前置销售和后续交流。如果你关心育儿、成长和效率方向，欢迎继续了解。',
+  subtitle: '这里一边记录内容，一边放我正在整理的产品方向和联系入口。整体还是以个人表达为主，只是顺带把一些持续在做的东西放在同一个地方。',
   eyebrow: '欢迎来到昆廷的窗口',
   actions: [
-    { label: '加入社区', to: '/community', variant: 'primary' },
+    { label: '联系我', to: '/community', variant: 'primary' },
     { label: '了解更多', to: '#about-story', variant: 'secondary' },
   ],
   journeyTitle: '了解产品与保持联系，三步即可',
   journey: [
-    { step: '1. 浏览内容 / 产品', detail: '先看看我正在持续更新的内容与 App 方向。' },
-    { step: '2. 添加联系', detail: '如果你感兴趣，可以添加微信或留下联系方式。' },
-    { step: '3. 获取后续更新', detail: '后续可继续接收产品动态、内容更新与体验通知。' },
+    { step: '1. 浏览内容 / 产品', detail: '先看看我最近在写什么、做什么。' },
+    { step: '2. 留下联系方式', detail: '如果某个方向对你有帮助，可以继续联系我。' },
+    { step: '3. 保持后续更新', detail: '后续可以继续收到内容更新和近况分享。' },
   ],
   joinCard: {
     title: '联系说明',
-    subtitle: '添加微信后备注来意即可，这里同时承担内容交流、线索承接与后续私域联系。',
+    subtitle: '添加微信后备注来意即可，方便我知道你是想交流内容、了解产品，还是单纯保持联系。',
     qrLabel: '',
   },
   privilegesTitle: '你可以在这里看到这些内容',
   privileges: [
     {
       icon: 'rocket',
-      title: 'App 展示与体验入口',
-      description: '集中展示我正在打磨的 App、工具和阶段性体验入口。',
+      title: '正在整理的项目记录',
+      description: '看看我正在慢慢打磨的一些 App、工具和阶段性尝试。',
     },
     {
       icon: 'note',
       title: '内容记录与个人表达',
-      description: '持续记录育儿、工作、方法和一些阶段性的想法。',
+      description: '持续记录育儿、工作方法和一些阶段性的真实想法。',
     },
     {
       icon: 'chat',
-      title: '线索收集与交流入口',
-      description: '如果你对某个方向感兴趣，可以进一步交流或留下联系线索。',
+      title: '交流与联系入口',
+      description: '如果你对某个方向感兴趣，可以继续交流或留下联系方式。',
     },
     {
       icon: 'gift',
-      title: '前置销售与体验通知',
-      description: '部分产品会先通过预售、尝鲜或预约方式验证需求。',
+      title: '小范围尝试与更新提醒',
+      description: '有些内容会先小范围放出，再慢慢根据反馈继续整理。',
     },
     {
       icon: 'heart',
-      title: '私域持续维护',
-      description: '后续会通过微信、订阅等方式继续维护联系与更新。',
+      title: '持续更新',
+      description: '后续会通过微信或订阅方式继续同步更新。',
     },
   ],
   channelsTitle: '更新渠道',
-  channelsSubtitle: '如果你想继续关注内容和产品动态，可以通过这些入口保持联系。',
+  channelsSubtitle: '如果你想继续关注内容和最近在做的事，可以通过这些入口保持联系。',
   channels: [
     { name: '微信公众号', desc: '个人记录与文章更新' },
     { name: '小红书', desc: '育儿与生活日常' },
@@ -332,7 +332,7 @@ export const aboutPage = {
   ],
   featureCard: {
     title: '用内容、产品与交流连接彼此',
-    description: '从内容表达，到 App 展示、销售验证和后续交流，我希望把这些都自然地放进同一个网站里。',
+    description: '我希望把内容记录、项目尝试和后续交流自然放在同一个网站里，减少割裂感。',
   },
   author: {
     title: '关于我',
@@ -346,20 +346,20 @@ export const aboutPage = {
   ],
   timeline: [
     { year: '2024', title: '开始整理独立开发方向' },
-    { year: '2025', title: '逐步整理内容、工具与产品承接方式' },
-    { year: '2026', title: '把内容、App 与私域入口集中到同一个个人网站里' },
+    { year: '2025', title: '逐步整理内容、工具与个人表达方式' },
+    { year: '2026', title: '把内容、项目尝试与联系入口集中到同一个个人网站里' },
   ],
   stats: [
     '独立开发',
     '持续迭代',
-    '内容与产品连接',
+    '内容与项目连接',
     '内容持续整理',
     '关注育儿与成长',
-    '产品展示与私域维护',
+    '个人记录与持续更新',
   ],
   subscribe: {
     title: '获取最新更新',
-    subtitle: '输入你的邮箱，获取内容更新、产品动态与体验提醒',
+    subtitle: '留下邮箱后，可以更方便收到内容更新、近况分享和一些新内容提醒。',
     placeholder: '你的邮箱',
     buttonLabel: '订阅',
   },
@@ -398,8 +398,8 @@ export const openSourcePage = {
 
 export const subscribePage = {
   title: '订阅更新',
-  subtitle: '输入你的邮箱，获取最新产品动态、内测信息和内容更新。',
-  highlights: ['产品新进展', '优先体验资格', '深度内容更新'],
+  subtitle: '输入你的邮箱，获取最近更新的内容、近况分享和新整理的记录。',
+  highlights: ['最近写了什么', '正在整理什么', '内容持续更新'],
 }
 
 export const playPage = {
