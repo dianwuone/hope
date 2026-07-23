@@ -1,4 +1,5 @@
 import { createRouter, createWebHistory, createWebHashHistory } from 'vue-router'
+import { siteMeta as localSiteMeta } from '@/data'
 
 const routes = [
   {
@@ -233,9 +234,10 @@ const router = createRouter({
 })
 
 router.beforeEach((to) => {
+  const titleSuffix = localSiteMeta.titleSuffix || localSiteMeta.name || '琨庭笔记'
   document.title = to.meta.title
-    ? `${to.meta.title} — 启鸣随笔`
-    : '启鸣随笔'
+    ? `${to.meta.title} — ${titleSuffix}`
+    : titleSuffix
 })
 
 export default router
