@@ -234,7 +234,7 @@ const router = createRouter({
 })
 
 router.beforeEach((to) => {
-  const titleSuffix = localSiteMeta.titleSuffix || localSiteMeta.name || '琨庭笔记'
+  const titleSuffix = localSiteMeta.titleSuffix || localSiteMeta.name || '琨廷笔记'
   document.title = to.meta.title
     ? `${to.meta.title} — ${titleSuffix}`
     : titleSuffix

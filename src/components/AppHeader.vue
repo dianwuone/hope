@@ -63,7 +63,7 @@ function logout() {
             class="truncate font-semibold"
             :class="isAboutPage ? 'text-lg tracking-[0.08em] text-[#3F2E23]' : 'text-sm tracking-[0.2em] text-brand-charcoal'"
           >
-            {{ siteMeta.name || '琨庭笔记' }}
+            {{ siteMeta.name || '琨廷笔记' }}
           </div>
           <div class="truncate text-xs" :class="isAboutPage ? 'text-[#9A7C62]' : 'text-brand-muted'">
             {{ siteMeta.tagline || siteMeta.description || '记录育儿、职场与个人成长' }}
